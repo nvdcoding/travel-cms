@@ -1,0 +1,41 @@
+.logo img {
+    width: 80px;
+    height: 80px;
+}
+
+.logo {
+    text-align: center;
+}
+
+.ant-layout {
+    background: #ffffff;
+}
+
+.ant-layout.ant-layout-has-sider {
+    min-height: 100vh;
+}
+
+.ant-layout-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-right {
+    display: flex;
+    justify-content: center;
+}
+
+.title-content {
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 40px;
+    color: #171717;
+    opacity: 0.9;
+}

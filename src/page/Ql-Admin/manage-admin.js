@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "../assets/css/home.css";
+import "../../assets/css/home.css";
 import { Table } from 'antd';
-import Layout from "../components/layout/layout";
-import ModalactivatedUser from "../components/modal/user/popupKichHoatUser";
-import ModalDeleteUser from "../components/modal/user/poupXoaUser";
+import Layout from "../../components/layout/layout";
+import ModalactivatedUser from "../../components/modal/user/popupKichHoatUser";
+import ModalDeleteUser from "../../components/modal/user/poupXoaUser";
+import ModalAddAdmin from "../../components/modal/admin/popupAddAdmin";
 
 const columns = [
     {
@@ -15,24 +16,12 @@ const columns = [
         dataIndex: 'mail',
     },
     {
-        title: 'SĐT',
-        dataIndex: 'phone',
+        title: 'Role',
+        dataIndex: 'role',
     },
     {
-        title: 'Số tour đã đi',
-        dataIndex: 'tour',
-        sorter: {
-            compare: (a, b) => a.tour - b.tour,
-            multiple: 1,
-        },
-    },
-    {
-        title: 'Số tiền giao dịch',
-        dataIndex: 'money',
-        sorter: {
-            compare: (a, b) => a.money - b.money,
-            multiple: 1,
-        },
+        title: 'Created date',
+        dataIndex: 'created',
     },
     {
         title: 'Kích hoạt',
@@ -56,115 +45,103 @@ const data = [
     {
         name: 'John Brown',
         mail: "lamdgka@gmail.com",
-        phone: '0388476663',
         active: "Active",
         id: "1",
-        tour: 71,
-        money: 123000,
+        created: "20/10/20001",
+        role: "Admin"
     },
     {
         name: 'John Brown1',
         mail: "lamdgka@gmail.com",
-        phone: '0388476663',
         active: "Active",
         id: "2",
-        tour: 71,
-        money: 123000,
+        created: "20/10/20001",
+        role: "Admin"
     },
     {
         name: 'John Bro23ewn',
         mail: "lamdgka@gmail.com",
-        phone: '0388476663',
         active: "Active",
         id: "3",
-        tour: 71,
-        money: 123000,
+        created: "20/10/20001",
+        role: "Admin"
     },
     {
         name: 'John Bhỷtgrown',
         mail: "lamdgka@gmail.com",
-        phone: '0388476663',
         active: "Active",
         id: "4",
-        tour: 71,
-        money: 123000,
+        created: "20/10/20001",
+        role: "Mod"
     },
     {
         name: 'John grgBrown',
         mail: "lamdgka@gmail.com",
-        phone: '0388476663',
         active: "Active",
         id: "5",
-        tour: 71,
-        money: 123000,
+        created: "20/10/20001",
+        role: "Mod"
     },
     {
         name: 'John Bgregrown',
         mail: "lamdgka@gmail.com",
-        phone: '0388476663',
         active: "Active",
         id: "6",
-        tour: 71,
-        money: 123000,
+        created: "20/10/20001",
+        role: "Admin"
     },
     {
         name: 'John Bgregrown',
         mail: "lamdgka@gmail.com",
-        phone: '0388476663',
         active: "Active",
         id: "7",
-        tour: 71,
-        money: 123000,
+        created: "20/10/20001",
+        role: "Mod"
     },
     {
 
         name: 'John ggg',
         mail: "lamdgka@gmail.com",
-        phone: '0388476663',
         active: "Active",
         id: "8",
-        tour: 71,
-        money: 123000,
+        created: "20/10/20001",
+        role: "Admin"
     },
 
     {
         name: 'John Bfffrown',
         mail: "lamdgka@gmail.com",
-        phone: '0388476663',
         active: "Active",
         id: "9",
-        tour: 71,
-        money: 123000,
+        created: "20/10/20001",
+        role: "Admin"
     }, {
         name: 'John ferf',
         mail: "lamdgka@gmail.com",
-        phone: '0388476663',
         active: "Active",
         id: "10",
-        tour: 71,
-        money: 123000,
+        created: "20/10/20001",
+        role: "Admin"
     },
     {
         name: 'John wreBrown',
         mail: "lamdgka@gmail.com",
-        phone: '0388476663',
         active: "Active",
         id: "11",
-        tour: 71,
-        money: 123000,
+        created: "20/10/20001",
+        role: "Admin"
     },
     {
         name: '3ư Brown',
         mail: "lamdgka@gmail.com",
-        phone: '0388476663',
         active: "Active",
         id: "12",
-        tour: 71,
-        money: 123000,
+        created: "20/10/20001",
+        role: "Admin"
     },
 
 ];
-function HomePage() {
+function ManageAdmin() {
     const [tableParams, setTableParams] = useState({
         pagination: {
             current: 1,
@@ -185,13 +162,17 @@ function HomePage() {
         <>
             <Layout>
                 <div className="home__wrapper">
-                    <h5 className="sum-title">
-                        Tổng số user: <span>100</span>
-                    </h5>
+                    <div className="home-header">
+                        <h5 className="sum-title">
+                            Tổng số user: <span>100</span>
+                        </h5>
+                        <ModalAddAdmin />
+                    </div>
+
                     <Table rowKey={record => record.id} scroll={{ y: 500 }} className="table-custom-user" columns={columns} dataSource={data} onChange={handleTableChange} pagination={tableParams.pagination} />
                 </div>
             </Layout>
         </>
     );
 }
-export default HomePage;
+export default ManageAdmin;

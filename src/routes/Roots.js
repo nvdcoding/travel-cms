@@ -9,6 +9,7 @@ const manageVoucher = lazy(() => import("../page/Ql-Voucher/list-voucher"));
 const manageBlog = lazy(() => import("../page/Ql-Blog/manage-blog"));
 const blogDetail = lazy(() => import("../page/Ql-Blog/Blog-Detail"));
 const thongKe = lazy(() => import("../page/Thongke"));
+const dangnhap = lazy(() => import("../page/SignIn"));
 
 /**
  * define main pages routes
@@ -58,6 +59,11 @@ const RoutePage = [
     path: ROUTES.MANAGEUSER,
     exact: true,
     component: Home,
+  },
+  {
+    path: ROUTES.DANGNHAP,
+    exact: true,
+    component: dangnhap,
   },
 ];
 export default RoutePage;

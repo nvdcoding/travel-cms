@@ -8,4 +8,5 @@ export const ROUTES = {
   MANAGEBLOG: "/quan-ly-blog",
   BLOGDETAIL: "/quan-ly-blog/:id",
   THONGKE: "/thong-ke",
+  DANGNHAP: "/dang-nhap",
 };

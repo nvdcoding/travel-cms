@@ -215,3 +215,42 @@
   line-height: 22px;
   color: #ffffff;
 }
+.sum-title {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 22px;
+  color: #454545;
+}
+.select_month {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.select_month p {
+  margin-right: 10px;
+}
+.transaction_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+.statistical-top {
+  justify-items: center;
+}
+.statistical-top .statistical-value {
+  font-size: 14px;
+  margin-left: 5px;
+}
+.number {
+  -webkit-text-stroke: 1px #ffffff;
+  opacity: 1;
+  color: rgba(74, 144, 226, 0);
+  font-size: 18px;
+  font-weight: 900;
+}
+.img-detail {
+  width: 100px;
+  height: 100px;
+  margin: auto;
+}

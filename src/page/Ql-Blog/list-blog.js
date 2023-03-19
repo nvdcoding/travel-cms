@@ -164,8 +164,16 @@ export default function ListBlog() {
       render: (_, record) => (
         <>
           <div className="table-cell-action">
-            <ModalactivatedUser className="modal-active-user" data={record} />
-            <ModalDeleteUser className="modal-delete-user" data={record} />
+            <ModalactivatedUser
+              className="modal-active-user"
+              data={record}
+              type="1"
+            />
+            <ModalDeleteUser
+              className="modal-delete-user"
+              data={record}
+              type="1"
+            />
           </div>
         </>
       ),

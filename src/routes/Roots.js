@@ -54,5 +54,10 @@ const RoutePage = [
     exact: true,
     component: thongKe,
   },
+  {
+    path: ROUTES.MANAGEUSER,
+    exact: true,
+    component: Home,
+  },
 ];
 export default RoutePage;

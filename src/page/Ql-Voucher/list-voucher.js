@@ -98,7 +98,7 @@ export default function ListVoucher() {
         <div className="home__wrapper">
           <div className="home-header">
             <h5 className="sum-title">
-              Tổng số user: <span>100</span>
+              Tổng số Mã giảm giá: <span>100</span>
             </h5>
             <ModalAddVoucher />
           </div>

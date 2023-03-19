@@ -1,6 +1,7 @@
 export const ROUTES = {
   HOME: "/",
   MANAGEADMIN: "/quan-ly-admin",
+  MANAGEUSER: "/quan-ly-user",
   MANAGEHDV: "/quan-ly-hdv",
   ACTIVEADMIN: "/active-tai-khoan",
   MANAGEVOUCHER: "/quan-ly-ma-giam-gia",

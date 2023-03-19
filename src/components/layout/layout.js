@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -20,9 +21,9 @@ const LayoutAdmin = ({ children }) => {
   const onSearch = (value) => console.log(value);
   const onClick = (e) => {
     localStorage.setItem("activeHeader", e.key);
-    setActive(e.key);
-    console.log("1", active);
+    setActive(localStorage.getItem("activeHeader"));
   };
+  console.log("1", active);
   return (
     <Layout>
       <Sider
@@ -41,7 +42,7 @@ const LayoutAdmin = ({ children }) => {
             key="1"
             icon={<UserOutlined />}
             className={
-              active === 1
+              active == 1
                 ? "ant-menu-item ant-menu-item-selected"
                 : "ant-menu-item"
             }
@@ -52,7 +53,7 @@ const LayoutAdmin = ({ children }) => {
             key="2"
             icon={<UserOutlined />}
             className={
-              active === 2
+              active == 2
                 ? "ant-menu-item ant-menu-item-selected"
                 : "ant-menu-item"
             }
@@ -63,7 +64,7 @@ const LayoutAdmin = ({ children }) => {
             key="3"
             icon={<IdcardOutlined />}
             className={
-              active === 3
+              active == 3
                 ? "ant-menu-item ant-menu-item-selected"
                 : "ant-menu-item"
             }
@@ -73,7 +74,7 @@ const LayoutAdmin = ({ children }) => {
           <Menu.Item
             key="4"
             className={
-              active === 4
+              active == 4
                 ? "ant-menu-item ant-menu-item-selected"
                 : "ant-menu-item"
             }
@@ -85,7 +86,7 @@ const LayoutAdmin = ({ children }) => {
             key="5"
             icon={<PayCircleOutlined />}
             className={
-              active === 5
+              active == 5
                 ? "ant-menu-item ant-menu-item-selected"
                 : "ant-menu-item"
             }
@@ -96,7 +97,7 @@ const LayoutAdmin = ({ children }) => {
             key="6"
             icon={<PieChartOutlined />}
             className={
-              active === 6
+              active == 6
                 ? "ant-menu-item ant-menu-item-selected"
                 : "ant-menu-item"
             }
@@ -132,7 +133,7 @@ const LayoutAdmin = ({ children }) => {
                 onClick: () => setCollapsed(!collapsed),
               }
             )}
-            <h1 className="title-content">Quản lý người dùng</h1>
+            <h1 className="title-content">Hệ thống</h1>
           </div>
           <div className="header-right">
             <Search

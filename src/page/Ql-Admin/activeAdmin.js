@@ -2,13 +2,16 @@ import React, { useEffect } from "react";
 import "../../assets/css/home.css";
 import { Collapse, Button, Form, Input, message } from "antd";
 import { logo } from "../../constants/images";
+import { useHistory } from "react-router-dom";
+
 export default function ActiveAdmin() {
   const { Panel } = Collapse;
+  const history = useHistory();
   const onFinish = (values) => {
     setTimeout(() => {
       message.success("Active thành công");
     }, 2000);
-
+    history.push("/dang-nhap");
     console.log("Success:", values);
   };
   const onFinishFailed = (errorInfo) => {

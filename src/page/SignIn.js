@@ -3,12 +3,11 @@ import React, { useEffect } from "react";
 import "../assets/css/home.css";
 import { Button, Form, Input, message } from "antd";
 import { logo } from "../constants/images";
-import Password from "antd/lib/input/Password";
 import { useHistory } from "react-router-dom";
 export default function SignIn() {
   const history = useHistory();
   const onFinish = (values) => {
-    if (values.mail == "admin@gmail.com" && Password == "123") {
+    if (values.mail == "admin@gmail.com" && values.password == "123") {
       history.push("/");
       setTimeout(() => {
         message.success("Đăng nhập thành công");

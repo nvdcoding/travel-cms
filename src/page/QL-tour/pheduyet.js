@@ -4,66 +4,61 @@ import { Table } from "antd";
 
 const data = [
   {
+    name: "John Brown",
+    mail: "lamdgka@gmail.com",
+    time: "20/10/2022",
+    nameTour: "Bắc Hinh Hải dương 1 tuần",
+    approvedBy: "Admin Lam",
+    status: "Chấp nhận",
     id: "1",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-    status: "1",
-    approvedBy: "Admin 1",
+    provice: "Hà Nội, Hưng Yên",
   },
   {
+    name: "John Brown1",
+    mail: "lamdgka@gmail.com",
+    nameTour: "Bắc Hinh Hải dương 1 tuần",
+    time: "20/10/2022",
+    approvedBy: "Admin Lam",
+    status: "Từ chối",
     id: "2",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-    status: "1",
-    approvedBy: "Admin 1",
+    provice: "Hà Nội",
   },
   {
+    name: "John Bro23ewn",
+    mail: "lamdgka@gmail.com",
+    nameTour: "Bắc Hinh Hải dương 1 tuần",
+    time: "20/10/2022",
+    approvedBy: "Admin Lam",
+    status: "Chấp nhận",
     id: "3",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-    status: "1",
-    approvedBy: "Admin 3",
-  },
-  {
-    id: "4",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-    status: "1",
-    approvedBy: "Admin 2",
-  },
-  {
-    id: "5",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-    status: "0",
-    approvedBy: "Admin 1",
+    provice: "Hà Nội",
   },
 ];
-export default function LichSuDuyetBlog() {
+export default function PheDuyet() {
   const columns = [
     {
-      title: "Ngày tạo",
+      title: "Thời gian phê duyệt",
       dataIndex: "time",
     },
     {
-      title: "Tiêu đề ",
-      dataIndex: "title",
+      title: "Tên tour",
+      dataIndex: "nameTour",
     },
     {
-      title: "Tác giả",
-      dataIndex: "author",
+      title: "Tên HDV",
+      dataIndex: "name",
+    },
+    {
+      title: "Địa chỉ Email",
+      dataIndex: "mail",
+    },
+    {
+      title: "Tỉnh thành",
+      dataIndex: "provice",
     },
     {
       title: "Trạng thái",
       dataIndex: "status",
-      render: (status) => (
-        <>{status === "1" ? <p>Chấp nhận</p> : <p>Từ chối</p>}</>
-      ),
     },
     {
       title: "Người duyệt",

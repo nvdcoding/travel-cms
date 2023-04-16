@@ -4,19 +4,37 @@ import "../assets/css/home.css";
 import { Button, Form, Input, message } from "antd";
 import { logo } from "../constants/images";
 import { useHistory } from "react-router-dom";
+import { setRefreshToken, setToken } from "../utils/storage";
 export default function SignIn() {
   const history = useHistory();
   const onFinish = (values) => {
+    //const res = await sendPost("/auth/login", values);
+    // if (res.status === 201) {
+    //   notification.open({
+    //     message: "Đăng nhập thành công",
+    //     // description: "Bạn vui lòng kiểm tra Email để có thể vào học nhé~~",
+    //     icon: <SmileOutlined style={{ color: "#e52525" }} />,
+    //   });
+    //   setToken(res.accessToken);
+    //   setRefreshToken(res.refreshToken);
+    //   setItem("user", JSON.stringify(res.userData));
+    //   history.push("/");
+    // } else {
+    //   return message.error("Không đúng");
+    // }
     if (values.mail == "admin@gmail.com" && values.password == "123") {
       history.push("/");
       setTimeout(() => {
         message.success("Đăng nhập thành công");
       }, 2000);
+      setToken("1111");
+      setRefreshToken("22");
     } else {
       message.error("Tài khoản không tồn tại");
     }
     console.log("Success:", values);
   };
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };

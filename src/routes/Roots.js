@@ -10,6 +10,7 @@ const manageBlog = lazy(() => import("../page/Ql-Blog/manage-blog"));
 const blogDetail = lazy(() => import("../page/Ql-Blog/Blog-Detail"));
 const thongKe = lazy(() => import("../page/Thongke"));
 const dangnhap = lazy(() => import("../page/SignIn"));
+const QlTour = lazy(() => import("../page/QL-tour/index"));
 
 /**
  * define main pages routes
@@ -18,47 +19,62 @@ const RoutePage = [
   {
     path: ROUTES.HOME,
     exact: true,
+    authen: true,
     component: Home,
   },
   {
     path: ROUTES.MANAGEADMIN,
     exact: true,
+    authen: true,
     component: manageAdmin,
   },
   {
     path: ROUTES.ACTIVEADMIN,
     exact: true,
+    authen: true,
     component: activeAdmin,
   },
   {
     path: ROUTES.MANAGEHDV,
     exact: true,
+    authen: true,
     component: manageHdv,
   },
   {
     path: ROUTES.MANAGEVOUCHER,
     exact: true,
+    authen: true,
     component: manageVoucher,
   },
   {
     path: ROUTES.MANAGEBLOG,
     exact: true,
+    authen: true,
     component: manageBlog,
   },
   {
     path: ROUTES.BLOGDETAIL,
     exact: true,
+    authen: true,
     component: blogDetail,
   },
   {
     path: ROUTES.THONGKE,
     exact: true,
+    authen: true,
     component: thongKe,
   },
   {
     path: ROUTES.MANAGEUSER,
     exact: true,
+    authen: true,
     component: Home,
+  },
+  {
+    path: ROUTES.QLTOUR,
+    exact: true,
+    authen: true,
+    component: QlTour,
   },
   {
     path: ROUTES.DANGNHAP,

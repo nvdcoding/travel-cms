@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import RoutePage from "./routes/Roots.js";
 import { Skeleton } from "antd";
+import PrivateRoute from "./routes/PrivateRouter";
 
 export default function App() {
   return (
@@ -10,12 +11,21 @@ export default function App() {
         <Suspense fallback={<Skeleton active />}>
           <Switch>
             {RoutePage.map((route) =>
-              <Route
-                key={route.path}
-                path={route.path}
-                exact={route.exact}
-                component={route.component}
-              />
+              route.authen ? (
+                <PrivateRoute
+                  key={route.path}
+                  path={route.path}
+                  exact={route.exact}
+                  component={route.component}
+                />
+              ) : (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  exact={route.exact}
+                  component={route.component}
+                />
+              )
             )}
           </Switch>
         </Suspense>

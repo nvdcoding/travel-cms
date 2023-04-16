@@ -60,7 +60,7 @@ export default function Thongke() {
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
-      pageSize: 10,
+      pageSize: 8,
       total: data.length,
     },
   });

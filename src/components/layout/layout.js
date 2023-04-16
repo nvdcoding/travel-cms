@@ -7,6 +7,7 @@ import {
   UserOutlined,
   PayCircleOutlined,
   BookOutlined,
+  CloudServerOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Input } from "antd";
 import { Link } from "react-router-dom";
@@ -70,6 +71,17 @@ const LayoutAdmin = ({ children }) => {
             }
           >
             <Link to="/quan-ly-hdv">Quản lý hướng dẫn viên</Link>
+          </Menu.Item>
+          <Menu.Item
+            key="7"
+            className={
+              active == 7
+                ? "ant-menu-item ant-menu-item-selected"
+                : "ant-menu-item"
+            }
+            icon={<CloudServerOutlined />}
+          >
+            <Link to="/quan-ly-tour">Quản lý Tour</Link>
           </Menu.Item>
           <Menu.Item
             key="4"

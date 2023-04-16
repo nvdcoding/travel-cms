@@ -116,6 +116,17 @@ const LayoutAdmin = ({ children }) => {
           >
             <Link to="/thong-ke">Thống kê</Link>
           </Menu.Item>
+          <Menu.Item
+            key="6"
+            icon={<PieChartOutlined />}
+            className={
+              active == 8
+                ? "ant-menu-item ant-menu-item-selected"
+                : "ant-menu-item"
+            }
+          >
+            <Link to="/he-thong">Hệ thống</Link>
+          </Menu.Item>
         </Menu>
         <div className="admin-infor">
           <div className="admin-info-left">

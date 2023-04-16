@@ -11,6 +11,7 @@ const blogDetail = lazy(() => import("../page/Ql-Blog/Blog-Detail"));
 const thongKe = lazy(() => import("../page/Thongke"));
 const dangnhap = lazy(() => import("../page/SignIn"));
 const QlTour = lazy(() => import("../page/QL-tour/index"));
+const Hethong = lazy(() => import("../page/Hethong"));
 
 /**
  * define main pages routes
@@ -75,6 +76,12 @@ const RoutePage = [
     exact: true,
     authen: true,
     component: QlTour,
+  },
+  {
+    path: ROUTES.HETHONG,
+    exact: true,
+    authen: true,
+    component: Hethong,
   },
   {
     path: ROUTES.DANGNHAP,

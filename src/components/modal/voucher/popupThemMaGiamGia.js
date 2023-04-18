@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useState } from "react";
 import {
   Button,
@@ -11,9 +12,11 @@ import {
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
+import { sendGet } from "../../../utils/api";
 
 function ModalAddVoucher() {
   const [open, setOpen] = useState(false);
+  const [date, setDate] = useState();
   const { Option } = Select;
   const { RangePicker } = DatePicker;
   const [form] = Form.useForm();
@@ -25,13 +28,19 @@ function ModalAddVoucher() {
     form.resetFields();
     setOpen(false);
   };
-  const onFinish = (values) => {
-    setTimeout(() => {
-      setOpen(false);
+  const onChange = (date, dateString) => {
+    // console.log(`dateString`, dateString);
+    setDate(dateString[0]);
+  };
+  const onFinish = async (values) => {
+    console.log(`values`, values);
+    values.date = date;
+    const result = await sendGet(`/vourchers`, values);
+    if (result.statusCode == 200) {
       message.success("Thêm mã giảm giá thành công");
-    }, 2000);
-
-    console.log("Success:", values);
+    } else {
+      message.error("thất bại");
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -63,6 +72,18 @@ function ModalAddVoucher() {
             autoComplete="off"
           >
             <Form.Item
+              label="Tour áp dụng"
+              name="tourId"
+              rules={[
+                {
+                  required: true,
+                  message: "Mã Tour không đưọc để trống!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
               label="Tên voucher"
               name="name"
               rules={[
@@ -75,7 +96,7 @@ function ModalAddVoucher() {
               <Input />
             </Form.Item>
             <Form.Item
-              label="Mã code"
+              label="Mã Voucher"
               name="code"
               rules={[
                 {
@@ -100,7 +121,7 @@ function ModalAddVoucher() {
             </Form.Item>
             <Form.Item
               label="Số giảm"
-              name="value"
+              name="price"
               rules={[
                 {
                   required: true,
@@ -108,11 +129,11 @@ function ModalAddVoucher() {
                 },
               ]}
             >
-              <Input />
+              <InputNumber min={1} max={1000} />
             </Form.Item>
             <Form.Item
               label="Số lượng"
-              name="number"
+              name="numberOfMember"
               rules={[
                 {
                   required: true,
@@ -132,6 +153,7 @@ function ModalAddVoucher() {
               <RangePicker
                 defaultValue={[moment(), moment().add(1, "days")]}
                 format={dateFormat}
+                onChange={onChange}
               />
             </Form.Item>
             <Form.Item>

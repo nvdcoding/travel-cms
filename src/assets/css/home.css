@@ -255,3 +255,7 @@
   height: 100px;
   margin: auto;
 }
+.table-cell-action button {
+  margin: 0 5px;
+  border-radius: 5px;
+}

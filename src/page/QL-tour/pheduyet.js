@@ -1,56 +1,27 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
-import { Table } from "antd";
+import { Table, message } from "antd";
+import { sendGet } from "../../utils/api";
 
-const data = [
-  {
-    name: "John Brown",
-    mail: "lamdgka@gmail.com",
-    time: "20/10/2022",
-    nameTour: "Bắc Hinh Hải dương 1 tuần",
-    approvedBy: "Admin Lam",
-    status: "Chấp nhận",
-    id: "1",
-    provice: "Hà Nội, Hưng Yên",
-  },
-  {
-    name: "John Brown1",
-    mail: "lamdgka@gmail.com",
-    nameTour: "Bắc Hinh Hải dương 1 tuần",
-    time: "20/10/2022",
-    approvedBy: "Admin Lam",
-    status: "Từ chối",
-    id: "2",
-    provice: "Hà Nội",
-  },
-  {
-    name: "John Bro23ewn",
-    mail: "lamdgka@gmail.com",
-    nameTour: "Bắc Hinh Hải dương 1 tuần",
-    time: "20/10/2022",
-    approvedBy: "Admin Lam",
-    status: "Chấp nhận",
-    id: "3",
-    provice: "Hà Nội",
-  },
-];
 export default function PheDuyet() {
+  const [data, setData] = useState([]);
   const columns = [
+    {
+      title: "STT",
+      dataIndex: "stt",
+      width: "40px",
+    },
     {
       title: "Thời gian phê duyệt",
       dataIndex: "time",
     },
     {
       title: "Tên tour",
-      dataIndex: "nameTour",
-    },
-    {
-      title: "Tên HDV",
       dataIndex: "name",
     },
     {
-      title: "Địa chỉ Email",
-      dataIndex: "mail",
+      title: "Tên HDV",
+      dataIndex: "nameGuide",
     },
     {
       title: "Tỉnh thành",
@@ -79,7 +50,27 @@ export default function PheDuyet() {
       ...sorter,
     });
   };
-  useEffect(() => {}, []);
+  const ListTour = async () => {
+    const result = await sendGet("/tours");
+    if (result.returnValue.data.length >= 0) {
+      setData(
+        result.returnValue.data.map((e, index) => {
+          return {
+            ...e,
+            province: e.province?.name ? e.province?.name : "",
+            stt: index,
+            time: new Date(e.createdAt).toLocaleString(),
+            nameGuide: e.tourGuide?.username,
+          };
+        })
+      );
+    } else {
+      message.error("thất bại");
+    }
+  };
+  useEffect(() => {
+    ListTour();
+  }, []);
   return (
     <>
       <Table

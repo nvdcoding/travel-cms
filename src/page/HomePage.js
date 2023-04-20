@@ -115,52 +115,6 @@ const data = [
     tour: 71,
     money: 123000,
   },
-  {
-    name: "John ggg",
-    mail: "lamdgka@gmail.com",
-    phone: "0388476663",
-    active: "Active",
-    id: "8",
-    tour: 71,
-    money: 123000,
-  },
-
-  {
-    name: "John Bfffrown",
-    mail: "lamdgka@gmail.com",
-    phone: "0388476663",
-    active: "Active",
-    id: "9",
-    tour: 71,
-    money: 123000,
-  },
-  {
-    name: "John ferf",
-    mail: "lamdgka@gmail.com",
-    phone: "0388476663",
-    active: "Active",
-    id: "10",
-    tour: 71,
-    money: 123000,
-  },
-  {
-    name: "John wreBrown",
-    mail: "lamdgka@gmail.com",
-    phone: "0388476663",
-    active: "Active",
-    id: "11",
-    tour: 71,
-    money: 123000,
-  },
-  {
-    name: "3ư Brown",
-    mail: "lamdgka@gmail.com",
-    phone: "0388476663",
-    active: "Active",
-    id: "12",
-    tour: 71,
-    money: 123000,
-  },
 ];
 function HomePage() {
   const [tableParams, setTableParams] = useState({

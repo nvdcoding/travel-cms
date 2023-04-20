@@ -1,71 +1,34 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
-import { Table } from "antd";
+import { Table, message } from "antd";
 
-import ModalactivatedUser from "../../components/modal/user/popupKichHoatUser";
 import ModalDeleteUser from "../../components/modal/user/poupXoaUser";
+import { sendGet } from "../../utils/api";
 
-const data = [
-  {
-    name: "John Brown",
-    nameTour: "Bắc Hinh Hải dương 1 tuần",
-    mail: "lamdgka@gmail.com",
-    time: "20/10/2022",
-    status: "Kích hoạt",
-    id: "1",
-    provice: "Hà nội",
-    money: "10.10000",
-  },
-  {
-    name: "John Brown",
-    nameTour: "Bắc Hinh Hải dương 1 tuần",
-    mail: "lamdgka@gmail.com",
-    time: "20/10/2022",
-    status: "Kích hoạt",
-    id: "2",
-    provice: "Hà nội",
-    money: "10.10000",
-  },
-  {
-    name: "John Brown",
-    nameTour: "Bắc Hinh Hải dương 1 tuần",
-    mail: "lamdgka@gmail.com",
-    time: "20/10/2022",
-    status: "Kích hoạt",
-    id: "3",
-    provice: "Hà nội",
-    money: "10.10000",
-  },
-];
 export default function ListTour() {
+  const [data, setData] = useState([]);
+
   const columns = [
+    {
+      title: "STT",
+      dataIndex: "stt",
+      width: "40px",
+    },
     {
       title: "Ngày tạo",
       dataIndex: "time",
     },
     {
       title: "Tên tour",
-      dataIndex: "nameTour",
-    },
-    {
-      title: "HDV",
       dataIndex: "name",
     },
     {
-      title: "Địa chỉ Email",
-      dataIndex: "mail",
-    },
-    {
-      title: "SDT",
-      dataIndex: "phone",
+      title: "HDV",
+      dataIndex: "nameGuide",
     },
     {
       title: "Tỉnh thành",
       dataIndex: "provice",
-    },
-    {
-      title: "Số tiền giao dịch",
-      dataIndex: "money",
     },
     {
       title: "Trạng thái",
@@ -77,7 +40,6 @@ export default function ListTour() {
       render: (_, record) => (
         <>
           <div className="table-cell-action">
-            <ModalactivatedUser className="modal-active-user" data={record} />
             <ModalDeleteUser className="modal-delete-user" data={record} />
           </div>
         </>
@@ -98,7 +60,27 @@ export default function ListTour() {
       ...sorter,
     });
   };
-  useEffect(() => {}, []);
+  const ListTour = async () => {
+    const result = await sendGet("/tours");
+    if (result.returnValue.data.length >= 0) {
+      setData(
+        result.returnValue.data.map((e, index) => {
+          return {
+            ...e,
+            province: e.province?.name ? e.province?.name : "",
+            stt: index,
+            time: new Date(e.createdAt).toLocaleString(),
+            nameGuide: e.tourGuide?.username,
+          };
+        })
+      );
+    } else {
+      message.error("thất bại");
+    }
+  };
+  useEffect(() => {
+    ListTour();
+  }, []);
   return (
     <>
       <Table

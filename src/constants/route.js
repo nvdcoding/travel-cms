@@ -10,5 +10,6 @@ export const ROUTES = {
   THONGKE: "/thong-ke",
   DANGNHAP: "/dang-nhap",
   QLTOUR: "/quan-ly-tour",
+  TOURDETAIL: "/quan-ly-tour/:id",
   HETHONG: "/he-thong",
 };

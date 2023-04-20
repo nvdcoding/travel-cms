@@ -12,11 +12,12 @@ import {
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
-import { sendGet } from "../../../utils/api";
+import { sendGet, sendPost } from "../../../utils/api";
 
 function ModalAddVoucher() {
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   const { Option } = Select;
   const { RangePicker } = DatePicker;
   const [form] = Form.useForm();
@@ -30,12 +31,13 @@ function ModalAddVoucher() {
   };
   const onChange = (date, dateString) => {
     // console.log(`dateString`, dateString);
-    setDate(dateString[0]);
+    setStartDate(dateString[0]);
+    setEndDate(dateString[1]);
   };
   const onFinish = async (values) => {
-    console.log(`values`, values);
-    values.date = date;
-    const result = await sendGet(`/vourchers`, values);
+    values.startDate = startDate;
+    values.endDate = endDate;
+    const result = await sendPost(`/vourchers`, values);
     if (result.statusCode == 200) {
       message.success("Thêm mã giảm giá thành công");
     } else {
@@ -71,18 +73,6 @@ function ModalAddVoucher() {
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
-            <Form.Item
-              label="Tour áp dụng"
-              name="tourId"
-              rules={[
-                {
-                  required: true,
-                  message: "Mã Tour không đưọc để trống!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
             <Form.Item
               label="Tên voucher"
               name="name"
@@ -121,7 +111,7 @@ function ModalAddVoucher() {
             </Form.Item>
             <Form.Item
               label="Số giảm"
-              name="price"
+              name="value"
               rules={[
                 {
                   required: true,
@@ -141,12 +131,15 @@ function ModalAddVoucher() {
                 },
               ]}
             >
-              <InputNumber min={1} max={1000} defaultValue={10} />
+              <InputNumber min={1} max={1000} />
             </Form.Item>
-            <Form.Item name="type" label="Loại mã">
-              <Select placeholder="Loại mã" defaultValue="%">
-                <Option value="%">Giảm theo %</Option>
-                <Option value="đ">vnđ</Option>
+            <Form.Item name="quantity" label="Số lượng" initialValue={10}>
+              <InputNumber min={1} max={1000} placeholder="Số mã giảm giá" />
+            </Form.Item>
+            <Form.Item name="discountType" label="Loại mã" initialValue="RATE">
+              <Select placeholder="Loại mã">
+                <Option value="RATE">Giảm theo %</Option>
+                <Option value="FIX">vnđ</Option>
               </Select>
             </Form.Item>
             <Form.Item name="time" label="Thời gian">

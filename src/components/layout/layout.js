@@ -117,7 +117,7 @@ const LayoutAdmin = ({ children }) => {
             <Link to="/thong-ke">Thống kê</Link>
           </Menu.Item>
           <Menu.Item
-            key="6"
+            key="8"
             icon={<PieChartOutlined />}
             className={
               active == 8

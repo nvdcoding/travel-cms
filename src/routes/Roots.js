@@ -12,6 +12,7 @@ const thongKe = lazy(() => import("../page/Thongke"));
 const dangnhap = lazy(() => import("../page/SignIn"));
 const QlTour = lazy(() => import("../page/QL-tour/index"));
 const Hethong = lazy(() => import("../page/Hethong"));
+const TourDetail = lazy(() => import("../page/QL-tour/TourDetail"));
 
 /**
  * define main pages routes
@@ -82,6 +83,12 @@ const RoutePage = [
     exact: true,
     authen: true,
     component: Hethong,
+  },
+  {
+    path: ROUTES.TOURDETAIL,
+    exact: true,
+    authen: true,
+    component: TourDetail,
   },
   {
     path: ROUTES.DANGNHAP,

@@ -11,7 +11,7 @@ import {
 
 const axiosInstance = Axios.create({
   timeout: 3 * 60 * 1000,
-  baseURL: "http://35.186.150.214:3000/",
+  baseURL: "http://35.240.179.203:3000/",
 });
 
 axiosInstance.interceptors.request.use(

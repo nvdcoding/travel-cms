@@ -1,53 +1,32 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
 import { Table, Button, message } from "antd";
-const data = [
-  {
-    nameTour: "Bắc Hinh Hải dương 1 tuần",
-    name: "John Brown",
-    mail: "lamdgka@gmail.com",
-    time: "20/10/2022",
-    id: "1",
-    provice: "Hà Nội, Hưng Yên",
-  },
-  {
-    nameTour: "Bắc Hinh Hải dương 1 tuần",
-    name: "John Brown1",
-    mail: "lamdgka@gmail.com",
-    time: "20/10/2022",
-    id: "2",
-    provice: "Hà Nội",
-  },
-  {
-    nameTour: "Bắc Hinh Hải dương 1 tuần",
-    name: "John Bro23ewn",
-    mail: "lamdgka@gmail.com",
-    time: "20/10/2022",
-    id: "3",
-    provice: "Hà Nội",
-  },
-];
+import { Link } from "react-router-dom";
+import { sendGet } from "../../utils/api";
+
 export default function YeuCau() {
+  const [data, setData] = useState([]);
   const columns = [
+    {
+      title: "STT",
+      dataIndex: "stt",
+      width: "40px",
+    },
     {
       title: "Thời gian yêu cầu",
       dataIndex: "time",
     },
     {
       title: "Tên tour",
-      dataIndex: "nameTour",
-    },
-    {
-      title: "HDV",
       dataIndex: "name",
     },
     {
-      title: "Địa chỉ Email",
-      dataIndex: "mail",
+      title: "HDV",
+      dataIndex: "nameGuide",
     },
     {
       title: "Tỉnh thành",
-      dataIndex: "provice",
+      dataIndex: "province",
     },
     {
       title: "",
@@ -64,10 +43,13 @@ export default function YeuCau() {
               Chấp nhận
             </Button>
             <Button
-              className="button-deny button-nomal"
+              className="button-deny ant-btn-primary"
               onClick={() => denyHDV(record)}
             >
               Từ chối
+            </Button>
+            <Button className="button-nomal">
+              <Link to={`/quan-ly-tour/${record.id}`}> Xem </Link>
             </Button>
           </div>
         </>
@@ -97,12 +79,32 @@ export default function YeuCau() {
   };
   const denyHDV = (values) => {
     setTimeout(() => {
-      message.success("Từ chối tài khoản");
+      message.success("Từ chối duyệt tour");
     }, 2000);
 
     console.log("Success:", values);
   };
-  useEffect(() => {}, []);
+  const ListTour = async () => {
+    const result = await sendGet("/tours/approve-list");
+    if (result.returnValue.data.length >= 0) {
+      setData(
+        result.returnValue.data.map((e, index) => {
+          return {
+            ...e,
+            province: e.province?.name ? e.province?.name : "",
+            stt: index,
+            time: new Date(e.createdAt).toLocaleString(),
+            nameGuide: e.tourGuide?.username,
+          };
+        })
+      );
+    } else {
+      message.error("thất bại");
+    }
+  };
+  useEffect(() => {
+    ListTour();
+  }, []);
   return (
     <>
       <Table

@@ -78,8 +78,8 @@ export default function ListVoucher() {
       title: "Loại mã",
       dataIndex: "discountType",
       filters: [
-        { text: "Phần trăm", value: "RATE" },
-        { text: "Số giảm", value: "FIX" },
+        { text: "Phần trăm", value: "1" },
+        { text: "Số giảm", value: "0" },
       ],
       filteredValue: filteredInfo.name || null,
       onFilter: (value, record) => record.name.includes(value),

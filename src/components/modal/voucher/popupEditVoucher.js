@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useState } from "react";
 import {
   Button,
@@ -10,6 +11,7 @@ import {
   DatePicker,
 } from "antd";
 import moment from "moment";
+import { sendPut } from "../../../utils/api";
 
 function ModalEditVoucher(props) {
   const [open, setOpen] = useState(false);
@@ -24,13 +26,14 @@ function ModalEditVoucher(props) {
     form.resetFields();
     setOpen(false);
   };
-  const onFinish = (values) => {
-    setTimeout(() => {
+  const onFinish = async (values) => {
+    const result = await sendPut(`/vourchers/${props.data.id}`, values);
+    if (result.statusCode == 200) {
+      message.success("Update thành công");
       setOpen(false);
-      message.success("Sửa mã giảm giá thành công");
-    }, 2000);
-
-    console.log("Success:", values);
+    } else {
+      message.error("thất bại");
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -93,47 +96,68 @@ function ModalEditVoucher(props) {
             >
               <Input />
             </Form.Item>
+            <div className="group" style={{ display: "flex" }}>
+              <Form.Item
+                initialValue={props.data.value}
+                label="Số giảm"
+                name="value"
+                rules={[
+                  {
+                    required: true,
+                    message: "Số giảm không đưọc để trống!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                initialValue={props?.data?.numberOfMember}
+                label="Số lượng"
+                name="numberOfMember"
+                rules={[
+                  {
+                    required: true,
+                    message: "Số lượng không đưọc để trống!",
+                  },
+                ]}
+              >
+                <InputNumber min={1} max={1000} />
+              </Form.Item>
+              <Form.Item
+                name="quantity"
+                label="Số lượng"
+                initialValue={props?.data?.quantity}
+              >
+                <InputNumber min={1} max={1000} placeholder="Số mã giảm giá" />
+              </Form.Item>
+            </div>
             <Form.Item
-              initialValue={props.data.value}
-              label="Số giảm"
-              name="value"
-              rules={[
-                {
-                  required: true,
-                  message: "Số giảm không đưọc để trống!",
-                },
-              ]}
+              name="discountType"
+              label="Loại mã"
+              initialValue={props?.data?.discountType}
             >
-              <Input defaultValue={props.data.value} />
+              <Select placeholder="Loại mã">
+                <Option value="0">Giảm theo %</Option>
+                <Option value="1">vnđ</Option>
+              </Select>
             </Form.Item>
             <Form.Item
-              initialValue={props.data.number}
-              label="Số lượng"
-              name="number"
+              name="requirementPoint"
+              label="Điểm cần để đổi"
               rules={[
                 {
                   required: true,
-                  message: "Số lượng không đưọc để trống!",
+                  message: "Điểm không đưọc để trống!",
                 },
               ]}
             >
               <InputNumber
                 min={1}
                 max={1000}
-                defaultValue={props.data.number}
+                placeholder="Nhập số điểm cần để đổi"
               />
             </Form.Item>
-            <Form.Item
-              initialValue={props.data.type}
-              name="type"
-              label="Loại mã"
-            >
-              <Select placeholder="Loại mã" defaultValue={props.data.type}>
-                <Option value="%">Giảm theo %</Option>
-                <Option value="đ">vnđ</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item name="Thời gian" label="time">
+            <Form.Item name="time" label="Thời gian">
               <RangePicker
                 defaultValue={[moment(), moment().add(1, "days")]}
                 format={dateFormat}

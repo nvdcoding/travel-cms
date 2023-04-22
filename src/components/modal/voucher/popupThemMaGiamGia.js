@@ -30,16 +30,16 @@ function ModalAddVoucher() {
     setOpen(false);
   };
   const onChange = (date, dateString) => {
-    // console.log(`dateString`, dateString);
     setStartDate(dateString[0]);
     setEndDate(dateString[1]);
   };
   const onFinish = async (values) => {
-    values.startDate = startDate;
-    values.endDate = endDate;
+    values.startDate = values.time[0];
+    values.endDate = values.time[1];
     const result = await sendPost(`/vourchers`, values);
     if (result.statusCode == 200) {
       message.success("Thêm mã giảm giá thành công");
+      setOpen(false);
     } else {
       message.error("thất bại");
     }
@@ -109,38 +109,57 @@ function ModalAddVoucher() {
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              label="Số giảm"
-              name="value"
-              rules={[
-                {
-                  required: true,
-                  message: "Số giảm không đưọc để trống!",
-                },
-              ]}
-            >
-              <InputNumber min={1} max={1000} />
-            </Form.Item>
-            <Form.Item
-              label="Số lượng"
-              name="numberOfMember"
-              rules={[
-                {
-                  required: true,
-                  message: "Số lượng không đưọc để trống!",
-                },
-              ]}
-            >
-              <InputNumber min={1} max={1000} />
-            </Form.Item>
-            <Form.Item name="quantity" label="Số lượng" initialValue={10}>
-              <InputNumber min={1} max={1000} placeholder="Số mã giảm giá" />
-            </Form.Item>
-            <Form.Item name="discountType" label="Loại mã" initialValue="RATE">
+
+            <div className="group" style={{ display: "flex" }}>
+              <Form.Item
+                label="Số giảm"
+                name="value"
+                rules={[
+                  {
+                    required: true,
+                    message: "Số giảm không đưọc để trống!",
+                  },
+                ]}
+              >
+                <InputNumber min={1} max={1000} />
+              </Form.Item>{" "}
+              <Form.Item
+                label="Số lượng"
+                name="numberOfMember"
+                rules={[
+                  {
+                    required: true,
+                    message: "Số lượng không đưọc để trống!",
+                  },
+                ]}
+              >
+                <InputNumber min={1} max={1000} />
+              </Form.Item>
+              <Form.Item name="quantity" label="Số lượng" initialValue={10}>
+                <InputNumber min={1} max={1000} placeholder="Số mã giảm giá" />
+              </Form.Item>
+            </div>
+            <Form.Item name="discountType" label="Loại mã" initialValue="0">
               <Select placeholder="Loại mã">
-                <Option value="RATE">Giảm theo %</Option>
-                <Option value="FIX">vnđ</Option>
+                <Option value="0">Giảm theo %</Option>
+                <Option value="1">vnđ</Option>
               </Select>
+            </Form.Item>
+            <Form.Item
+              name="requirementPoint"
+              label="Điểm cần để đổi"
+              rules={[
+                {
+                  required: true,
+                  message: "Điểm không đưọc để trống!",
+                },
+              ]}
+            >
+              <InputNumber
+                min={1}
+                max={1000}
+                placeholder="Nhập số điểm cần để đổi"
+              />
             </Form.Item>
             <Form.Item name="time" label="Thời gian">
               <RangePicker

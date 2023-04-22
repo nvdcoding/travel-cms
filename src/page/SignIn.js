@@ -5,34 +5,21 @@ import { Button, Form, Input, message } from "antd";
 import { logo } from "../constants/images";
 import { useHistory } from "react-router-dom";
 import { setRefreshToken, setToken } from "../utils/storage";
+import { sendPost } from "../utils/api";
 export default function SignIn() {
   const history = useHistory();
-  const onFinish = (values) => {
-    //const res = await sendPost("/auth/login", values);
-    // if (res.status === 201) {
-    //   notification.open({
-    //     message: "Đăng nhập thành công",
-    //     // description: "Bạn vui lòng kiểm tra Email để có thể vào học nhé~~",
-    //     icon: <SmileOutlined style={{ color: "#e52525" }} />,
-    //   });
-    //   setToken(res.accessToken);
-    //   setRefreshToken(res.refreshToken);
-    //   setItem("user", JSON.stringify(res.userData));
-    //   history.push("/");
-    // } else {
-    //   return message.error("Không đúng");
-    // }
-    if (values.mail == "admin@gmail.com" && values.password == "123") {
+  const onFinish = async (values) => {
+    const res = await sendPost("/auth/login-admin", values);
+    if (res.statusCode === 200) {
+      message.success("Đăng nhập thành công");
+
+      setToken(res.returnValue.accessToken);
+      setRefreshToken(res.returnValue.refreshToken);
+      // setItem("user", JSON.stringify(res.userData));
       history.push("/");
-      setTimeout(() => {
-        message.success("Đăng nhập thành công");
-      }, 2000);
-      setToken("1111");
-      setRefreshToken("22");
     } else {
-      message.error("Tài khoản không tồn tại");
+      return message.error("Tài khoản không tồn tại");
     }
-    console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -55,7 +42,7 @@ export default function SignIn() {
             autoComplete="off"
           >
             <Form.Item
-              name="mail"
+              name="email"
               label="Email"
               rules={[
                 {

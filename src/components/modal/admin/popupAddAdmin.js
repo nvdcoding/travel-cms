@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Modal, Form, Input, message, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
+import { sendPost } from "../../../utils/api";
 function ModalAddAdmin(props) {
   const [open, setOpen] = useState(false);
   const { Option } = Select;
@@ -14,14 +15,14 @@ function ModalAddAdmin(props) {
     form.resetFields();
     setOpen(false);
   };
-  const onFinish = (values) => {
-    setTimeout(() => {
+  const onFinish = async (values) => {
+    const res = await sendPost("/gen-data/admin", values);
+    if (res.statusCode === 200) {
+      message.error("Có lỗi hệ thống");
+    } else {
       setOpen(false);
-      message.success("Thêm tài khoản thành công");
-      history.push("/active-tai-khoan");
-    }, 2000);
-
-    console.log("Success:", values);
+      message.success("Tạo tài khoản thành công");
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -82,6 +83,19 @@ function ModalAddAdmin(props) {
               ]}
             >
               <Input />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              label="Mật khẩu"
+              rules={[
+                {
+                  required: true,
+                  message: "Mật khẩu không đưọc để trống!",
+                },
+              ]}
+              hasFeedback
+            >
+              <Input.Password />
             </Form.Item>
             <Form.Item name="role" label="Role">
               <Select placeholder="Chọn Role" defaultValue="admin">

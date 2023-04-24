@@ -1,82 +1,26 @@
+/* eslint-disable eqeqeq */
 import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
-import { Table } from "antd";
+import { Table, message } from "antd";
 
 import ModalactivatedUser from "../../components/modal/user/popupKichHoatUser";
 import ModalDeleteUser from "../../components/modal/user/poupXoaUser";
+import { sendGet } from "../../utils/api";
 
-const data = [
-  {
-    name: "John Brown",
-    mail: "lamdgka@gmail.com",
-    time: "20/10/2022",
-    phone: "7986789402",
-    status: "Kích hoạt",
-    id: "1",
-    tour: "20",
-    rate: "4.5 sao",
-    sex: "Nam",
-    provice: "Hà nội",
-    money: "10.10000",
-  },
-  {
-    name: "John Brown1",
-    mail: "lamdgka@gmail.com",
-    time: "20/10/2022",
-    phone: "7986789402",
-    status: "Từ chối",
-    id: "2",
-    tour: "20",
-    rate: "4.5 sao",
-    sex: "Nam",
-    provice: "Hà nội",
-    money: "10.10000",
-  },
-  {
-    name: "John Bro23ewn",
-    mail: "lamdgka@gmail.com",
-    time: "20/10/2022",
-    phone: "7986789402",
-    status: "Kích hoạt",
-    id: "3",
-    tour: "20",
-    rate: "4.5 sao",
-    sex: "Nam",
-    provice: "Hà nội",
-    money: "10.10000",
-  },
-  {
-    name: "John Bhỷtgrown",
-    mail: "lamdgka@gmail.com",
-    time: "20/10/2022",
-    phone: "7986789402",
-    status: "Kích hoạt",
-    id: "4",
-    tour: "20",
-    rate: "4.5 sao",
-    sex: "Nam",
-    provice: "Hà nội",
-    money: "10.10000",
-  },
-  {
-    name: "John grgBrown",
-    mail: "lamdgka@gmail.com",
-    time: "20/10/2022",
-    phone: "7986789402",
-    status: "Từ chối",
-    id: "5",
-    tour: "20",
-    rate: "4.5 sao",
-    sex: "Nam",
-    provice: "Hà nội",
-    money: "10.10000",
-  },
-];
 export default function ListHdv() {
   const columns = [
     {
-      title: "Ngày tạo",
-      dataIndex: "time",
+      title: "STT",
+      width: "40px",
+      render: (_, record, index) => (
+        <>
+          <p>{index + 1}</p>
+        </>
+      ),
+    },
+    {
+      title: "Ngày kích hoạt",
+      dataIndex: "createdAt",
     },
     {
       title: "Username",
@@ -84,7 +28,7 @@ export default function ListHdv() {
     },
     {
       title: "Địa chỉ Email",
-      dataIndex: "mail",
+      dataIndex: "email",
     },
     {
       title: "SDT",
@@ -119,6 +63,7 @@ export default function ListHdv() {
       ),
     },
   ];
+  const [data, setData] = useState([]);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -133,7 +78,18 @@ export default function ListHdv() {
       ...sorter,
     });
   };
-  useEffect(() => {}, []);
+  const listRequest = async () => {
+    let result = await sendGet(`/tour-guide`, { status: "ACTIVE" });
+    if (result.statusCode == 200) {
+      message.success("Lấy dữ liệu thành công");
+      setData(result.returnValue.data);
+    } else {
+      message.error("thất bại");
+    }
+  };
+  useEffect(() => {
+    listRequest();
+  }, []);
   return (
     <>
       <Table

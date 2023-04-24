@@ -1,15 +1,10 @@
 /* eslint-disable eqeqeq */
 import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
-import { Table, Button, message, Tabs } from "antd";
-import Layout from "../../components/layout/layout";
-import ModalDetailRequest from "../../components/modal/hdv/popup-chi-tiet-yc.js";
-import LichSuPheDuyet from "./lich-su-phe-duyet";
-import ListHdv from "./listHdv";
+import { Button, Table, message } from "antd";
 import { sendGet, sendPut } from "../../utils/api";
-import Interview from "./interview";
-
-export default function ManageHdv() {
+import ModalDetailRequest from "../../components/modal/hdv/popup-chi-tiet-yc";
+export default function Interview() {
   const columns = [
     {
       title: "STT",
@@ -21,7 +16,7 @@ export default function ManageHdv() {
       ),
     },
     {
-      title: "Thời gian yêu cầu",
+      title: "Thời gian phê duyệt",
       dataIndex: "createdAt",
     },
     {
@@ -35,6 +30,14 @@ export default function ManageHdv() {
     {
       title: "Tỉnh thành",
       dataIndex: "provice",
+    },
+    {
+      title: "Ngày hẹn PV",
+      dataIndex: "interviewDate",
+    },
+    {
+      title: "Người duyệt",
+      dataIndex: "approvedBy",
     },
     {
       title: "",
@@ -81,9 +84,8 @@ export default function ManageHdv() {
     let params = {
       tourGuideId: values.id,
       action: "ACCEPT",
-      interviewDate: "2023-04-24T14:25:04.235Z",
     };
-    const result = await sendPut(`/tour-guide/response-registation`, params);
+    const result = await sendPut(`/tour-guide/response-interview`, params);
     if (result.statusCode == 200) {
       message.success("Lấy dữ liệu thành công");
       await listRequest();
@@ -95,9 +97,8 @@ export default function ManageHdv() {
     let params = {
       tourGuideId: values.id,
       action: "REJECT",
-      interviewDate: "2023-04-24T14:25:04.235Z",
     };
-    const result = await sendPut(`/tour-guide/response-registation`, params);
+    const result = await sendPut(`/tour-guide/response-interview`, params);
     if (result.statusCode == 200) {
       message.success("Từ chối thành công");
       await listRequest();
@@ -106,7 +107,7 @@ export default function ManageHdv() {
     }
   };
   const listRequest = async () => {
-    let result = await sendGet(`/tour-guide`, { status: "PENDING" });
+    let result = await sendGet(`/tour-guide`, { status: "WAITING_INTERVIEW" });
     if (result.statusCode == 200) {
       message.success("Lấy dữ liệu thành công");
       setData(result.returnValue.data);
@@ -119,33 +120,15 @@ export default function ManageHdv() {
   }, []);
   return (
     <>
-      <Layout>
-        <div className="home__wrapper">
-          <Tabs defaultActiveKey="1">
-            <Tabs.TabPane tab="Yêu cầu phê duyệt" key="1">
-              <Table
-                rowKey={(record) => record.id}
-                scroll={{ y: 500 }}
-                className="table-custom-user"
-                columns={columns}
-                dataSource={data}
-                onChange={handleTableChange}
-                pagination={tableParams.pagination}
-              />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="CHờ phỏng vấn" key="2">
-              <Interview />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="Đã từ chối " key="3">
-              <LichSuPheDuyet />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="Hướng dẫn viên" key="4">
-              <ListHdv />
-            </Tabs.TabPane>
-          </Tabs>
-          ;
-        </div>
-      </Layout>
+      <Table
+        rowKey={(record) => record.id}
+        scroll={{ y: 500 }}
+        className="table-custom-user"
+        columns={columns}
+        dataSource={data}
+        onChange={handleTableChange}
+        pagination={tableParams.pagination}
+      />
     </>
   );
 }

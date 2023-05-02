@@ -2,15 +2,19 @@
   width: 80px;
   height: 80px;
 }
+
 .logo {
   text-align: center;
 }
+
 .ant-layout {
   background: #ffffff;
 }
+
 .ant-layout.ant-layout-has-sider {
   min-height: 100vh;
 }
+
 .ant-layout-header {
   display: flex;
   align-items: center;
@@ -22,10 +26,12 @@
   display: flex;
   align-items: center;
 }
+
 .header-right {
   display: flex;
   justify-content: center;
 }
+
 .title-content {
   font-weight: 500;
   font-size: 28px;
@@ -33,10 +39,13 @@
   color: #171717;
   opacity: 0.9;
 }
+
 .navbar-left {
   position: relative;
 }
+
 .admin-infor {
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -47,20 +56,24 @@
   left: 0;
   padding: 15px 10px;
 }
+
 .admin-info-left {
   display: flex;
   align-items: center;
 }
+
 .admin-info-left img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   margin-right: 10px;
 }
+
 .admin-name {
   display: flex;
   flex-direction: column;
 }
+
 .admin-name-title {
   font-style: normal;
   font-weight: 700;
@@ -69,6 +82,7 @@
   text-align: right;
   color: #e8e8e8;
 }
+
 .admin-name-role {
   font-style: normal;
   font-weight: 400;
@@ -77,6 +91,7 @@
   color: #ffffff;
   opacity: 0.5;
 }
+
 .admin-info-right i {
   color: #e36761;
   font-size: 20px;

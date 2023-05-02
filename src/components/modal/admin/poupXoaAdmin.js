@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Button, Modal, message } from "antd";
 import { sendDelete, sendGet } from "../../../utils/api";
-function ModalDeleteUser({ data1 }) {
+function ModalDeleteAdmin({ data1 }) {
   const [open, setOpen] = useState(false);
   console.log("dtAA", data1);
   const showModal = () => {
@@ -49,4 +49,4 @@ function ModalDeleteUser({ data1 }) {
     </>
   );
 }
-export default ModalDeleteUser;
+export default ModalDeleteAdmin;

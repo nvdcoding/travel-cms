@@ -44,8 +44,8 @@ const columns = [
     render: (_, record) => (
       <>
         <div className="table-cell-action">
-          <ModalactivatedUser className="modal-active-user" data={record} />
-          <ModalDeleteUser className="modal-delete-user" data={record} />
+          <ModalactivatedUser className="modal-active-user" data1={record} />
+          <ModalDeleteUser className="modal-delete-user" data1={record} />
         </div>
       </>
     ),
@@ -70,51 +70,6 @@ const data = [
     tour: 71,
     money: 123000,
   },
-  {
-    name: "John Bro23ewn",
-    mail: "lamdgka@gmail.com",
-    phone: "0388476663",
-    active: "Active",
-    id: "3",
-    tour: 71,
-    money: 123000,
-  },
-  {
-    name: "John Bhỷtgrown",
-    mail: "lamdgka@gmail.com",
-    phone: "0388476663",
-    active: "Active",
-    id: "4",
-    tour: 71,
-    money: 123000,
-  },
-  {
-    name: "John grgBrown",
-    mail: "lamdgka@gmail.com",
-    phone: "0388476663",
-    active: "Active",
-    id: "5",
-    tour: 71,
-    money: 123000,
-  },
-  {
-    name: "John Bgregrown",
-    mail: "lamdgka@gmail.com",
-    phone: "0388476663",
-    active: "Active",
-    id: "6",
-    tour: 71,
-    money: 123000,
-  },
-  {
-    name: "John Bgregrown",
-    mail: "lamdgka@gmail.com",
-    phone: "0388476663",
-    active: "Active",
-    id: "7",
-    tour: 71,
-    money: 123000,
-  },
 ];
 function HomePage() {
   const [tableParams, setTableParams] = useState({
@@ -131,13 +86,13 @@ function HomePage() {
       ...sorter,
     });
   };
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   return (
     <>
       <Layout>
         <div className="home__wrapper">
           <h5 className="sum-title">
-            Tổng số user: <span>100</span>
+            Tổng số user: <span>{data.length}</span>
           </h5>
           <Table
             rowKey={(record) => record.id}

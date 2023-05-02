@@ -2,22 +2,28 @@ import React, { useEffect } from "react";
 import "../../assets/css/home.css";
 import { Collapse, Button, Form, Input, message } from "antd";
 import { logo } from "../../constants/images";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
+import { sendPost } from "../../utils/api";
 
 export default function ActiveAdmin() {
   const { Panel } = Collapse;
   const history = useHistory();
-  const onFinish = (values) => {
-    setTimeout(() => {
+  const params = useParams();
+  const onFinish = async (values) => {
+    values.token = params.token;
+    let res = await sendPost("/admin/active-admin", values);
+    if (res.statusCode === 200) {
       message.success("Active thành công");
-    }, 2000);
-    history.push("/dang-nhap");
-    console.log("Success:", values);
+      history.push("/dang-nhap");
+
+    } else {
+      message.error("Có lỗi hệ thống");
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   return (
     <>
       <div className="active-admin-wrapper">
@@ -33,6 +39,34 @@ export default function ActiveAdmin() {
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
+            <Form.Item
+              name="email"
+              label="E-mail"
+              rules={[
+                {
+                  type: "email",
+                  message: "E-mail không hợp lệ.",
+                },
+                {
+                  required: true,
+                  message: "E-mail không đưọc để trống!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="username"
+              label="Username"
+              rules={[
+                {
+                  required: true,
+                  message: "Username không đưọc để trống!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
             <Form.Item
               name="password"
               label="Mật khẩu"

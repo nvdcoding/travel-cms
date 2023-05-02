@@ -10,12 +10,13 @@ import {
   CloudServerOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import React, { useState } from "react";
 import { logo } from "../../constants/images";
 import "../../assets/css/layout.css";
 const { Header, Sider, Content } = Layout;
 const LayoutAdmin = ({ children }) => {
+  const history = useHistory();
   const [collapsed, setCollapsed] = useState(false);
   const [active, setActive] = useState(localStorage.getItem("activeHeader"));
   const { Search } = Input;
@@ -140,7 +141,7 @@ const LayoutAdmin = ({ children }) => {
               <p className="admin-name-role">Admin</p>
             </div>
           </div>
-          <div className="admin-info-right" onClick={logOut}>
+          <div className="admin-info-right" onClick={() => logOut()}>
             <i className="fa-solid fa-arrow-right-from-bracket"></i>
           </div>
         </div>

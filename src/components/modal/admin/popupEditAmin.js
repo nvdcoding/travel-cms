@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Modal, Select, Switch, message } from "antd";
 import { sendGet, sendPut } from "../../../utils/api";
-function ModalactivatedUser({ data1 }) {
+function ModalEditAdmin({ data1 }) {
   const { Option } = Select;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleCancel = () => {
@@ -37,7 +37,7 @@ function ModalactivatedUser({ data1 }) {
   return (
     <>
       <Button className="button-nomal" onClick={() => getOneUser()}>
-        <i className="fa-solid fa-pencil"></i>Khóa
+        <i className="fa-solid fa-pencil"></i>Edit
       </Button>
       <Modal
         title="Chỉnh sửa thông tin"
@@ -60,6 +60,14 @@ function ModalactivatedUser({ data1 }) {
 
           <Form.Item label="Email" name="email" initialValue={data1?.email}>
             <Input disabled={true} />
+          </Form.Item>
+
+          <Form.Item name="roles" label="Chức vụ" initialValue={data1?.roles}>
+            <Select placeholder="Chọn chức vụ của bạn!" defaultValue="user">
+              <Option value="admin">Admin</Option>
+              <Option value="mod">Mod</Option>
+              <Option value="user">User</Option>
+            </Select>
           </Form.Item>
           <Form.Item
             name="status"
@@ -97,4 +105,4 @@ function ModalactivatedUser({ data1 }) {
     </>
   );
 }
-export default ModalactivatedUser;
+export default ModalEditAdmin;

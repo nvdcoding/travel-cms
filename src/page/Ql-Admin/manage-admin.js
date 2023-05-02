@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
 import { Table, message } from "antd";
 import Layout from "../../components/layout/layout";
-import ModalactivatedUser from "../../components/modal/user/popupKichHoatUser";
-import ModalDeleteUser from "../../components/modal/user/poupXoaUser";
 import ModalAddAdmin from "../../components/modal/admin/popupAddAdmin";
 import { sendGet } from "../../utils/api";
+import ModalEditAdmin from "../../components/modal/admin/popupEditAmin";
+import ModalDeleteAdmin from "../../components/modal/admin/poupXoaAdmin";
 
 const columns = [
   {
@@ -21,10 +21,6 @@ const columns = [
     dataIndex: "role",
   },
   {
-    title: "Created date",
-    dataIndex: "created",
-  },
-  {
     title: "Kích hoạt",
     dataIndex: "active",
   },
@@ -34,32 +30,15 @@ const columns = [
     render: (_, record) => (
       <>
         <div className="table-cell-action">
-          <ModalactivatedUser className="modal-active-user" data1={record} />
-          <ModalDeleteUser className="modal-delete-user" data1={record} />
+          <ModalEditAdmin className="modal-active-user" data1={record} />
+          <ModalDeleteAdmin className="modal-delete-user" data1={record} />
         </div>
       </>
     ),
   },
 ];
-const data = [
-  {
-    name: "John Brown",
-    mail: "lamdgka@gmail.com",
-    active: "Active",
-    id: "1",
-    created: "20/10/20001",
-    role: "Admin",
-  },
-  {
-    name: "John Brown1",
-    mail: "lamdgka@gmail.com",
-    active: "Active",
-    id: "2",
-    created: "20/10/20001",
-    role: "Admin",
-  },
-];
 function ManageAdmin() {
+  const [data, setData] = useState([]);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -75,18 +54,18 @@ function ManageAdmin() {
     });
   };
 
-  // const listUser = async () => {
-  //   const res = await sendGet("api/user/manage/");
-  //   if (res.statusCode === 200) {
-  //     setData(res.data);
-  //   } else {
-  //     message.error("Cập nhật User thất bại");
-  //   }
-  // };
-  // useEffect(() => {
-  //   listUser();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  const listUser = async () => {
+    // const res = await sendGet("/admin");
+    // if (res.statusCode === 200) {
+    //   setData(res.data);
+    // } else {
+    //   message.error("Cập nhật User thất bại");
+    // }
+  };
+  useEffect(() => {
+    listUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <Layout>
@@ -95,7 +74,7 @@ function ManageAdmin() {
             <h5 className="sum-title">
               Tổng số user: <span>100</span>
             </h5>
-            <ModalAddAdmin />
+            <ModalAddAdmin listAdmin={listUser} />
           </div>
 
           <Table

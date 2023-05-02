@@ -6,7 +6,7 @@ import Layout from "../../components/layout/layout";
 import ModalDetailRequest from "../../components/modal/hdv/popup-chi-tiet-yc.js";
 import LichSuPheDuyet from "./lich-su-phe-duyet";
 import ListHdv from "./listHdv";
-import { sendGet, sendPut } from "../../utils/api";
+import { sendGet } from "../../utils/api";
 import Interview from "./interview";
 
 export default function ManageHdv() {
@@ -20,21 +20,22 @@ export default function ManageHdv() {
         </>
       ),
     },
+
     {
-      title: "Thời gian yêu cầu",
-      dataIndex: "createdAt",
+      title: "Họ tên",
+      dataIndex: "name",
     },
     {
       title: "Username",
       dataIndex: "username",
     },
     {
-      title: "Địa chỉ Email",
+      title: "Email",
       dataIndex: "email",
     },
     {
       title: "Tỉnh thành",
-      dataIndex: "provice",
+      dataIndex: "provinceName",
     },
     {
       title: "",
@@ -42,21 +43,8 @@ export default function ManageHdv() {
       render: (_, record) => (
         <>
           <div className="table-cell-action">
-            <Button
-              type="primary"
-              className="button-accept button-primary"
-              danger
-              onClick={() => acceptHDV(record)}
-            >
-              Chấp nhận
-            </Button>
-            <Button
-              className="button-deny button-nomal"
-              onClick={() => denyHDV(record)}
-            >
-              Từ chối
-            </Button>
-            <ModalDetailRequest className="modal-delete-user" data={record} />
+
+            <ModalDetailRequest className="modal-delete-user" data={record} listRequest={listRequest} />
           </div>
         </>
       ),
@@ -77,36 +65,9 @@ export default function ManageHdv() {
       ...sorter,
     });
   };
-  const acceptHDV = async (values) => {
-    let params = {
-      tourGuideId: values.id,
-      action: "ACCEPT",
-      interviewDate: "2023-04-24T14:25:04.235Z",
-    };
-    const result = await sendPut(`/tour-guide/response-registation`, params);
-    if (result.statusCode == 200) {
-      message.success("Lấy dữ liệu thành công");
-      await listRequest();
-    } else {
-      message.error("thất bại");
-    }
-  };
-  const denyHDV = async (values) => {
-    let params = {
-      tourGuideId: values.id,
-      action: "REJECT",
-      interviewDate: "2023-04-24T14:25:04.235Z",
-    };
-    const result = await sendPut(`/tour-guide/response-registation`, params);
-    if (result.statusCode == 200) {
-      message.success("Từ chối thành công");
-      await listRequest();
-    } else {
-      message.error("thất bại");
-    }
-  };
+
   const listRequest = async () => {
-    let result = await sendGet(`/tour-guide`, { status: "PENDING" });
+    let result = await sendGet(`/tour-guide/admin`, { status: "PENDING" });
     if (result.statusCode == 200) {
       message.success("Lấy dữ liệu thành công");
       setData(result.returnValue.data);

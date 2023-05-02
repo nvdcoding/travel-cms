@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Modal, Form, message } from 'antd';
+import { sendPut } from '../../../utils/api';
 
 export default function ModalDetailRequest(props) {
 
@@ -12,20 +13,34 @@ export default function ModalDetailRequest(props) {
         form.resetFields();
         setOpen(false);
     };
-    const handleDeny = (e) => {
-        setOpen(false);
-        setTimeout(() => {
-
-            message.success("Từ chối thành công");
-        }, 1000);
-    };
-    const onFinish = (values) => {
-        setTimeout(() => {
+    const acceptHDV = async () => {
+        let params = {
+            tourGuideId: props.data.id,
+            action: "ACCEPT",
+            interviewDate: "2023-04-24T14:25:04.235Z",
+        };
+        const result = await sendPut(`/tour-guide/response-registation`, params);
+        if (result.statusCode == 200) {
             setOpen(false);
-            message.success("Thêm tài khoản thành công");
-        }, 2000);
-
-        console.log('Success:', values);
+            message.success("Lấy dữ liệu thành công");
+            await props.listRequest();
+        } else {
+            message.error("thất bại");
+        }
+    };
+    const denyHDV = async () => {
+        let params = {
+            tourGuideId: props.data.id,
+            action: "REJECT",
+            interviewDate: "2023-04-24T14:25:04.235Z",
+        };
+        const result = await sendPut(`/tour-guide/response-registation`, params);
+        if (result.statusCode == 200) {
+            message.success("Từ chối thành công");
+            await props.listRequest();
+        } else {
+            message.error("thất bại");
+        }
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -43,7 +58,7 @@ export default function ModalDetailRequest(props) {
                 <div className='popup-content'>
                     <Form form={form}
                         name="basic"
-                        onFinish={onFinish}
+                        onFinish={acceptHDV}
                         onFinishFailed={onFinishFailed}
                         autoComplete="off"
                     >
@@ -91,7 +106,7 @@ export default function ModalDetailRequest(props) {
                                 <Button type="primary" danger htmlType="submit" className='group-button-ok'>
                                     Chấp nhận
                                 </Button>
-                                <Button className='button-normal group-button-no-ok' onClick={() => handleDeny()}>
+                                <Button className='button-normal group-button-no-ok' onClick={() => denyHDV()}>
                                     Từ chối
                                 </Button>
                             </div>

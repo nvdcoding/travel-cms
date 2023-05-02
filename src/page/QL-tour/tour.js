@@ -40,7 +40,7 @@ export default function ListTour() {
       render: (_, record) => (
         <>
           <div className="table-cell-action">
-            <ModalDeleteUser className="modal-delete-user" data={record} />
+            {/* <ModalDeleteUser className="modal-delete-user" data={record} /> */}
           </div>
         </>
       ),

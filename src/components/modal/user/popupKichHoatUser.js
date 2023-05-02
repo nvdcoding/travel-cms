@@ -10,10 +10,15 @@ function ModalactivatedUser({ data1, listUser }) {
   };
   const [data, setData] = useState([]);
   const onFinish = async (values) => {
+    if (values.status == false) {
+      values.status = "2"
+    }
+    if (values.status == true) {
+      values.status = "1"
+    }
+    values.userId = data1.id
     setIsModalVisible(false);
-    await sendPut(`/users/${data1.id}`, {
-      status: values.roles,
-    });
+    await sendPut(`/users`, values);
     await listUser();
   };
   const onFinishFailed = (errorInfo) => {

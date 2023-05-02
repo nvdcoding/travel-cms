@@ -8,45 +8,7 @@ import ModalAddVoucher from "../../components/modal/voucher/popupThemMaGiamGia";
 import { sendGet } from "../../utils/api";
 
 export default function ListVoucher() {
-  const data = [
-    {
-      name: "John Brown",
-      code: "DULICHVUI",
-      discountType: "FIX",
-      value: "10.1000đ",
-      startDate: "20/11/2333",
-      quantity: "10200",
-      id: "1",
-    },
-    {
-      name: "John Brown",
-      code: "DULICHVUI",
-      discountType: "FIX",
-      value: "10.1000đ",
-      startDate: "20/11/2333",
-      quantity: "10200",
-      id: "4",
-    },
-    {
-      name: "John Brown",
-      code: "DULICHVUI",
-      discountType: "FIX",
-      value: "10.1000đ",
-      startDate: "20/11/2333",
-      quantity: "10200",
-      id: "2",
-    },
-    {
-      name: "John Brown",
-      code: "DULICHVUI",
-      discountType: "RATE",
-      value: "10.1000đ",
-      startDate: "20/11/2333",
-      quantity: "10200",
-      id: "3",
-    },
-  ];
-
+  const [data, setData] = useState([])
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -66,6 +28,16 @@ export default function ListVoucher() {
     setSortedInfo(sorter);
   };
   const columns = [
+    {
+      title: "STT",
+      dataIndex: "STT",
+      width: "40px",
+      render: (_, record, index) => (
+        <>
+          {index + 1}
+        </>
+      ),
+    },
     {
       title: "Tên Voucher",
       dataIndex: "name",
@@ -109,7 +81,7 @@ export default function ListVoucher() {
       render: (_, record) => (
         <>
           <div className="table-cell-action">
-            <ModalEditVoucher className="modal-edit-voucher" data={record} />
+            <ModalEditVoucher className="modal-edit-voucher" data={record} listVoucher={listVoucher} />
           </div>
         </>
       ),
@@ -119,6 +91,7 @@ export default function ListVoucher() {
   const listVoucher = async () => {
     const result = await sendGet(`/vourchers`);
     if (result.statusCode == 200) {
+      setData(result.returnValue?.data)
       message.success("Lấy dữ liệu thành công");
     } else {
       message.error("thất bại");
@@ -135,7 +108,7 @@ export default function ListVoucher() {
             <h5 className="sum-title">
               Tổng số Mã giảm giá: <span>100</span>
             </h5>
-            <ModalAddVoucher />
+            <ModalAddVoucher listVoucher={listVoucher} />
           </div>
 
           <Table

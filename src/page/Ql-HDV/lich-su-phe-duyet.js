@@ -53,7 +53,7 @@ export default function LichSuPheDuyet() {
     });
   };
   const listRequest = async () => {
-    let result = await sendGet(`/tour-guide`, { status: "REJECT" });
+    let result = await sendGet(`/tour-guide/admin`, { status: "REJECT" });
     if (result.statusCode == 200) {
       message.success("Lấy dữ liệu thành công");
       setData(result.returnValue.data);

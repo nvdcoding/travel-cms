@@ -111,19 +111,6 @@ function ModalEditVoucher(props) {
                 <Input />
               </Form.Item>
               <Form.Item
-                initialValue={props?.data?.numberOfMember}
-                label="Số lượng"
-                name="numberOfMember"
-                rules={[
-                  {
-                    required: true,
-                    message: "Số lượng không đưọc để trống!",
-                  },
-                ]}
-              >
-                <InputNumber min={1} max={1000} />
-              </Form.Item>
-              <Form.Item
                 name="quantity"
                 label="Số lượng"
                 initialValue={props?.data?.quantity}
@@ -131,32 +118,35 @@ function ModalEditVoucher(props) {
                 <InputNumber min={1} max={1000} placeholder="Số mã giảm giá" />
               </Form.Item>
             </div>
-            <Form.Item
-              name="discountType"
-              label="Loại mã"
-              initialValue={props?.data?.discountType}
-            >
-              <Select placeholder="Loại mã">
-                <Option value="0">Giảm theo %</Option>
-                <Option value="1">vnđ</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name="requirementPoint"
-              label="Điểm cần để đổi"
-              rules={[
-                {
-                  required: true,
-                  message: "Điểm không đưọc để trống!",
-                },
-              ]}
-            >
-              <InputNumber
-                min={1}
-                max={1000}
-                placeholder="Nhập số điểm cần để đổi"
-              />
-            </Form.Item>
+            <div className="group" >
+              <Form.Item
+                name="discountType"
+                label="Loại mã"
+                initialValue={props?.data?.discountType}
+              >
+                <Select placeholder="Loại mã">
+                  <Option value="0">Giảm theo %</Option>
+                  <Option value="1">vnđ</Option>
+                </Select>
+              </Form.Item>
+              <Form.Item initialValue={props?.data?.requirementPoint}
+                name="requirementPoint"
+                label="Điểm cần để đổi"
+                rules={[
+                  {
+                    required: true,
+                    message: "Điểm không đưọc để trống!",
+                  },
+                ]}
+              >
+                <InputNumber
+                  min={1}
+                  max={1000}
+                  placeholder="Nhập số điểm cần để đổi"
+                />
+              </Form.Item>
+            </div>
+
             <Form.Item name="time" label="Thời gian">
               <RangePicker
                 defaultValue={[moment(), moment().add(1, "days")]}

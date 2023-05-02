@@ -59,7 +59,7 @@ export default function Interview() {
             >
               Từ chối
             </Button>
-            <ModalDetailRequest className="modal-delete-user" data={record} />
+            {/* <ModalDetailRequest className="modal-delete-user" data={record} /> */}
           </div>
         </>
       ),
@@ -107,7 +107,7 @@ export default function Interview() {
     }
   };
   const listRequest = async () => {
-    let result = await sendGet(`/tour-guide`, { status: "WAITING_INTERVIEW" });
+    let result = await sendGet(`/tour-guide/admin`, { status: "WAITING_INTERVIEW" });
     if (result.statusCode == 200) {
       message.success("Lấy dữ liệu thành công");
       setData(result.returnValue.data);

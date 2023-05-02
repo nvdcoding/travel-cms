@@ -83,7 +83,7 @@ function ManageAdmin() {
         <div className="home__wrapper">
           <div className="home-header">
             <h5 className="sum-title">
-              Tổng số user: <span>{data.length}</span>
+              Tổng số Admin/Mod: <span>{data.length}</span>
             </h5>
             <ModalAddAdmin listAdmin={listUser} />
           </div>

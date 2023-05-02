@@ -10,8 +10,15 @@ function ModalEditAdmin({ data1, listUser }) {
   };
   const [data, setData] = useState([]);
   const onFinish = async (values) => {
+    if (values.status == false) {
+      values.status = "0"
+    }
+    if (values.status == true) {
+      values.status = "1"
+    }
+    values.modId = data1.id
     setIsModalVisible(false);
-    await sendPut(`/admin/${data1.id}`, values);
+    await sendPut(`/admin/`, values);
     await listUser();
   };
   const onFinishFailed = (errorInfo) => {

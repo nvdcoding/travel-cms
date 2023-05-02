@@ -79,7 +79,7 @@ export default function ListHdv() {
     });
   };
   const listRequest = async () => {
-    let result = await sendGet(`/tour-guide`, { status: "ACTIVE" });
+    let result = await sendGet(`/tour-guide/admin`, { status: "ACTIVE" });
     if (result.statusCode == 200) {
       message.success("Lấy dữ liệu thành công");
       setData(result.returnValue.data);

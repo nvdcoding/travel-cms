@@ -283,3 +283,26 @@
 .header-group .ant-input-search-button {
   height: 38px;
 }
+
+.group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.group .ant-form-item-row,
+.group .ant-form-item {
+  width: 48% !important;
+}
+
+.group .ant-input-number {
+  width: 100%;
+  padding: 3px 0;
+}
+
+.ant-form-item {
+  margin: 0 0 9px;
+}
+
+.ant-picker-range {
+  width: 100%;
+}

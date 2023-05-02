@@ -2,9 +2,8 @@
 import React, { useState } from "react";
 import { Button, Modal, message } from "antd";
 import { sendDelete, sendGet } from "../../../utils/api";
-function ModalDeleteUser({ data1 }) {
+function ModalDeleteUser({ data1, listUser }) {
   const [open, setOpen] = useState(false);
-  console.log("dtAA", data1);
   const showModal = () => {
     setOpen(true);
   };
@@ -13,11 +12,9 @@ function ModalDeleteUser({ data1 }) {
   };
   const handleDelete = async () => {
     setOpen(false);
-    await sendDelete(`api/user/${data1.id}`);
-    const res = await sendGet("api/user/manage/");
-    if (res.status === 200) {
-      // setData(res.data);
-      // await props.list();
+    let res = await sendDelete(`/users/${data1.id}`);
+    if (res.statusCode === 200) {
+      await listUser();
     } else {
       message.error("Xóa User thất bại");
     }

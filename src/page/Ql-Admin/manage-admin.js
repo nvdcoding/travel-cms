@@ -7,37 +7,48 @@ import { sendGet } from "../../utils/api";
 import ModalEditAdmin from "../../components/modal/admin/popupEditAmin";
 import ModalDeleteAdmin from "../../components/modal/admin/poupXoaAdmin";
 
-const columns = [
-  {
-    title: "Tên",
-    dataIndex: "name",
-  },
-  {
-    title: "Email",
-    dataIndex: "mail",
-  },
-  {
-    title: "Role",
-    dataIndex: "role",
-  },
-  {
-    title: "Kích hoạt",
-    dataIndex: "active",
-  },
-  {
-    title: "",
-    dataIndex: "action",
-    render: (_, record) => (
-      <>
-        <div className="table-cell-action">
-          <ModalEditAdmin className="modal-active-user" data1={record} />
-          <ModalDeleteAdmin className="modal-delete-user" data1={record} />
-        </div>
-      </>
-    ),
-  },
-];
+
 function ManageAdmin() {
+  const columns = [
+    {
+      title: "STT",
+      dataIndex: "STT",
+      width: "40px",
+      render: (_, record, index) => (
+        <>
+          {index + 1}
+        </>
+      ),
+    },
+    {
+      title: "Tên",
+      dataIndex: "username",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "status",
+    },
+    {
+      title: "",
+      dataIndex: "action",
+      render: (_, record) => (
+        <>
+          <div className="table-cell-action">
+            <ModalEditAdmin className="modal-active-user" data1={record} listUser={listUser} />
+            <ModalDeleteAdmin className="modal-delete-user" data1={record} listUser={listUser} />
+          </div>
+        </>
+      ),
+    },
+  ];
   const [data, setData] = useState([]);
   const [tableParams, setTableParams] = useState({
     pagination: {
@@ -55,12 +66,12 @@ function ManageAdmin() {
   };
 
   const listUser = async () => {
-    // const res = await sendGet("/admin");
-    // if (res.statusCode === 200) {
-    //   setData(res.data);
-    // } else {
-    //   message.error("Cập nhật User thất bại");
-    // }
+    const res = await sendGet("/admin");
+    if (res.statusCode === 200) {
+      setData(res.returnValue?.data);
+    } else {
+      message.error("Cập nhật User thất bại");
+    }
   };
   useEffect(() => {
     listUser();
@@ -72,7 +83,7 @@ function ManageAdmin() {
         <div className="home__wrapper">
           <div className="home-header">
             <h5 className="sum-title">
-              Tổng số user: <span>100</span>
+              Tổng số user: <span>{data.length}</span>
             </h5>
             <ModalAddAdmin listAdmin={listUser} />
           </div>

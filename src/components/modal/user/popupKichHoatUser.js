@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Modal, Select, Switch, message } from "antd";
 import { sendGet, sendPut } from "../../../utils/api";
-function ModalactivatedUser({ data1 }) {
+function ModalactivatedUser({ data1, listUser }) {
   const { Option } = Select;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleCancel = () => {
@@ -11,25 +11,16 @@ function ModalactivatedUser({ data1 }) {
   const [data, setData] = useState([]);
   const onFinish = async (values) => {
     setIsModalVisible(false);
-    await sendPut(`/api/user/status/${data1.id}`, {
-      roles: values.roles,
+    await sendPut(`/users/${data1.id}`, {
+      status: values.roles,
     });
-    await sendPut(`/api/user/role/${data1.id}`, {
-      status: values.status,
-    });
-    // await props.list();
+    await listUser();
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
   async function getOneUser() {
     setIsModalVisible(true);
-    // const res = await sendGet(`/api/user/manage/${data}`);
-    // if (res.data === 200) {
-    //   setData(res.data);
-    // } else {
-    //   message.error("Cập nhật User thất bại");
-    // }
   }
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -9,7 +9,7 @@ import {
   BookOutlined,
   CloudServerOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, Input } from "antd";
+import { Layout, Menu } from "antd";
 import { Link, useHistory } from "react-router-dom";
 import React, { useState } from "react";
 import { logo } from "../../constants/images";
@@ -19,8 +19,6 @@ const LayoutAdmin = ({ children }) => {
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(false);
   const [active, setActive] = useState(localStorage.getItem("activeHeader"));
-  const { Search } = Input;
-  const onSearch = (value) => console.log(value);
   const onClick = (e) => {
     localStorage.setItem("activeHeader", e.key);
     setActive(localStorage.getItem("activeHeader"));
@@ -163,13 +161,7 @@ const LayoutAdmin = ({ children }) => {
             )}
             <h1 className="title-content">Hệ thống</h1>
           </div>
-          <div className="header-right">
-            <Search
-              placeholder="Nhập nội dung..."
-              allowClear
-              onSearch={onSearch}
-            />
-          </div>
+
         </Header>
         <Content
           className="site-layout-background"

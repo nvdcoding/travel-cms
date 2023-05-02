@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Modal, Select, Switch, message } from "antd";
 import { sendGet, sendPut } from "../../../utils/api";
-function ModalEditAdmin({ data1 }) {
+function ModalEditAdmin({ data1, listUser }) {
   const { Option } = Select;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleCancel = () => {
@@ -11,25 +11,14 @@ function ModalEditAdmin({ data1 }) {
   const [data, setData] = useState([]);
   const onFinish = async (values) => {
     setIsModalVisible(false);
-    await sendPut(`/api/user/status/${data1.id}`, {
-      roles: values.roles,
-    });
-    await sendPut(`/api/user/role/${data1.id}`, {
-      status: values.status,
-    });
-    // await props.list();
+    await sendPut(`/admin/${data1.id}`, values);
+    await listUser();
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
   async function getOneUser() {
     setIsModalVisible(true);
-    // const res = await sendGet(`/api/user/manage/${data}`);
-    // if (res.data === 200) {
-    //   setData(res.data);
-    // } else {
-    //   message.error("Cập nhật User thất bại");
-    // }
   }
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,7 +43,7 @@ function ModalEditAdmin({ data1 }) {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          <Form.Item label="Họ tên" name="name" initialValue={data1?.name}>
+          <Form.Item label="Họ tên" name="name" initialValue={data1?.username}>
             <Input disabled={true} />
           </Form.Item>
 
@@ -62,11 +51,10 @@ function ModalEditAdmin({ data1 }) {
             <Input disabled={true} />
           </Form.Item>
 
-          <Form.Item name="roles" label="Chức vụ" initialValue={data1?.roles}>
+          <Form.Item name="roles" label="Chức vụ" initialValue={data1?.role}>
             <Select placeholder="Chọn chức vụ của bạn!" defaultValue="user">
               <Option value="admin">Admin</Option>
               <Option value="mod">Mod</Option>
-              <Option value="user">User</Option>
             </Select>
           </Form.Item>
           <Form.Item

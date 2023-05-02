@@ -20,6 +20,7 @@
   justify-content: space-between;
   margin-bottom: 15px;
 }
+
 .ant-form-item-row,
 .ant-form-item {
   display: flex;
@@ -49,7 +50,7 @@
   margin-right: 10px;
 }
 
-.ant-form-item-label > label {
+.ant-form-item-label>label {
   font-weight: 500;
   font-size: 16px;
 }
@@ -103,7 +104,7 @@
   border-top: 0;
 }
 
-.ant-collapse > .ant-collapse-item {
+.ant-collapse>.ant-collapse-item {
   border-bottom: 0;
 }
 
@@ -152,6 +153,7 @@
   color: #171717;
   opacity: 0.3;
 }
+
 /* blog */
 .blog-action {
   display: flex;
@@ -197,9 +199,11 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
+
 .statistical-item {
   margin-bottom: 10px;
 }
+
 .statistical-name {
   font-style: normal;
   font-weight: 400;
@@ -216,33 +220,40 @@
   line-height: 22px;
   color: #ffffff;
 }
+
 .sum-title {
   font-weight: 600;
   font-size: 20px;
   line-height: 22px;
   color: #454545;
 }
+
 .select_month {
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
+
 .select_month p {
   margin-right: 10px;
 }
+
 .transaction_header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 20px 0;
 }
+
 .statistical-top {
   justify-items: center;
 }
+
 .statistical-top .statistical-value {
   font-size: 14px;
   margin-left: 5px;
 }
+
 .number {
   -webkit-text-stroke: 1px #ffffff;
   opacity: 1;
@@ -250,12 +261,25 @@
   font-size: 18px;
   font-weight: 900;
 }
+
 .img-detail {
   width: 100px;
   height: 100px;
   margin: auto;
 }
+
 .table-cell-action button {
   margin: 0 5px;
   border-radius: 5px;
+}
+
+.header-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.header-group .ant-input-search-button {
+  height: 38px;
 }

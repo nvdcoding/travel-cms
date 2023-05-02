@@ -24,7 +24,11 @@ const LayoutAdmin = ({ children }) => {
     localStorage.setItem("activeHeader", e.key);
     setActive(localStorage.getItem("activeHeader"));
   };
-  console.log("1", active);
+  const logOut = (e) => {
+    localStorage.setItem("accessToken", null);
+    localStorage.setItem("refreshToken", null);
+    history.push("/dang-nhap");
+  };
   return (
     <Layout>
       <Sider
@@ -136,7 +140,7 @@ const LayoutAdmin = ({ children }) => {
               <p className="admin-name-role">Admin</p>
             </div>
           </div>
-          <div className="admin-info-right">
+          <div className="admin-info-right" onClick={logOut}>
             <i className="fa-solid fa-arrow-right-from-bracket"></i>
           </div>
         </div>

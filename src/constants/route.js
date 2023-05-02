@@ -3,7 +3,7 @@ export const ROUTES = {
   MANAGEADMIN: "/quan-ly-admin",
   MANAGEUSER: "/quan-ly-user",
   MANAGEHDV: "/quan-ly-hdv",
-  ACTIVEADMIN: "/active-tai-khoan",
+  ACTIVEADMIN: "/active-tai-khoan/:token",
   MANAGEVOUCHER: "/quan-ly-ma-giam-gia",
   MANAGEBLOG: "/quan-ly-blog",
   BLOGDETAIL: "/quan-ly-blog/:id",

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
-import { Table } from "antd";
+import { Table, message } from "antd";
 import Layout from "../../components/layout/layout";
 import ModalactivatedUser from "../../components/modal/user/popupKichHoatUser";
 import ModalDeleteUser from "../../components/modal/user/poupXoaUser";
 import ModalAddAdmin from "../../components/modal/admin/popupAddAdmin";
+import { sendGet } from "../../utils/api";
 
 const columns = [
   {
@@ -33,8 +34,8 @@ const columns = [
     render: (_, record) => (
       <>
         <div className="table-cell-action">
-          <ModalactivatedUser className="modal-active-user" data={record} />
-          <ModalDeleteUser className="modal-delete-user" data={record} />
+          <ModalactivatedUser className="modal-active-user" data1={record} />
+          <ModalDeleteUser className="modal-delete-user" data1={record} />
         </div>
       </>
     ),
@@ -57,87 +58,6 @@ const data = [
     created: "20/10/20001",
     role: "Admin",
   },
-  {
-    name: "John Bro23ewn",
-    mail: "lamdgka@gmail.com",
-    active: "Active",
-    id: "3",
-    created: "20/10/20001",
-    role: "Admin",
-  },
-  {
-    name: "John Bhỷtgrown",
-    mail: "lamdgka@gmail.com",
-    active: "Active",
-    id: "4",
-    created: "20/10/20001",
-    role: "Mod",
-  },
-  {
-    name: "John grgBrown",
-    mail: "lamdgka@gmail.com",
-    active: "Active",
-    id: "5",
-    created: "20/10/20001",
-    role: "Mod",
-  },
-  {
-    name: "John Bgregrown",
-    mail: "lamdgka@gmail.com",
-    active: "Active",
-    id: "6",
-    created: "20/10/20001",
-    role: "Admin",
-  },
-  {
-    name: "John Bgregrown",
-    mail: "lamdgka@gmail.com",
-    active: "Active",
-    id: "7",
-    created: "20/10/20001",
-    role: "Mod",
-  },
-  {
-    name: "John ggg",
-    mail: "lamdgka@gmail.com",
-    active: "Active",
-    id: "8",
-    created: "20/10/20001",
-    role: "Admin",
-  },
-
-  {
-    name: "John Bfffrown",
-    mail: "lamdgka@gmail.com",
-    active: "Active",
-    id: "9",
-    created: "20/10/20001",
-    role: "Admin",
-  },
-  {
-    name: "John ferf",
-    mail: "lamdgka@gmail.com",
-    active: "Active",
-    id: "10",
-    created: "20/10/20001",
-    role: "Admin",
-  },
-  {
-    name: "John wreBrown",
-    mail: "lamdgka@gmail.com",
-    active: "Active",
-    id: "11",
-    created: "20/10/20001",
-    role: "Admin",
-  },
-  {
-    name: "3ư Brown",
-    mail: "lamdgka@gmail.com",
-    active: "Active",
-    id: "12",
-    created: "20/10/20001",
-    role: "Admin",
-  },
 ];
 function ManageAdmin() {
   const [tableParams, setTableParams] = useState({
@@ -154,7 +74,19 @@ function ManageAdmin() {
       ...sorter,
     });
   };
-  useEffect(() => {}, []);
+
+  // const listUser = async () => {
+  //   const res = await sendGet("api/user/manage/");
+  //   if (res.statusCode === 200) {
+  //     setData(res.data);
+  //   } else {
+  //     message.error("Cập nhật User thất bại");
+  //   }
+  // };
+  // useEffect(() => {
+  //   listUser();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   return (
     <>
       <Layout>

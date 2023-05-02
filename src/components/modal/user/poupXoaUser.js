@@ -1,16 +1,25 @@
 /* eslint-disable eqeqeq */
 import React, { useState } from "react";
-import { Button, Modal } from "antd";
-function ModalDeleteUser(props) {
+import { Button, Modal, message } from "antd";
+import { sendDelete, sendGet } from "../../../utils/api";
+function ModalDeleteUser({ data1 }) {
   const [open, setOpen] = useState(false);
   const showModal = () => {
     setOpen(true);
   };
-  const handleOk = (e) => {
-    setOpen(false);
-  };
   const handleCancel = (e) => {
     setOpen(false);
+  };
+  const handleDelete = async () => {
+    setOpen(false);
+    await sendDelete(`api/user/${data1.id}`);
+    const res = await sendGet("api/user/manage/");
+    if (res.status === 200) {
+      // setData(res.data);
+      // await props.list();
+    } else {
+      message.error("Xóa User thất bại");
+    }
   };
   return (
     <>
@@ -23,19 +32,17 @@ function ModalDeleteUser(props) {
         <i className="fa-solid fa-trash-can"></i>Xóa
       </Button>
       <Modal
-        title={props?.type == 1 ? "Xóa bài viết này?" : "Xóa tài khoản này?"}
+        title={"Xóa tài khoản này?"}
         centered
         visible={open}
-        onOk={handleOk}
+        onOk={handleDelete}
         onCancel={handleCancel}
         cancelText="Hủy"
         okText="Đồng ý"
       >
         <p className="popup-des">
-          Bạn muốn xóa {props?.type == 1 ? " bài viết" : " tài khoản"}
-          <span className="popup-des-name">
-            {props.data.name ? props.data.name : props.data.title}
-          </span>
+          Bạn muốn xóa tài khoản
+          <span className="popup-des-name">{data1.name}</span>
         </p>
       </Modal>
     </>

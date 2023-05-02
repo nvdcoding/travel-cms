@@ -85,7 +85,7 @@ export default function YeuCau() {
     console.log("Success:", values);
   };
   const ListTour = async () => {
-    const result = await sendGet("/tours/approve-list");
+    const result = await sendGet("/tours/admin/approve-list");
     if (result.returnValue.data.length >= 0) {
       setData(
         result.returnValue.data.map((e, index) => {

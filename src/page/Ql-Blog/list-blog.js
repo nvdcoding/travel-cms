@@ -1,44 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import "../../assets/css/home.css";
-import { Table, Input, Space, Button } from "antd";
+import { Table, Input, Space, Button, message } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import ModalactivatedUser from "../../components/modal/user/popupKichHoatUser";
 import ModalDeleteUser from "../../components/modal/user/poupXoaUser";
+import { sendGet } from "../../utils/api";
 // import Highlighter from 'react-highlight-words';
 
-const data = [
-  {
-    id: "1",
-    title: "Toi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-  },
-  {
-    id: "2",
-    title: "Tôi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-  },
-  {
-    id: "3",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-  },
-  {
-    id: "4",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-  },
-  {
-    id: "5",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-  },
-];
 export default function ListBlog() {
+  const [data, setData] = useState();
   const [, setSearchText] = useState("");
   const [, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
@@ -144,6 +114,15 @@ export default function ListBlog() {
   });
   const columns = [
     {
+      title: "STT",
+      dataIndex: "STT",
+      render: (_, record, index) => (
+        <>
+          {index + 1}
+        </>
+      ),
+    },
+    {
       title: "Ngày tạo",
       dataIndex: "time",
     },
@@ -193,7 +172,20 @@ export default function ListBlog() {
       ...sorter,
     });
   };
-  useEffect(() => {}, []);
+  const listBlog = async () => {
+    const res = await sendGet("/posts/admin", {
+      status: "ACTIVE"
+    });
+    if (res.statusCode === 200) {
+      setData(res.returnValue?.data);
+    } else {
+      message.error("Thất bại");
+    }
+  };
+  useEffect(() => {
+    listBlog();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <Table

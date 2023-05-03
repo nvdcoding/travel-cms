@@ -1,51 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
-import { Table } from "antd";
+import { Table, message } from "antd";
+import { sendGet } from "../../utils/api";
 
-const data = [
-  {
-    id: "1",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-    status: "1",
-    approvedBy: "Admin 1",
-  },
-  {
-    id: "2",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-    status: "1",
-    approvedBy: "Admin 1",
-  },
-  {
-    id: "3",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-    status: "1",
-    approvedBy: "Admin 3",
-  },
-  {
-    id: "4",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-    status: "1",
-    approvedBy: "Admin 2",
-  },
-  {
-    id: "5",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-    status: "0",
-    approvedBy: "Admin 1",
-  },
-];
 export default function LichSuDuyetBlog() {
+  const [data, setData] = useState();
   const columns = [
+    {
+      title: "STT",
+      dataIndex: "STT",
+      render: (_, record, index) => (
+        <>
+          {index + 1}
+        </>
+      ),
+    },
     {
       title: "Ngày tạo",
       dataIndex: "time",
@@ -84,7 +53,20 @@ export default function LichSuDuyetBlog() {
       ...sorter,
     });
   };
-  useEffect(() => {}, []);
+  const listBlog = async () => {
+    const res = await sendGet("/posts/admin", {
+      status: "ACTIVE"
+    });
+    if (res.statusCode === 200) {
+      setData(res.returnValue?.data);
+    } else {
+      message.error("Thất bại");
+    }
+  };
+  useEffect(() => {
+    listBlog();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <Table

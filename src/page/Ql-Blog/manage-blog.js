@@ -5,40 +5,20 @@ import { Table, Button, message, Tabs } from "antd";
 import Layout from "../../components/layout/layout";
 import LichSuDuyetBlog from "./lich-su-duyet-blog";
 import ListBlog from "./list-blog";
-const data = [
-  {
-    id: "5",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-  },
-  {
-    id: "4",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-  },
-  {
-    id: "3",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-  },
-  {
-    id: "2",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-  },
-  {
-    id: "1",
-    title: "Tooi yeue HN 1 tesst",
-    author: "Author 1",
-    time: "20/10/2022",
-  },
-];
+import { sendGet, sendPut } from "../../utils/api";
+
 export default function ManageBlog() {
+  const [data, setData] = useState();
   const columns = [
+    {
+      title: "STT",
+      dataIndex: "STT",
+      render: (_, record, index) => (
+        <>
+          {index + 1}
+        </>
+      ),
+    },
     {
       title: "Ngày tạo",
       dataIndex: "time",
@@ -58,21 +38,12 @@ export default function ManageBlog() {
         <>
           <div className="table-cell-action">
             <Button
-              type="primary"
-              className="button-accept button-primary"
-              danger
-              onClick={() => acceptHDV(record)}
-            >
-              Chấp nhận
-            </Button>
-            <Button
               className="button-deny button-nomal"
-              onClick={() => denyHDV(record)}
+              onClick={() => denyBlog(record.id)}
             >
               Từ chối
             </Button>
             <Button className="button-nomal">
-              {" "}
               <Link to={`/quan-ly-blog/${record.id}`}> Xem </Link>
             </Button>
           </div>
@@ -84,7 +55,7 @@ export default function ManageBlog() {
     pagination: {
       current: 1,
       pageSize: 8,
-      total: data.length,
+      total: data?.length,
     },
   });
   const handleTableChange = (pagination, filters, sorter) => {
@@ -94,21 +65,33 @@ export default function ManageBlog() {
       ...sorter,
     });
   };
-  const acceptHDV = (values) => {
-    setTimeout(() => {
-      message.success("Thêm bài viết thành công");
-    }, 2000);
-
-    console.log("Success:", values);
+  const denyBlog = async (e) => {
+    let params = {
+      id: e,
+      action: "REJECTED",
+    };
+    const result = await sendPut(`/posts/admin`, params);
+    if (result.statusCode == 200) {
+      message.success("Từ chối thành công");
+      await listBlog();
+    } else {
+      message.error("thất bại");
+    }
   };
-  const denyHDV = (values) => {
-    setTimeout(() => {
-      message.success("Từ chối phê duyệt bài viết");
-    }, 2000);
-
-    console.log("Success:", values);
+  const listBlog = async () => {
+    const res = await sendGet("/posts/admin", {
+      status: "PENDING"
+    });
+    if (res.statusCode === 200) {
+      setData(res.returnValue?.data);
+    } else {
+      message.error("Thất bại");
+    }
   };
-  useEffect(() => {}, []);
+  useEffect(() => {
+    listBlog();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <Layout>

@@ -116,6 +116,7 @@ export default function ListBlog() {
     {
       title: "STT",
       dataIndex: "STT",
+      width: "40px",
       render: (_, record, index) => (
         <>
           {index + 1}
@@ -125,6 +126,11 @@ export default function ListBlog() {
     {
       title: "Ngày tạo",
       dataIndex: "time",
+      render: (_, record) => (
+        <>
+          {new Date(record.createdAt).toLocaleString()}
+        </>
+      ),
     },
     {
       title: "Tiêu đề ",
@@ -134,6 +140,12 @@ export default function ListBlog() {
     {
       title: "Tác giả",
       dataIndex: "author",
+      dataIndex: "author",
+      render: (_, record) => (
+        <>
+          {record.tourGuide != null ? record.tourGuide?.username : record.user?.username}
+        </>
+      ),
       ...getColumnSearchProps("author"),
     },
 
@@ -162,7 +174,7 @@ export default function ListBlog() {
     pagination: {
       current: 1,
       pageSize: 8,
-      total: data.length,
+      total: data?.length,
     },
   });
   const handleTableChange = (pagination, filters, sorter) => {
@@ -174,7 +186,7 @@ export default function ListBlog() {
   };
   const listBlog = async () => {
     const res = await sendGet("/posts/admin", {
-      status: "ACTIVE"
+      status: "REJECTED"
     });
     if (res.statusCode === 200) {
       setData(res.returnValue?.data);

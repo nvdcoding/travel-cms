@@ -1,27 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
 import { Button, message, Popconfirm } from "antd";
 import { useParams, useHistory } from "react-router-dom";
 import { logo } from "../../constants/images";
 import Layout from "../../components/layout/layout";
+import { sendGet, sendPut } from "../../utils/api";
 
 export default function BlogDetail() {
-  // const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const params = useParams();
   const history = useHistory();
-  const handleDelete = async (key) => {
-    message.success("Xóa thành công!");
-    history.push("/quan-ly-blog");
+  const handlePost = async (value) => {
+    const post = await sendPut(`/posts/admin`, {
+      postId: parseInt(params.id),
+      status: value,
+    });
+    if (post.statusCode == 200) {
+      history.push("/quan-ly-blog");
+      message.success("Cập nhật trạng thái bài viết")
+    }
   };
-  const handlePost = async (key, value) => {
-    message.success("Duyệt bài viết");
-    history.push("/quan-ly-blog");
+  const Blog = async () => {
+    const res = await sendGet(`/posts/admin/${params.id}`);
+    if (res.statusCode === 200) {
+      setData(res.returnValue);
+    } else {
+      message.error("Cập nhật khóa học thất bại");
+    }
   };
   useEffect(() => {
-    const handleView = async () => {
-      message.success("TC");
-    };
-    handleView();
+    Blog();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // if (!Object.keys(data).length)
   // return (
@@ -34,16 +43,11 @@ export default function BlogDetail() {
       <Layout>
         <div className="home__wrapper">
           <div className="blog-action">
-            <Button type="primary" danger onClick={() => handlePost(params.id)}>
+            <Button type="primary" danger onClick={() => handlePost("ACTIVE")}>
               Phê duyệt
             </Button>
-            <Button type="primary" className="button-deny">
-              <Popconfirm
-                title="Từ chối bài viết?"
-                onConfirm={() => handleDelete(params.id)}
-              >
-                Từ chối
-              </Popconfirm>
+            <Button type="primary" className="button-deny" onClick={() => handlePost("REJECTED")}>
+              Từ chối
             </Button>
             <Button
               className="button-nomal"
@@ -53,14 +57,17 @@ export default function BlogDetail() {
             </Button>
           </div>
         </div>
-        <h2>
-          <strong>Tiêu đề: </strong> Đi du lịch
-        </h2>
-        <h3>
-          <strong>Tác giả: </strong> Mai Lam
-        </h3>
-        <img src={logo} alt="ảnh mô tả" className="img-detail" />
-        <div className="content">Nội dung ở đây id: {params.id}</div>
+        <div className="main-detail">
+          <h2>
+            <strong>Tiêu đề: </strong> {data?.title}
+          </h2>
+          <h3>
+            <strong>Tác giả: {data?.tourGuide != null ? data?.tourGuide.username : data?.user.username} </strong>
+          </h3>
+          <img src={data?.image} alt="ảnh mô tả" className="img-detail" />
+          <div className="content"> <h3><strong>Nội dung ở đây: </strong></h3> <p dangerouslySetInnerHTML={{ __html: data?.currentContent }} /></div>
+
+        </div>
       </Layout>
     </>
   );

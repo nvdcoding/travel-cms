@@ -6,6 +6,7 @@ import Layout from "../../components/layout/layout";
 import LichSuDuyetBlog from "./lich-su-duyet-blog";
 import ListBlog from "./list-blog";
 import { sendGet, sendPut } from "../../utils/api";
+import ManageUpdate from "./manageUpdate";
 
 export default function ManageBlog() {
   const [data, setData] = useState();
@@ -13,6 +14,7 @@ export default function ManageBlog() {
     {
       title: "STT",
       dataIndex: "STT",
+      width: "40px",
       render: (_, record, index) => (
         <>
           {index + 1}
@@ -22,6 +24,11 @@ export default function ManageBlog() {
     {
       title: "Ngày tạo",
       dataIndex: "time",
+      render: (_, record) => (
+        <>
+          {new Date(record.createdAt).toLocaleString()}
+        </>
+      ),
     },
     {
       title: "Tiêu đề ",
@@ -30,6 +37,11 @@ export default function ManageBlog() {
     {
       title: "Tác giả",
       dataIndex: "author",
+      render: (_, record) => (
+        <>
+          {record.tourGuide != null ? record.tourGuide?.username : record.user?.username}
+        </>
+      ),
     },
     {
       title: "",
@@ -67,7 +79,7 @@ export default function ManageBlog() {
   };
   const denyBlog = async (e) => {
     let params = {
-      id: e,
+      postId: e,
       action: "REJECTED",
     };
     const result = await sendPut(`/posts/admin`, params);
@@ -111,8 +123,11 @@ export default function ManageBlog() {
             <Tabs.TabPane tab="Lịch sử phê duyệt" key="2">
               <LichSuDuyetBlog />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Blog" key="3">
+            <Tabs.TabPane tab="Từ chối" key="3">
               <ListBlog />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Yêu cầu Duyệt lại " key="4">
+              <ManageUpdate />
             </Tabs.TabPane>
           </Tabs>
           ;

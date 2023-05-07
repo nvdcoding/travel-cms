@@ -9,6 +9,7 @@ export default function LichSuDuyetBlog() {
     {
       title: "STT",
       dataIndex: "STT",
+      width: "40px",
       render: (_, record, index) => (
         <>
           {index + 1}
@@ -18,6 +19,11 @@ export default function LichSuDuyetBlog() {
     {
       title: "Ngày tạo",
       dataIndex: "time",
+      render: (_, record) => (
+        <>
+          {new Date(record.createdAt).toLocaleString()}
+        </>
+      ),
     },
     {
       title: "Tiêu đề ",
@@ -26,12 +32,17 @@ export default function LichSuDuyetBlog() {
     {
       title: "Tác giả",
       dataIndex: "author",
+      render: (_, record) => (
+        <>
+          {record.tourGuide != null ? record.tourGuide?.username : record.user?.username}
+        </>
+      ),
     },
     {
       title: "Trạng thái",
       dataIndex: "status",
       render: (status) => (
-        <>{status === "1" ? <p>Chấp nhận</p> : <p>Từ chối</p>}</>
+        <>{status === "ACTIVE" ? <p>Chấp nhận</p> : <p>Từ chối</p>}</>
       ),
     },
     {
@@ -43,7 +54,7 @@ export default function LichSuDuyetBlog() {
     pagination: {
       current: 1,
       pageSize: 8,
-      total: data.length,
+      total: data?.length,
     },
   });
   const handleTableChange = (pagination, filters, sorter) => {

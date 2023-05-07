@@ -27,13 +27,13 @@ function ModalEditVoucher(props) {
     setOpen(false);
   };
   const onFinish = async (values) => {
-    const result = await sendPut(`/vourchers/${props.data.id}`, values);
-    if (result.statusCode == 200) {
-      message.success("Update thành công");
-      setOpen(false);
-    } else {
-      message.error("thất bại");
-    }
+    // const result = await sendPut(`/vourchers/${props.data.id}`, values);
+    // if (result.statusCode == 200) {
+    //   message.success("Update thành công");
+    //   setOpen(false);
+    // } else {
+    message.error("Không thể edit voucher");
+    // }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);

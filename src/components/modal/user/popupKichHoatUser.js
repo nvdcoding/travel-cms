@@ -10,12 +10,6 @@ function ModalactivatedUser({ data1, listUser }) {
   };
   const [data, setData] = useState([]);
   const onFinish = async (values) => {
-    if (values.status == false) {
-      values.status = "2"
-    }
-    if (values.status == true) {
-      values.status = "1"
-    }
     values.userId = data1.id
     setIsModalVisible(false);
     await sendPut(`/users`, values);
@@ -60,12 +54,20 @@ function ModalactivatedUser({ data1, listUser }) {
           <Form.Item
             name="status"
             label="Trạng thái tài khoản"
-            initialValue={data?.status}
+            initialValue={data?.verifyStatus}
           >
-            <Switch
-              checkedChildren="active"
-              unCheckedChildren="enable"
-              defaultChecked
+            <Select
+              allowClear
+              options={[
+                {
+                  value: '1',
+                  label: 'Active',
+                },
+                {
+                  value: '2',
+                  label: 'Khóa',
+                },
+              ]}
             />
           </Form.Item>
           <div

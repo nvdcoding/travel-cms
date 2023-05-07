@@ -35,6 +35,13 @@ function ManageAdmin() {
     {
       title: "Trạng thái",
       dataIndex: "status",
+      render: (_, record) => (
+        <>
+          {record.status == 0 ?
+            "Bị khóa" : "Đang hoạt động"
+          }
+        </>
+      ),
     },
     {
       title: "",

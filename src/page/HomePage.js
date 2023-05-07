@@ -31,25 +31,32 @@ function HomePage() {
       title: "SĐT",
       dataIndex: "phone",
     },
-    {
-      title: "Số tour đã đi",
-      dataIndex: "tour",
-      sorter: {
-        compare: (a, b) => a.tour - b.tour,
-        multiple: 1,
-      },
-    },
-    {
-      title: "Điểm",
-      dataIndex: "voucherPoint",
-      sorter: {
-        compare: (a, b) => a.voucherPoint - b.voucherPoint,
-        multiple: 1,
-      },
-    },
+    // {
+    //   title: "Số tour đã đi",
+    //   dataIndex: "tour",
+    //   sorter: {
+    //     compare: (a, b) => a.tour - b.tour,
+    //     multiple: 1,
+    //   },
+    // },
+    // {
+    //   title: "Điểm",
+    //   dataIndex: "voucherPoint",
+    //   sorter: {
+    //     compare: (a, b) => a.voucherPoint - b.voucherPoint,
+    //     multiple: 1,
+    //   },
+    // },
     {
       title: "Trạng thái ",
-      dataIndex: "status",
+      dataIndex: "verifyStatus",
+      render: (_, record) => (
+        <>
+          {record.verifyStatus == 0 ?
+            'Chưa kích hoạt' : record.verifyStatus == 1 ? "Đang hoạt động" : "Bị khóa"
+          }
+        </>
+      ),
     },
     {
       title: "",

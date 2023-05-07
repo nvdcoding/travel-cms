@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
 import { Table, message } from "antd";
@@ -7,18 +8,13 @@ import { sendGet } from "../../utils/api";
 import ModalEditAdmin from "../../components/modal/admin/popupEditAmin";
 import ModalDeleteAdmin from "../../components/modal/admin/poupXoaAdmin";
 
-
 function ManageAdmin() {
   const columns = [
     {
       title: "STT",
       dataIndex: "STT",
       width: "40px",
-      render: (_, record, index) => (
-        <>
-          {index + 1}
-        </>
-      ),
+      render: (_, record, index) => <>{index + 1}</>,
     },
     {
       title: "Tên",
@@ -35,6 +31,7 @@ function ManageAdmin() {
     {
       title: "Trạng thái",
       dataIndex: "status",
+      render: (_, record) => <>{record.status == 1 ? "Hoạt động" : "Khóa"}</>,
     },
     {
       title: "",
@@ -42,8 +39,16 @@ function ManageAdmin() {
       render: (_, record) => (
         <>
           <div className="table-cell-action">
-            <ModalEditAdmin className="modal-active-user" data1={record} listUser={listUser} />
-            <ModalDeleteAdmin className="modal-delete-user" data1={record} listUser={listUser} />
+            <ModalEditAdmin
+              className="modal-active-user"
+              data1={record}
+              listUser={listUser}
+            />
+            <ModalDeleteAdmin
+              className="modal-delete-user"
+              data1={record}
+              listUser={listUser}
+            />
           </div>
         </>
       ),
@@ -66,7 +71,7 @@ function ManageAdmin() {
   };
 
   const listUser = async () => {
-    const res = await sendGet("/admin");
+    const res = await sendGet("/admin", { limit: 100 });
     if (res.statusCode === 200) {
       setData(res.returnValue?.data);
     } else {

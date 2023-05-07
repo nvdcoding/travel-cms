@@ -10,16 +10,15 @@ function ModalEditAdmin({ data1, listUser }) {
   };
   const [data, setData] = useState([]);
   const onFinish = async (values) => {
-    if (values.status == false) {
-      values.status = "0"
+    try {
+      values.level = parseInt(values.level);
+      values.modId = data1.id;
+      setIsModalVisible(false);
+      await sendPut(`/admin`, values);
+      await listUser();
+    } catch (e) {
+      message.error("Không thể thay đổi quyền admin");
     }
-    if (values.status == true) {
-      values.status = "1"
-    }
-    values.modId = data1.id
-    setIsModalVisible(false);
-    await sendPut(`/admin/`, values);
-    await listUser();
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -50,18 +49,12 @@ function ModalEditAdmin({ data1, listUser }) {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          <Form.Item label="Họ tên" name="name" initialValue={data1?.username}>
-            <Input disabled={true} />
-          </Form.Item>
-
-          <Form.Item label="Email" name="email" initialValue={data1?.email}>
-            <Input disabled={true} />
-          </Form.Item>
-
-          <Form.Item name="roles" label="Chức vụ" initialValue={data1?.role}>
-            <Select placeholder="Chọn chức vụ của bạn!" defaultValue="user">
-              <Option value="admin">Admin</Option>
-              <Option value="mod">Mod</Option>
+          <Form.Item name="level" label="Chức vụ">
+            <Select placeholder="Chọn chức vụ của bạn!">
+              <Option value="1">Mod L.1</Option>
+              <Option value="2">Mod L.2</Option>
+              <Option value="3">Mod L.3</Option>
+              <Option value="4">Mod L.4</Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -69,11 +62,10 @@ function ModalEditAdmin({ data1, listUser }) {
             label="Trạng thái tài khoản"
             initialValue={data?.status}
           >
-            <Switch
-              checkedChildren="active"
-              unCheckedChildren="enable"
-              defaultChecked
-            />
+            <Select placeholder="Trạng thái tài khoản!">
+              <Option value="1">Hoạt động1</Option>
+              <Option value="0">Khóa</Option>
+            </Select>
           </Form.Item>
           <div
             style={{

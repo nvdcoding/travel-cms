@@ -27,14 +27,6 @@ export default function LichSuPheDuyet() {
       title: "Địa chỉ Email",
       dataIndex: "email",
     },
-    {
-      title: "Tỉnh thành",
-      dataIndex: "provice",
-    },
-    {
-      title: "Người duyệt",
-      dataIndex: "approvedBy",
-    },
   ];
   const [data, setData] = useState([]);
 
@@ -53,7 +45,10 @@ export default function LichSuPheDuyet() {
     });
   };
   const listRequest = async () => {
-    let result = await sendGet(`/tour-guide/admin`, { status: "REJECT" });
+    let result = await sendGet(`/tour-guide/admin`, {
+      status: "REJECT",
+      limit: 100,
+    });
     if (result.statusCode == 200) {
       message.success("Lấy dữ liệu thành công");
       setData(result.returnValue.data);
@@ -68,7 +63,6 @@ export default function LichSuPheDuyet() {
     <>
       <Table
         rowKey={(record) => record.id}
-        scroll={{ y: 500 }}
         className="table-custom-user"
         columns={columns}
         dataSource={data}

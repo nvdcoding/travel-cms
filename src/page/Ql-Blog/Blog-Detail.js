@@ -17,11 +17,11 @@ export default function BlogDetail() {
     });
     if (post.statusCode == 200) {
       history.push("/quan-ly-blog");
-      message.success("Cập nhật trạng thái bài viết")
+      message.success("Cập nhật trạng thái bài viết");
     }
   };
   const Blog = async () => {
-    const res = await sendGet(`/posts/admin/${params.id}`);
+    const res = await sendGet(`/posts/admin/${params.id}`, { limit: 100 });
     if (res.statusCode === 200) {
       setData(res.returnValue);
     } else {
@@ -46,7 +46,11 @@ export default function BlogDetail() {
             <Button type="primary" danger onClick={() => handlePost("ACTIVE")}>
               Phê duyệt
             </Button>
-            <Button type="primary" className="button-deny" onClick={() => handlePost("REJECTED")}>
+            <Button
+              type="primary"
+              className="button-deny"
+              onClick={() => handlePost("REJECTED")}
+            >
               Từ chối
             </Button>
             <Button
@@ -62,11 +66,21 @@ export default function BlogDetail() {
             <strong>Tiêu đề: </strong> {data?.title}
           </h2>
           <h3>
-            <strong>Tác giả: {data?.tourGuide != null ? data?.tourGuide.username : data?.user.username} </strong>
+            <strong>
+              Tác giả:{" "}
+              {data?.tourGuide != null
+                ? data?.tourGuide.username
+                : data?.user.username}{" "}
+            </strong>
           </h3>
           <img src={data?.image} alt="ảnh mô tả" className="img-detail" />
-          <div className="content"> <h3><strong>Nội dung ở đây: </strong></h3> <p dangerouslySetInnerHTML={{ __html: data?.currentContent }} /></div>
-
+          <div className="content">
+            {" "}
+            <h3>
+              <strong>Nội dung ở đây: </strong>
+            </h3>{" "}
+            <p dangerouslySetInnerHTML={{ __html: data?.currentContent }} />
+          </div>
         </div>
       </Layout>
     </>

@@ -107,7 +107,10 @@ export default function Interview() {
     }
   };
   const listRequest = async () => {
-    let result = await sendGet(`/tour-guide/admin`, { status: "WAITING_INTERVIEW" });
+    let result = await sendGet(`/tour-guide/admin`, {
+      status: "WAITING_INTERVIEW",
+      limit: 100,
+    });
     if (result.statusCode == 200) {
       message.success("Lấy dữ liệu thành công");
       setData(result.returnValue.data);
@@ -122,7 +125,6 @@ export default function Interview() {
     <>
       <Table
         rowKey={(record) => record.id}
-        scroll={{ y: 500 }}
         className="table-custom-user"
         columns={columns}
         dataSource={data}

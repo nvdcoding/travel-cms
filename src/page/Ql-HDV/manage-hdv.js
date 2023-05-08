@@ -43,8 +43,11 @@ export default function ManageHdv() {
       render: (_, record) => (
         <>
           <div className="table-cell-action">
-
-            <ModalDetailRequest className="modal-delete-user" data={record} listRequest={listRequest} />
+            <ModalDetailRequest
+              className="modal-delete-user"
+              data={record}
+              listRequest={listRequest}
+            />
           </div>
         </>
       ),
@@ -67,7 +70,10 @@ export default function ManageHdv() {
   };
 
   const listRequest = async () => {
-    let result = await sendGet(`/tour-guide/admin`, { status: "PENDING" });
+    let result = await sendGet(`/tour-guide/admin`, {
+      status: "PENDING",
+      limit: 100,
+    });
     if (result.statusCode == 200) {
       message.success("Lấy dữ liệu thành công");
       setData(result.returnValue.data);
@@ -86,7 +92,6 @@ export default function ManageHdv() {
             <Tabs.TabPane tab="Yêu cầu phê duyệt" key="1">
               <Table
                 rowKey={(record) => record.id}
-                scroll={{ y: 500 }}
                 className="table-custom-user"
                 columns={columns}
                 dataSource={data}

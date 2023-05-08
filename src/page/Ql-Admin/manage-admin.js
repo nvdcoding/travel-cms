@@ -97,7 +97,6 @@ function ManageAdmin() {
 
           <Table
             rowKey={(record) => record.id}
-            scroll={{ y: 500 }}
             className="table-custom-user"
             columns={columns}
             dataSource={data}

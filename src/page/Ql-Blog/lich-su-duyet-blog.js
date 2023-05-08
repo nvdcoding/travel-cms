@@ -10,20 +10,12 @@ export default function LichSuDuyetBlog() {
       title: "STT",
       dataIndex: "STT",
       width: "40px",
-      render: (_, record, index) => (
-        <>
-          {index + 1}
-        </>
-      ),
+      render: (_, record, index) => <>{index + 1}</>,
     },
     {
       title: "Ngày tạo",
       dataIndex: "time",
-      render: (_, record) => (
-        <>
-          {new Date(record.createdAt).toLocaleString()}
-        </>
-      ),
+      render: (_, record) => <>{new Date(record.createdAt).toLocaleString()}</>,
     },
     {
       title: "Tiêu đề ",
@@ -34,7 +26,9 @@ export default function LichSuDuyetBlog() {
       dataIndex: "author",
       render: (_, record) => (
         <>
-          {record.tourGuide != null ? record.tourGuide?.username : record.user?.username}
+          {record.tourGuide != null
+            ? record.tourGuide?.username
+            : record.user?.username}
         </>
       ),
     },
@@ -66,7 +60,8 @@ export default function LichSuDuyetBlog() {
   };
   const listBlog = async () => {
     const res = await sendGet("/posts/admin", {
-      status: "ACTIVE"
+      status: "ACTIVE",
+      limit: 100,
     });
     if (res.statusCode === 200) {
       setData(res.returnValue?.data);
@@ -82,7 +77,6 @@ export default function LichSuDuyetBlog() {
     <>
       <Table
         rowKey={(record) => record.id}
-        scroll={{ y: 500 }}
         className="table-custom-user"
         columns={columns}
         dataSource={data}

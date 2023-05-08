@@ -20,7 +20,7 @@ export default function TourDetail() {
     history.push("/quan-ly-tour");
   };
   const dataTour = async () => {
-    const res = await sendGet(`/tours/${params.id}`);
+    const res = await sendGet(`/tours/${params.id}`, { limit: 100 });
     if (res.statusCode == 200) {
       setData(res.data);
     } else {

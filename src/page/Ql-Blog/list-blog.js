@@ -117,20 +117,12 @@ export default function ListBlog() {
       title: "STT",
       dataIndex: "STT",
       width: "40px",
-      render: (_, record, index) => (
-        <>
-          {index + 1}
-        </>
-      ),
+      render: (_, record, index) => <>{index + 1}</>,
     },
     {
       title: "Ngày tạo",
       dataIndex: "time",
-      render: (_, record) => (
-        <>
-          {new Date(record.createdAt).toLocaleString()}
-        </>
-      ),
+      render: (_, record) => <>{new Date(record.createdAt).toLocaleString()}</>,
     },
     {
       title: "Tiêu đề ",
@@ -140,12 +132,7 @@ export default function ListBlog() {
     {
       title: "Tác giả",
       dataIndex: "author",
-      dataIndex: "author",
-      render: (_, record) => (
-        <>
-          {record.tourGuide != null ? record.tourGuide?.username : record.user?.username}
-        </>
-      ),
+      render: (_, record) => <>{record.user?.username}</>,
       ...getColumnSearchProps("author"),
     },
 
@@ -186,7 +173,8 @@ export default function ListBlog() {
   };
   const listBlog = async () => {
     const res = await sendGet("/posts/admin", {
-      status: "REJECTED"
+      status: "REJECTED",
+      limit: 100,
     });
     if (res.statusCode === 200) {
       setData(res.returnValue?.data);
@@ -202,7 +190,6 @@ export default function ListBlog() {
     <>
       <Table
         rowKey={(record) => record.id}
-        scroll={{ y: 500 }}
         className="table-custom-user"
         columns={columns}
         dataSource={data}

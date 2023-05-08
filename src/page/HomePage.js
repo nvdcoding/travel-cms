@@ -7,17 +7,12 @@ import ModalDeleteUser from "../components/modal/user/poupXoaUser";
 import { sendGet } from "../utils/api";
 
 function HomePage() {
-
   const columns = [
     {
       title: "STT",
       dataIndex: "STT",
       width: "40px",
-      render: (_, record, index) => (
-        <>
-          {index + 1}
-        </>
-      ),
+      render: (_, record, index) => <>{index + 1}</>,
     },
     {
       title: "Tên",
@@ -52,9 +47,11 @@ function HomePage() {
       dataIndex: "verifyStatus",
       render: (_, record) => (
         <>
-          {record.verifyStatus == 0 ?
-            'Chưa kích hoạt' : record.verifyStatus == 1 ? "Đang hoạt động" : "Bị khóa"
-          }
+          {record.verifyStatus == 0
+            ? "Chưa kích hoạt"
+            : record.verifyStatus == 1
+            ? "Đang hoạt động"
+            : "Bị khóa"}
         </>
       ),
     },
@@ -64,15 +61,23 @@ function HomePage() {
       render: (_, record) => (
         <>
           <div className="table-cell-action">
-            <ModalactivatedUser className="modal-active-user" data1={record} listUser={listUser} />
-            <ModalDeleteUser className="modal-delete-user" data1={record} listUser={listUser} />
+            <ModalactivatedUser
+              className="modal-active-user"
+              data1={record}
+              listUser={listUser}
+            />
+            <ModalDeleteUser
+              className="modal-delete-user"
+              data1={record}
+              listUser={listUser}
+            />
           </div>
         </>
       ),
     },
   ];
   const { Search } = Input;
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
   const onSearch = (value) => console.log(value);
   const [tableParams, setTableParams] = useState({
     pagination: {
@@ -89,7 +94,7 @@ function HomePage() {
     });
   };
   const listUser = async () => {
-    const res = await sendGet("/users");
+    const res = await sendGet("/users", { limit: 100 });
     if (res.statusCode === 200) {
       setData(res.returnValue?.data);
     } else {
@@ -119,7 +124,6 @@ function HomePage() {
 
           <Table
             rowKey={(record) => record.id}
-            scroll={{ y: 500 }}
             className="table-custom-user"
             columns={columns}
             dataSource={data}

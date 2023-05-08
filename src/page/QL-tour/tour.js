@@ -29,6 +29,7 @@ export default function ListTour() {
     {
       title: "Tỉnh thành",
       dataIndex: "provice",
+      render: (_, record) => <>{record.province?.name}</>,
     },
     {
       title: "Trạng thái",
@@ -61,16 +62,15 @@ export default function ListTour() {
     });
   };
   const ListTour = async () => {
-    const result = await sendGet("/tours");
+    const result = await sendGet("/tours", { limit: 100 });
     if (result.returnValue.data.length >= 0) {
       setData(
         result.returnValue.data.map((e, index) => {
           return {
             ...e,
-            province: e.province?.name ? e.province?.name : "",
-            stt: index,
+            stt: index + 1,
             time: new Date(e.createdAt).toLocaleString(),
-            nameGuide: e.tourGuide?.username,
+            nameGuide: e.tourGuide?.name,
           };
         })
       );
@@ -85,7 +85,6 @@ export default function ListTour() {
     <>
       <Table
         rowKey={(record) => record.id}
-        scroll={{ y: 500 }}
         className="table-custom-user"
         columns={columns}
         dataSource={data}

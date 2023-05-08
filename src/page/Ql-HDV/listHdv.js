@@ -79,7 +79,10 @@ export default function ListHdv() {
     });
   };
   const listRequest = async () => {
-    let result = await sendGet(`/tour-guide/admin`, { status: "ACTIVE" });
+    let result = await sendGet(`/tour-guide/admin`, {
+      status: "ACTIVE",
+      limit: 100,
+    });
     if (result.statusCode == 200) {
       message.success("Lấy dữ liệu thành công");
       setData(result.returnValue.data);
@@ -94,7 +97,6 @@ export default function ListHdv() {
     <>
       <Table
         rowKey={(record) => record.id}
-        scroll={{ y: 500 }}
         className="table-custom-user"
         columns={columns}
         dataSource={data}

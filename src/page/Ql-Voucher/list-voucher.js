@@ -8,7 +8,7 @@ import ModalAddVoucher from "../../components/modal/voucher/popupThemMaGiamGia";
 import { sendGet } from "../../utils/api";
 
 export default function ListVoucher() {
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -32,11 +32,7 @@ export default function ListVoucher() {
       title: "STT",
       dataIndex: "STT",
       width: "40px",
-      render: (_, record, index) => (
-        <>
-          {index + 1}
-        </>
-      ),
+      render: (_, record, index) => <>{index + 1}</>,
     },
     {
       title: "Tên Voucher",
@@ -81,7 +77,11 @@ export default function ListVoucher() {
       render: (_, record) => (
         <>
           <div className="table-cell-action">
-            <ModalEditVoucher className="modal-edit-voucher" data={record} listVoucher={listVoucher} />
+            <ModalEditVoucher
+              className="modal-edit-voucher"
+              data={record}
+              listVoucher={listVoucher}
+            />
           </div>
         </>
       ),
@@ -89,9 +89,9 @@ export default function ListVoucher() {
   ];
 
   const listVoucher = async () => {
-    const result = await sendGet(`/vourchers`);
+    const result = await sendGet(`/vourchers`, { limit: 100 });
     if (result.statusCode == 200) {
-      setData(result.returnValue?.data)
+      setData(result.returnValue?.data);
       message.success("Lấy dữ liệu thành công");
     } else {
       message.error("thất bại");
@@ -113,7 +113,6 @@ export default function ListVoucher() {
 
           <Table
             rowKey={(record) => record.id}
-            scroll={{ y: 500 }}
             className="table-custom-user"
             columns={columns}
             dataSource={data}

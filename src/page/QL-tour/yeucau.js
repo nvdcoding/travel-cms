@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
 import { Table, Button, message } from "antd";
 import { Link } from "react-router-dom";
-import { sendGet } from "../../utils/api";
+import { sendGet, sendPut } from "../../utils/api";
 
 export default function YeuCau() {
   const [data, setData] = useState([]);
@@ -38,13 +38,13 @@ export default function YeuCau() {
               type="primary"
               className="button-accept button-primary"
               danger
-              onClick={() => acceptHDV(record)}
+              onClick={() => acceptTour(record)}
             >
               Chấp nhận
             </Button>
             <Button
               className="button-deny ant-btn-primary"
-              onClick={() => denyHDV(record)}
+              onClick={() => denyTour(record)}
             >
               Từ chối
             </Button>
@@ -70,22 +70,34 @@ export default function YeuCau() {
       ...sorter,
     });
   };
-  const acceptHDV = (values) => {
-    setTimeout(() => {
-      message.success("Thêm HDV thành công");
-    }, 2000);
-
-    console.log("Success:", values);
+  const acceptTour = async (values) => {
+    let result = await sendPut("/tours", {
+      tourId: values.id,
+      action: "APPROVE",
+    });
+    if (result.statusCode === 200) {
+      setData(result.returnValue.data);
+      message.success("Phê duyệt thành công");
+      await ListTour();
+    } else {
+      message.error("thất bại");
+    }
   };
-  const denyHDV = (values) => {
-    setTimeout(() => {
-      message.success("Từ chối duyệt tour");
-    }, 2000);
-
-    console.log("Success:", values);
+  const denyTour = async (values) => {
+    let result = await sendPut("/tours", {
+      tourId: values.id,
+      action: "REJECT",
+    });
+    if (result.statusCode === 200) {
+      setData(result.returnValue.data);
+      message.success("Phê duyệt thành công");
+      await ListTour();
+    } else {
+      message.error("thất bại");
+    }
   };
   const ListTour = async () => {
-    const result = await sendGet("/tours/admin/approve-list");
+    const result = await sendGet("/tours/admin/approve-list", { limit: 100 });
     if (result.returnValue.data.length >= 0) {
       setData(
         result.returnValue.data.map((e, index) => {
@@ -109,7 +121,6 @@ export default function YeuCau() {
     <>
       <Table
         rowKey={(record) => record.id}
-        scroll={{ y: 500 }}
         className="table-custom-user"
         columns={columns}
         dataSource={data}

@@ -14,7 +14,7 @@ function ModalDeleteAdmin({ data1 }) {
   const handleDelete = async () => {
     setOpen(false);
     await sendDelete(`api/user/${data1.id}`);
-    const res = await sendGet("api/user/manage/");
+    const res = await sendGet("api/user/manage/", { limit: 100 });
     if (res.status === 200) {
       // setData(res.data);
       // await props.list();

@@ -12,4 +12,6 @@ export const ROUTES = {
   QLTOUR: "/quan-ly-tour",
   TOURDETAIL: "/quan-ly-tour/:id",
   HETHONG: "/he-thong",
+  RUTTIEN: "/quan-ly-rut-tien",
+
 };

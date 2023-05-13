@@ -109,6 +109,17 @@ const LayoutAdmin = ({ children }) => {
             <Link to="/quan-ly-ma-giam-gia">Mã giảm giá</Link>
           </Menu.Item>
           <Menu.Item
+            key="9"
+            icon={<PayCircleOutlined />}
+            className={
+              active == 9
+                ? "ant-menu-item ant-menu-item-selected"
+                : "ant-menu-item"
+            }
+          >
+            <Link to="/quan-ly-rut-tien">Quản lý rút tiền</Link>
+          </Menu.Item>
+          <Menu.Item
             key="6"
             icon={<PieChartOutlined />}
             className={

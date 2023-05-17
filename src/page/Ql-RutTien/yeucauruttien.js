@@ -17,18 +17,20 @@ export default function YeuCauRutTien() {
     {
       title: "Thời gian yêu cầu",
       dataIndex: "time",
+      render: (_, record) => <>{new Date(record.time).toLocaleString()}</>,
     },
     {
       title: "Mã rút tiền",
-      dataIndex: "name",
+      dataIndex: "id",
     },
     {
       title: "Số tiền",
-      dataIndex: "money",
+      dataIndex: "amount",
     },
     {
-      title: "HDV",
+      title: "Tài khoản ",
       dataIndex: "nameGuide",
+      render: (_, record) => <>{record.user != null ? <>{record.user?.id} -{record.user?.username}</> : <>{record.tourGuide?.id} - {record.tourGuide?.username}</>}</>,
     },
     {
       title: "",
@@ -40,13 +42,13 @@ export default function YeuCauRutTien() {
               type="primary"
               className="button-accept button-primary"
               danger
-              onClick={() => acceptDrawMoney(record)}
+              onClick={() => handleDrawMoney(record, "ACCEPT")}
             >
               Chấp nhận
             </Button>
             <Button
               className="button-deny ant-btn-primary"
-              onClick={() => denyDrawMoney(record)}
+              onClick={() => handleDrawMoney(record, "REJECT")}
             >
               Từ chối
             </Button>
@@ -79,31 +81,17 @@ export default function YeuCauRutTien() {
       ...sorter,
     });
   };
-  const acceptDrawMoney = async (values) => {
-    // let result = await sendPut("/tours", {
-    //   tourId: values.id,
-    //   action: "APPROVE",
-    // });
-    // if (result.statusCode === 200) {
-    //   setData(result.returnValue.data);
-    //   message.success("Phê duyệt thành công");
-    //   await ListTour();
-    // } else {
-    //   message.error("thất bại");
-    // }
-  };
-  const denyDrawMoney = async (values) => {
-    // let result = await sendPut("/tours", {
-    //   tourId: values.id,
-    //   action: "REJECT",
-    // });
-    // if (result.statusCode === 200) {
-    //   setData(result.returnValue.data);
-    //   message.success("Phê duyệt thành công");
-    //   await ListTour();
-    // } else {
-    //   message.error("thất bại");
-    // }
+  const handleDrawMoney = async (values, index) => {
+    let result = await sendPut("/transactions/request-withdraw", {
+      withdrawId: values.id,
+      action: index,
+    });
+    if (result.statusCode === 200) {
+      message.success("Phê duyệt thành công");
+      await ListRequest();
+    } else {
+      message.error("thất bại");
+    }
   };
   const ListRequest = async () => {
     const result = await sendGet("/transactions/request-withdraw", {

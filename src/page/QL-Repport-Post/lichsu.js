@@ -19,11 +19,11 @@ export default function HistoryReport() {
       dataIndex: "time",
       render: (_, record) => <>{new Date(record.createdAt).toLocaleString()}</>,
     },
-    {
-      title: "Mã bài viết",
-      dataIndex: "id",
-      render: (_, record) => <>{record.post.id} - {record.post.title}</>,
-    },
+    // {
+    //   title: "Mã bài viết",
+    //   dataIndex: "id",
+    //   render: (_, record) => <>{record.post.id} - {record.post.title}</>,
+    // },
     {
       title: "Nội dung báo cáo",
       dataIndex: "content",

@@ -91,8 +91,7 @@ export default function RequestReport() {
       action: index,
     });
     if (result.statusCode === 200) {
-      setData(result.returnValue.data);
-      message.success("Đã khóa bài viết");
+      message.success("Đã xóa bài viết");
       await ListRequest();
     } else {
       message.error("thất bại");

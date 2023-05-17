@@ -98,6 +98,28 @@ const LayoutAdmin = ({ children }) => {
             <Link to="/quan-ly-blog">Quản lý bài viết</Link>
           </Menu.Item>
           <Menu.Item
+            key="10"
+            className={
+              active == 10
+                ? "ant-menu-item ant-menu-item-selected"
+                : "ant-menu-item"
+            }
+            icon={<BookOutlined />}
+          >
+            <Link to="/bao-cao-bai-viet">Báo cáo bài viết</Link>
+          </Menu.Item>
+          <Menu.Item
+            key="11"
+            className={
+              active == 11
+                ? "ant-menu-item ant-menu-item-selected"
+                : "ant-menu-item"
+            }
+            icon={<BookOutlined />}
+          >
+            <Link to="/bao-cao-hdv">Báo cáo HDV</Link>
+          </Menu.Item>
+          <Menu.Item
             key="5"
             icon={<PayCircleOutlined />}
             className={
@@ -172,7 +194,6 @@ const LayoutAdmin = ({ children }) => {
             )}
             <h1 className="title-content">Hệ thống</h1>
           </div>
-
         </Header>
         <Content
           className="site-layout-background"

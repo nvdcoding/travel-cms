@@ -50,7 +50,7 @@
   margin-right: 10px;
 }
 
-.ant-form-item-label>label {
+.ant-form-item-label > label {
   font-weight: 500;
   font-size: 16px;
 }
@@ -104,7 +104,7 @@
   border-top: 0;
 }
 
-.ant-collapse>.ant-collapse-item {
+.ant-collapse > .ant-collapse-item {
   border-bottom: 0;
 }
 
@@ -312,4 +312,17 @@
   background-color: #f8f8f8;
   padding: 15px;
   border-radius: 10px;
+}
+.group-search {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.group-search .ant-picker {
+  padding: 7px 11px;
+  width: 80%;
+}
+.group-search .button-add {
+  border-radius: 5px;
 }

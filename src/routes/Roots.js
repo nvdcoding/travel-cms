@@ -14,6 +14,8 @@ const QlTour = lazy(() => import("../page/QL-tour/index"));
 const Hethong = lazy(() => import("../page/Hethong"));
 const TourDetail = lazy(() => import("../page/QL-tour/TourDetail"));
 const Ruttien = lazy(() => import("../page/Ql-RutTien/index"));
+const reportPost = lazy(() => import("../page/QL-Repport-Post/index"));
+const reportHdv = lazy(() => import("../page/QL-Repport-TourGuide/index"));
 
 /**
  * define main pages routes
@@ -48,6 +50,18 @@ const RoutePage = [
     exact: true,
     authen: true,
     component: manageVoucher,
+  },
+  {
+    path: ROUTES.BAOCAOHDV,
+    exact: true,
+    authen: true,
+    component: reportHdv,
+  },
+  {
+    path: ROUTES.BAOCAOPOST,
+    exact: true,
+    authen: true,
+    component: reportPost,
   },
   {
     path: ROUTES.MANAGEBLOG,

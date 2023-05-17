@@ -13,5 +13,6 @@ export const ROUTES = {
   TOURDETAIL: "/quan-ly-tour/:id",
   HETHONG: "/he-thong",
   RUTTIEN: "/quan-ly-rut-tien",
-
+  BAOCAOHDV: "/bao-cao-hdv",
+  BAOCAOPOST: "/bao-cao-bai-viet",
 };

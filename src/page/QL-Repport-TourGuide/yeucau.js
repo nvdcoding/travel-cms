@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
-import { Table, Button, message, DatePicker } from "antd";
+import { Table, Button, message, DatePicker, Modal } from "antd";
 import { Link } from "react-router-dom";
 import { sendGet, sendPut } from "../../utils/api";
 import moment from "moment";
 
-export default function RequestReport() {
+export default function RequestReportHDV() {
   const [data, setData] = useState([]);
+  const [schedule, showSchedule] = useState(false);
+  const [date, setDate] = useState();
+  const handleCancel = () => {
+    showSchedule(false);
+    setDate('');
+  };
   const columns = [
     {
       title: "STT",
@@ -20,13 +26,17 @@ export default function RequestReport() {
       render: (_, record) => <>{new Date(record.createdAt).toLocaleString()}</>,
     },
     {
-      title: "Mã bài viết",
+      title: "Chuyến đi",
       dataIndex: "id",
-      render: (_, record) => <>{record.post.id} - {record.post.title}</>,
+      dataIndex: "time", render: (_, record) => <>{record?.order?.id} -{record?.order?.name}</>,
     },
     {
       title: "Nội dung báo cáo",
       dataIndex: "content",
+    },
+    {
+      title: "Ngày bắt đầu",
+      dataIndex: "time",
     },
     {
       title: "Người báo cáo",
@@ -38,20 +48,47 @@ export default function RequestReport() {
       ),
     },
     {
+      title: "Số lượt cảnh báo",
+      dataIndex: "reportNum",
+      render: (_, record) => <>{record?.order?.tourGuide?.warningTime}</>,
+    },
+    {
       title: "",
       dataIndex: "action",
       render: (_, record) => (
         <>
           <div className="table-cell-action">
             <Button
-              className="button-deny ant-btn-primary"
-              onClick={() => handlePost("DELETE_POST", record)}
+              type="primary"
+              className="button-accept button-primary"
+              danger
+              onClick={() => showSchedule(true)}
             >
-              Xóa
+              Lên lịch
             </Button>
+            <Modal title="" open={schedule} visible={schedule} onOk={() => handleSchedule(record)} footer={null} onCancel={handleCancel}>
+              <h1 className="modal-title">Lên lịch hẹn HDV</h1>
+              <p className="modal-des">Xác nhận lại lịch hẹn và gửi Mail mời làm việc cho HDV</p>
+              <div className="modal-main">
+                <DatePicker onChange={(date) => setDate(date)} />
+              </div><div className="modal-btn">
+                <div
+                  className="button button--primary"
+                  onClick={() => handleSchedule(record)}
+                >
+                  Gửi Email
+                </div>
+                <div
+                  className="button button--normal"
+                  onClick={handleCancel}
+                >
+                  Hủy
+                </div>
+              </div>
+            </Modal>
             <Button
               className="button-deny ant-btn-primary"
-              onClick={() => handlePost("SKIP", record)}
+              onClick={() => handlehdvSkip(record)}
             >
               Bỏ qua
             </Button>
@@ -85,21 +122,38 @@ export default function RequestReport() {
       ...sorter,
     });
   };
-  const handlePost = async (index, values) => {
-    let result = await sendPut("/reports/admin/post", {
-      reportId: values.id,
-      action: index,
-    });
+  const handleSchedule = async (data) => {
+    try {
+      let result = await sendPut("/reports/admin/tourguide-meeting", {
+        reportId: data.id,
+        meetingDate: date,
+      });
+      if (result.statusCode === 200) {
+        message.success("Đã gửi email về HDV");
+        await ListRequest();
+        showSchedule(false);
+        setDate("")
+      } else {
+        message.error("thất bại");
+      }
+    } catch (error) {
+      message.error("Không thành công");
+
+    }
+
+  }
+  const handlehdvSkip = async (values) => {
+    let result = await sendPut(`/reports/admin/resolve-skip-report/${values.id}`);
     if (result.statusCode === 200) {
-      setData(result.returnValue.data);
-      message.success("Đã khóa bài viết");
+      message.success("Đã bỏ qua đánh giá");
       await ListRequest();
     } else {
       message.error("thất bại");
     }
   };
   const ListRequest = async () => {
-    const result = await sendGet("/reports/admin/post", {
+    const result = await sendGet("/reports/admin/tourguide", {
+      status: 2, limit: 100,
       startDate: startDate,
       endDate: endDate,
     });

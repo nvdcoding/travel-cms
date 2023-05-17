@@ -3,8 +3,9 @@ import "../../assets/css/home.css";
 import { Tabs } from "antd";
 import Layout from "../../components/layout/layout";
 import RequestReport from "./yeucau";
+import HistoryReport from "./lichsu";
 export default function ManageReportPost() {
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   return (
     <>
       <Layout>
@@ -13,7 +14,9 @@ export default function ManageReportPost() {
             <Tabs.TabPane tab="Báo cáo bài viết" key="1">
               <RequestReport />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Lịch sử phê duyệt" key="2"></Tabs.TabPane>
+            <Tabs.TabPane tab="Lịch sử phê duyệt" key="2">
+              <HistoryReport />
+            </Tabs.TabPane>
           </Tabs>
           ;
         </div>

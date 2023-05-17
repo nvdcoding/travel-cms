@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 import { sendGet, sendPut } from "../../utils/api";
 import moment from "moment";
 
-export default function HistoryReport() {
+export default function HistoryReportHDV() {
   const [data, setData] = useState([]);
   const columns = [
+
     {
       title: "STT",
       dataIndex: "stt",
@@ -16,17 +17,29 @@ export default function HistoryReport() {
     },
     {
       title: "Thời gian báo cáo",
-      dataIndex: "time",
-      render: (_, record) => <>{new Date(record.createdAt).toLocaleString()}</>,
+      dataIndex: "time", render: (_, record) => <>{new Date(record.createdAt).toLocaleString()}</>,
     },
     {
-      title: "Mã bài viết",
+      title: "Thời gian trao đổi",
+      dataIndex: "meetingDate",
+    },
+    {
+      title: "Chuyến đi",
       dataIndex: "id",
-      render: (_, record) => <>{record.post.id} - {record.post.title}</>,
+      dataIndex: "time", render: (_, record) => <>{record?.order?.id} -{record?.order?.name}</>,
     },
     {
       title: "Nội dung báo cáo",
       dataIndex: "content",
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "satus",
+      render: (_, record) => (
+        <>
+          {record.status == 1 ? 'Đã xử lý' : "Đã bỏ qua"}
+        </>
+      ),
     },
     {
       title: "Người báo cáo",
@@ -64,12 +77,14 @@ export default function HistoryReport() {
     });
   };
   const ListRequest = async () => {
-    const result = await sendGet("/reports/admin/post", {
+    const result = await sendGet("/reports/admin/tourguide", {
+      status: 1,
+      limit: 100,
       startDate: startDate,
       endDate: endDate,
     });
     if (result.returnValue.data.length >= 0) {
-      setData(result.returnValue.data?.filter((item) => item.status == 1));
+      setData(result.returnValue?.data);
     } else {
       message.error("thất bại");
     }

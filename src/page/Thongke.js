@@ -3,65 +3,79 @@ import "../assets/css/home.css";
 import Layout from "../components/layout/layout";
 import { DatePicker, Col, Row, Table } from "antd";
 import moment from "moment";
+import { sendGet } from "../utils/api";
 const columns = [
   {
-    title: "Id",
-    dataIndex: "id",
+    title: "STT",
+    dataIndex: "index",
+    render: (_, record, index) => <>{index + 1}</>,
   },
   {
     title: "Số tiền",
-    dataIndex: "money",
+    dataIndex: "transaction_amount",
     sorter: {
       compare: (a, b) => a.money - b.money,
       multiple: 1,
     },
-    render: (text) => <p>{text} đ</p>,
+    render: (transaction_amount) => <p>{transaction_amount} đ</p>,
   },
   {
     title: "Ví điện tử",
-    dataIndex: "bank",
+    dataIndex: "transaction_wallet",
   },
   {
-    title: "Email",
-    dataIndex: "email",
+    title: "Tài khoản",
+    dataIndex: "account",
+    render: (_, record) => (
+      <>
+        {record.user_id == null ? (
+          <p>
+            {record.tourGuide_id} - {record.tourGuide_name}
+          </p>
+        ) : (
+          <p>
+            {record.user_id} - {record.user_username}
+          </p>
+        )}
+      </>
+    ),
   },
   {
     title: "Loại giao dịch",
-    dataIndex: "type",
-  },
-];
-const data = [
-  {
-    id: "45678921",
-    money: 189000,
-    bank: "Zalo-0978674341",
-    email: "lamdgka@gmail.com",
-    type: 1,
-  },
-  {
-    id: "45673321",
-    money: 121000,
-    bank: "Zalo - 077582368362",
-    email: "lamdgka@gmail.com",
-    type: 1,
-  },
-  {
-    id: "3456781",
-    money: 12000,
-    bank: "Zalo - 0878574621",
-    email: "duynguyen@gmail.com",
-    type: 1,
+    dataIndex: "transaction_type",
+    render: (_, record) => (
+      <p>{record.transaction_type == "DEPOSIT" ? `Nạp tiền` : "Rút tiền"}</p>
+    ),
   },
 ];
 export default function Thongke() {
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
+  const { RangePicker } = DatePicker;
+  const [startDate, setStartDate] = useState(
+    moment().subtract(1, "months").startOf("month").format("YYYY-MM-DD")
+  );
+  const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
+  const dateFormat = "YYYY-MM-DD";
+  const changeDate = (date, dateString) => {
+    setStartDate(dateString[0]);
+    setEndDate(dateString[1]);
+  };
+  const [transaction, setTransaction] = useState([]);
+  const getTransaction = async () => {
+    const res = await sendGet("/transactions/admin", {
+      startDate: startDate,
+      endDate: endDate,
+    });
+    if (res.statusCode == 200) {
+      setTransaction(res?.returnValue?.data);
+    } else {
+      //đơn hàng thất bại
+    }
   };
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
       pageSize: 8,
-      total: data.length,
+      total: transaction?.length,
     },
   });
   const handleTableChange = (pagination, filters, sorter) => {
@@ -71,7 +85,9 @@ export default function Thongke() {
       ...sorter,
     });
   };
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getTransaction();
+  }, []);
   return (
     <>
       <Layout>
@@ -81,12 +97,25 @@ export default function Thongke() {
               Tổng số lượt hoạt động: <span>100</span>
             </h5>
             <div className="select_month">
-              <p>Chọn tháng cần tra cứu</p>
-              <DatePicker
-                onChange={onChange}
-                picker="month"
-                defaultValue={moment()}
-              />
+              <h5 className="sum-title"></h5>
+              <div className="select_month">
+                <div className="time-search">
+                  <RangePicker
+                    defaultValue={[
+                      moment().subtract(1, "months").startOf("month"),
+                      moment(),
+                    ]}
+                    format={dateFormat}
+                    onChange={changeDate}
+                  />
+                  <div
+                    className="btn-time-search button button--primary"
+                    onClick={() => getTransaction()}
+                  >
+                    Tìm kiếm
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="statistical-body">
@@ -133,77 +162,37 @@ export default function Thongke() {
                   </div>
                 </div>
               </Col>
-              <Col xs={24} lg={12} className="statistical-card">
-                <div className="statistical-main">
-                  <div className="statistical-card-header">
-                    <p className="statistical-card-header-name">Thống kê</p>
-                  </div>
-                  <div className="statistical-content">
-                    <ul className="statistical-top">
-                      <li className="statistical-item">
-                        <p className="statistical-name">
-                          Top 3 địa điểm đến trong tháng
-                        </p>
-                        <div className="statistical-top-item">
-                          <span class="number ">1</span>
-                          <span className="statistical-value">Hà Nội</span>
-                        </div>
-                        <div className="statistical-top-item">
-                          <span class="number ">2</span>
-                          <span className="statistical-value">Đà Nẵng</span>
-                        </div>
-                        <div className="statistical-top-item">
-                          <span class="number ">3</span>
-                          <span className="statistical-value">Thái Nguyên</span>
-                        </div>
-                      </li>
-                      <li className="statistical-item">
-                        <p className="statistical-name">Top 3 HDV</p>
-                        <div className="statistical-top-item">
-                          <span class="number ">1</span>
-                          <span className="statistical-value">
-                            Nguyễn Duy - 12356742
-                          </span>
-                        </div>
-                        <div className="statistical-top-item">
-                          <span class="number ">2</span>
-                          <span className="statistical-value">
-                            Nguyễn Duy - 3121234
-                          </span>
-                        </div>
-                        <div className="statistical-top-item">
-                          <span class="number ">3</span>
-                          <span className="statistical-value">
-                            Nguyễn Duy - 54211
-                          </span>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </Col>
             </Row>
             <div className="transaction_history">
               <div className="transaction_header">
                 <h5 className="sum-title">
-                  Tổng số giao dịch trong tháng: <span>100</span>
+                  Giao dịch(<span>{transaction?.length}</span>)
                 </h5>
                 <div className="select_month">
-                  <p>Chọn tháng cần tra cứu</p>
-                  <DatePicker
-                    onChange={onChange}
-                    picker="month"
-                    defaultValue={moment()}
-                  />
+                  <div className="time-search">
+                    <RangePicker
+                      defaultValue={[
+                        moment().subtract(1, "months").startOf("month"),
+                        moment(),
+                      ]}
+                      format={dateFormat}
+                      onChange={changeDate}
+                    />
+                    <div
+                      className="btn-time-search button button--primary"
+                      onClick={() => getTransaction()}
+                    >
+                      Tìm kiếm
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <Table
                 rowKey={(record) => record.id}
-                scroll={{ y: 500 }}
                 className="table-custom-user"
                 columns={columns}
-                dataSource={data}
+                dataSource={transaction}
                 onChange={handleTableChange}
                 pagination={tableParams.pagination}
               />

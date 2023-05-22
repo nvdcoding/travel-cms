@@ -259,3 +259,17 @@ iframe {
 .ant-table-body {
   height: 500px;
 }
+
+.time-search {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.time-search .ant-picker {
+  padding: 7px 11px 7px;
+  margin-right: 20px;
+}
+.time-search .btn-time-search {
+  padding: 7px 10px;
+  border-radius: 4px;
+}

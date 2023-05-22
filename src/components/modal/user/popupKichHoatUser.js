@@ -10,7 +10,7 @@ function ModalactivatedUser({ data1, listUser }) {
   };
   const [data, setData] = useState([]);
   const onFinish = async (values) => {
-    values.userId = data1.id
+    values.userId = data1.id;
     setIsModalVisible(false);
     await sendPut(`/users`, values);
     await listUser();
@@ -44,10 +44,10 @@ function ModalactivatedUser({ data1, listUser }) {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          <Form.Item label="Họ tên" name="name" initialValue={data1?.name}>
+          src/components/modal/user/popupKichHoatUser.js
+          <Form.Item label="Họ tên" name="name" initialValue={data1?.username}>
             <Input disabled={true} />
           </Form.Item>
-
           <Form.Item label="Email" name="email" initialValue={data1?.email}>
             <Input disabled={true} />
           </Form.Item>
@@ -60,12 +60,12 @@ function ModalactivatedUser({ data1, listUser }) {
               allowClear
               options={[
                 {
-                  value: '1',
-                  label: 'Active',
+                  value: "1",
+                  label: "Active",
                 },
                 {
-                  value: '2',
-                  label: 'Khóa',
+                  value: "2",
+                  label: "Khóa",
                 },
               ]}
             />

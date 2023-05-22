@@ -40,7 +40,7 @@ function ModalDeleteUser({ data1, listUser }) {
       >
         <p className="popup-des">
           Bạn muốn xóa tài khoản
-          <span className="popup-des-name">{data1?.name}</span>
+          <span className="popup-des-name">{data1?.username}</span>
         </p>
       </Modal>
     </>

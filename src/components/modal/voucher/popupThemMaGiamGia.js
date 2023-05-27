@@ -36,7 +36,7 @@ function ModalAddVoucher({ listVoucher }) {
   const onFinish = async (values) => {
     values.startDate = values.time[0];
     values.endDate = values.time[1];
-    const result = await sendPost(`/vourchers`, values);
+    const result = await sendPost(`/vouchers`, values);
     if (result.statusCode == 200) {
       await listVoucher();
       message.success("Thêm mã giảm giá thành công");
@@ -124,7 +124,6 @@ function ModalAddVoucher({ listVoucher }) {
               >
                 <InputNumber min={1} max={1000} />
               </Form.Item>{" "}
-
               <Form.Item name="quantity" label="Số lượng" initialValue={10}>
                 <InputNumber min={1} max={1000} placeholder="Số mã giảm giá" />
               </Form.Item>

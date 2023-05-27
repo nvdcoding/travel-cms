@@ -89,7 +89,7 @@ export default function ListVoucher() {
   ];
 
   const listVoucher = async () => {
-    const result = await sendGet(`/vourchers`, { limit: 100 });
+    const result = await sendGet(`/vouchers`, { limit: 100 });
     if (result.statusCode == 200) {
       setData(result.returnValue?.data);
       message.success("Lấy dữ liệu thành công");
@@ -106,7 +106,7 @@ export default function ListVoucher() {
         <div className="home__wrapper">
           <div className="home-header">
             <h5 className="sum-title">
-              Tổng số Mã giảm giá: <span>100</span>
+              Tổng số Mã giảm giá: <span>{data.length}</span>
             </h5>
             <ModalAddVoucher listVoucher={listVoucher} />
           </div>

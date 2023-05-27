@@ -27,7 +27,7 @@ function ModalEditVoucher(props) {
     setOpen(false);
   };
   const onFinish = async (values) => {
-    // const result = await sendPut(`/vourchers/${props.data.id}`, values);
+    // const result = await sendPut(`/vouchers/${props.data.id}`, values);
     // if (result.statusCode == 200) {
     //   message.success("Update thành công");
     //   setOpen(false);
@@ -118,7 +118,7 @@ function ModalEditVoucher(props) {
                 <InputNumber min={1} max={1000} placeholder="Số mã giảm giá" />
               </Form.Item>
             </div>
-            <div className="group" >
+            <div className="group">
               <Form.Item
                 name="discountType"
                 label="Loại mã"
@@ -129,7 +129,8 @@ function ModalEditVoucher(props) {
                   <Option value="1">vnđ</Option>
                 </Select>
               </Form.Item>
-              <Form.Item initialValue={props?.data?.requirementPoint}
+              <Form.Item
+                initialValue={props?.data?.requirementPoint}
                 name="requirementPoint"
                 label="Điểm cần để đổi"
                 rules={[

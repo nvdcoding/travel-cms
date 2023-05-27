@@ -14,14 +14,10 @@ const columns = [
     title: "Số tiền",
     dataIndex: "transaction_amount",
     sorter: {
-      compare: (a, b) => a.money - b.money,
+      compare: (a, b) => a.transaction_amount - b.transaction_amount,
       multiple: 1,
     },
     render: (transaction_amount) => <p>{transaction_amount} đ</p>,
-  },
-  {
-    title: "Ví điện tử",
-    dataIndex: "transaction_wallet",
   },
   {
     title: "Tài khoản",
@@ -44,17 +40,35 @@ const columns = [
     title: "Loại giao dịch",
     dataIndex: "transaction_type",
     render: (_, record) => (
-      <p>{record.transaction_type == "DEPOSIT" ? `Nạp tiền` : "Rút tiền"}</p>
+      <p>
+        {record?.transaction_type == "WITHDRAW"
+          ? "Rút tiền"
+          : record?.transaction_type == "DEPOSIT"
+          ? "Nạp tiền"
+          : record?.transaction_type == "PAY_ORDER"
+          ? "Thanh toán chuyến đi"
+          : record?.transaction_type == "USER_PREPAID_ORDER"
+          ? "Đặt cọc chuyến đi"
+          : record?.transaction_type == "TOURGUIDE_APPROVE_ORDER"
+          ? "Đặt cọc nhận chuyến"
+          : record?.transaction_type == "TOURGUIDE_RECEIVE_ORDER"
+          ? "Lợi nhuận chuyến đi"
+          : record?.transaction_type == "CANCEL_ORDER"
+          ? "Hủy chuyến"
+          : record?.transaction_type == "BACK_PREPAID"
+          ? "Hoàn tiền đặt cọc"
+          : "Giao dịch khác"}
+      </p>
     ),
   },
 ];
 function formatCurrency(price, symbol = "$") {
-  var DecimalSeparator = Number('1.2').toLocaleString().substr(1, 1);
+  var DecimalSeparator = Number("1.2").toLocaleString().substr(1, 1);
   var priceWithCommas = price.toLocaleString();
   var arParts = String(priceWithCommas).split(DecimalSeparator);
   var intPart = arParts[0];
-  var decPart = arParts.length > 1 ? arParts[1] : '';
-  decPart = (decPart + '00').substr(0, 2);
+  var decPart = arParts.length > 1 ? arParts[1] : "";
+  decPart = (decPart + "00").substr(0, 2);
   return symbol + intPart + DecimalSeparator + decPart;
 }
 export default function Thongke() {
@@ -105,27 +119,22 @@ export default function Thongke() {
       <Layout>
         <div className="home__wrapper">
           <div className="home-header">
-            <h5 className="sum-title">
-              Tổng số lượt hoạt động: <span>100</span>
-            </h5>
+            <h5 className="sum-title"></h5>
             <div className="select_month">
-              <h5 className="sum-title"></h5>
-              <div className="select_month">
-                <div className="time-search">
-                  <RangePicker
-                    defaultValue={[
-                      moment().subtract(1, "months").startOf("month"),
-                      moment(),
-                    ]}
-                    format={dateFormat}
-                    onChange={changeDate}
-                  />
-                  <div
-                    className="btn-time-search button button--primary"
-                    onClick={() => getTransaction()}
-                  >
-                    Tìm kiếm
-                  </div>
+              <div className="time-search">
+                <RangePicker
+                  defaultValue={[
+                    moment().subtract(1, "months").startOf("month"),
+                    moment(),
+                  ]}
+                  format={dateFormat}
+                  onChange={changeDate}
+                />
+                <div
+                  className="btn-time-search button button--primary"
+                  onClick={() => getTransaction()}
+                >
+                  Tìm kiếm
                 </div>
               </div>
             </div>
@@ -149,12 +158,21 @@ export default function Thongke() {
                       <li className="statistical-item">
                         <p className="statistical-name">Tổng doanh thu</p>
                         <span className="statistical-value">
-                          {+options.totalProfit ? formatCurrency(+options.totalProfit, "VNĐ ").split(" ").reverse().join(" ").split(".")[0] : 0} VNĐ
+                          {+options.totalProfit
+                            ? formatCurrency(+options.totalProfit, "VNĐ ")
+                                .split(" ")
+                                .reverse()
+                                .join(" ")
+                                .split(".")[0]
+                            : 0}{" "}
+                          VNĐ
                         </span>
                       </li>
                       <li className="statistical-item">
                         <p className="statistical-name">Số tour đã thực hiện</p>
-                        <span className="statistical-value">{options.numOfOrders} tour</span>
+                        <span className="statistical-value">
+                          {options.numOfOrders} tour
+                        </span>
                       </li>
                       <li className="statistical-item">
                         <p className="statistical-name">
@@ -164,11 +182,15 @@ export default function Thongke() {
                       </li>
                       <li className="statistical-item">
                         <p className="statistical-name">Số đánh giá tích cực</p>
-                        <span className="statistical-value">{options.goodRates} đánh giá</span>
+                        <span className="statistical-value">
+                          {options.goodRates} đánh giá
+                        </span>
                       </li>
                       <li className="statistical-item">
                         <p className="statistical-name">Số đánh giá tiêu cực</p>
-                        <span className="statistical-value">{options.badRates} đánh giá</span>
+                        <span className="statistical-value">
+                          {options.badRates} đánh giá
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -180,24 +202,6 @@ export default function Thongke() {
                 <h5 className="sum-title">
                   Giao dịch(<span>{transaction?.length}</span>)
                 </h5>
-                <div className="select_month">
-                  <div className="time-search">
-                    <RangePicker
-                      defaultValue={[
-                        moment().subtract(1, "months").startOf("month"),
-                        moment(),
-                      ]}
-                      format={dateFormat}
-                      onChange={changeDate}
-                    />
-                    <div
-                      className="btn-time-search button button--primary"
-                      onClick={() => getTransaction()}
-                    >
-                      Tìm kiếm
-                    </div>
-                  </div>
-                </div>
               </div>
 
               <Table

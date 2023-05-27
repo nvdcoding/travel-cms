@@ -48,12 +48,23 @@ const columns = [
     ),
   },
 ];
+function formatCurrency(price, symbol = "$") {
+  var DecimalSeparator = Number('1.2').toLocaleString().substr(1, 1);
+  var priceWithCommas = price.toLocaleString();
+  var arParts = String(priceWithCommas).split(DecimalSeparator);
+  var intPart = arParts[0];
+  var decPart = arParts.length > 1 ? arParts[1] : '';
+  decPart = (decPart + '00').substr(0, 2);
+  return symbol + intPart + DecimalSeparator + decPart;
+}
 export default function Thongke() {
   const { RangePicker } = DatePicker;
   const [startDate, setStartDate] = useState(
     moment().subtract(1, "months").startOf("month").format("YYYY-MM-DD")
   );
   const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
+  const [options, setOptions] = useState({});
+
   const dateFormat = "YYYY-MM-DD";
   const changeDate = (date, dateString) => {
     setStartDate(dateString[0]);
@@ -67,6 +78,7 @@ export default function Thongke() {
     });
     if (res.statusCode == 200) {
       setTransaction(res?.returnValue?.data);
+      setOptions(res.options);
     } else {
       //đơn hàng thất bại
     }
@@ -137,26 +149,26 @@ export default function Thongke() {
                       <li className="statistical-item">
                         <p className="statistical-name">Tổng doanh thu</p>
                         <span className="statistical-value">
-                          10,000,000 VNĐ
+                          {+options.totalProfit ? formatCurrency(+options.totalProfit, "VNĐ ").split(" ").reverse().join(" ").split(".")[0] : 0} VNĐ
                         </span>
                       </li>
                       <li className="statistical-item">
                         <p className="statistical-name">Số tour đã thực hiện</p>
-                        <span className="statistical-value">100 tour</span>
+                        <span className="statistical-value">{options.numOfOrders} tour</span>
                       </li>
                       <li className="statistical-item">
                         <p className="statistical-name">
                           Số bài viết được duyệt
                         </p>
-                        <span className="statistical-value">100 bài viết</span>
+                        <span className="statistical-value">82 bài viết</span>
                       </li>
                       <li className="statistical-item">
                         <p className="statistical-name">Số đánh giá tích cực</p>
-                        <span className="statistical-value">100 đánh giá</span>
+                        <span className="statistical-value">{options.goodRates} đánh giá</span>
                       </li>
                       <li className="statistical-item">
                         <p className="statistical-name">Số đánh giá tiêu cực</p>
-                        <span className="statistical-value">5 đánh giá</span>
+                        <span className="statistical-value">{options.badRates} đánh giá</span>
                       </li>
                     </ul>
                   </div>

@@ -22,11 +22,9 @@ export default function Hethong() {
     try {
       values.commission = parseInt(values.commission);
       values.returnUserPercent = parseInt(values.returnUserPercent);
-      values.warningTime = parseInt(values.warningTime)
-        ? parseInt(values.warningTime)
-        : 3;
+      values.warningTime = parseInt(values.warningTime);
       values.tourGuidePrepaidOrder = parseInt(values.tourGuidePrepaidOrder);
-
+      values.commission = 100 - parseInt(values.commission);
       let result = await sendPut("/setting", values);
       if (result.statusCode === 200) {
         message.success("Update thành công");
@@ -68,19 +66,39 @@ export default function Hethong() {
               >
                 <Input />
               </Form.Item>
+              <p className="setting-note">
+                Số phần trăm giá trị chuyến đi mà HDV cần đặt cọc để xác nhận
+                tour
+              </p>
+              <p className="setting-note">
+                Điều này đảm bảo quyền lợi cho cả HDV và khách du lịch
+              </p>
+              <p className="setting-note">
+                Số tiền được hoàn lại sau khi kết thúc chuyến đi
+              </p>
               <Form.Item
                 label="Số lần cảnh báo HDV"
-                name="commission"
+                name="warningTime"
                 rules={[
                   {
                     required: true,
                     message: "Số lần cảnh báo HDV không đưọc để trống!",
                   },
                 ]}
-                initialValue={data?.commission}
+                initialValue={data?.warningTime}
               >
                 <Input />
               </Form.Item>
+              <p className="setting-note">
+                Số phần trăm giá trị chuyến đi mà HDV cần đặt cọc để xác nhận
+                tour
+              </p>
+              <p className="setting-note">
+                Điều này đảm bảo quyền lợi cho cả HDV và khách du lịch
+              </p>
+              <p className="setting-note">
+                Số tiền được hoàn lại sau khi kết thúc chuyến đi
+              </p>
               <Form.Item
                 label="Tỉ lệ phần trăm đền bù user"
                 name="returnUserPercent"
@@ -94,19 +112,25 @@ export default function Hethong() {
               >
                 <Input />
               </Form.Item>
+              <p className="setting-note">
+                Số tiền được hoàn lại user khi báo cáo HDV thành công
+              </p>
               <Form.Item
                 label="Hoa hồng hệ thống"
-                name="balance"
+                name="commission"
                 rules={[
                   {
                     required: true,
                     message: "Hoa hồng hệ thống!",
                   },
                 ]}
-                initialValue={data?.balance}
+                initialValue={100 - data?.commission}
               >
                 <Input />
               </Form.Item>
+              <p className="setting-note">
+                Phần trăm hệ thống nhận được sau khi kết thúc chuyến đi
+              </p>
               <Form.Item>
                 <div className="btn-setting group-button">
                   <Button

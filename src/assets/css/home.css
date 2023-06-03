@@ -484,3 +484,14 @@
 .btn-setting {
   margin-top: 40px;
 }
+.setting-note {
+  color: #ff5959;
+  font-size: 13px;
+  font-style: italic;
+}
+.main-setting label.ant-form-item-required {
+  font-size: 18px;
+  font-weight: 600;
+  color: #505050;
+  margin-top: 20px;
+}

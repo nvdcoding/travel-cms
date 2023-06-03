@@ -11,11 +11,16 @@ function ModalDeleteUser({ data1, listUser }) {
     setOpen(false);
   };
   const handleDelete = async () => {
-    setOpen(false);
-    let res = await sendDelete(`/users/${data1.id}`);
-    if (res.statusCode === 200) {
-      await listUser();
-    } else {
+    try {
+      setOpen(false);
+      let res = await sendDelete(`/users/${data1.id}`);
+      if (res.statusCode === 200) {
+        await listUser();
+        message.success("Xóa User thành công");
+      } else {
+        message.error("Xóa User thất bại");
+      }
+    } catch (error) {
       message.error("Xóa User thất bại");
     }
   };

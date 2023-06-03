@@ -39,10 +39,6 @@ export default function LichSuDuyetBlog() {
         <>{status === "ACTIVE" ? <p>Chấp nhận</p> : <p>Từ chối</p>}</>
       ),
     },
-    {
-      title: "Người duyệt",
-      dataIndex: "approvedBy",
-    },
   ];
   const [tableParams, setTableParams] = useState({
     pagination: {

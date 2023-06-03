@@ -12,13 +12,17 @@ function ModalDeleteAdmin({ data1 }) {
     setOpen(false);
   };
   const handleDelete = async () => {
-    setOpen(false);
-    await sendDelete(`api/user/${data1.id}`);
-    const res = await sendGet("api/user/manage/", { limit: 100 });
-    if (res.status === 200) {
-      // setData(res.data);
-      // await props.list();
-    } else {
+    try {
+      setOpen(false);
+      await sendDelete(`api/user/${data1.id}`);
+      const res = await sendGet("api/user/manage/", { limit: 100 });
+      if (res.status === 200) {
+        // setData(res.data);
+        // await props.list();
+      } else {
+        message.error("Xóa User thất bại");
+      }
+    } catch (error) {
       message.error("Xóa User thất bại");
     }
   };

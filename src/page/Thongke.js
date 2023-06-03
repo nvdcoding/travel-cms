@@ -86,16 +86,18 @@ export default function Thongke() {
   };
   const [transaction, setTransaction] = useState([]);
   const getTransaction = async () => {
-    const res = await sendGet("/transactions/admin", {
-      startDate: startDate,
-      endDate: endDate,
-    });
-    if (res.statusCode == 200) {
-      setTransaction(res?.returnValue?.data);
-      setOptions(res.options);
-    } else {
-      //đơn hàng thất bại
-    }
+    try {
+      const res = await sendGet("/transactions/admin", {
+        startDate: startDate,
+        endDate: endDate,
+      });
+      if (res.statusCode == 200) {
+        setTransaction(res?.returnValue?.data);
+        setOptions(res.options);
+      } else {
+        //đơn hàng thất bại
+      }
+    } catch (error) {}
   };
   const [tableParams, setTableParams] = useState({
     pagination: {

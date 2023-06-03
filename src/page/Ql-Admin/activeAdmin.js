@@ -10,20 +10,23 @@ export default function ActiveAdmin() {
   const history = useHistory();
   const params = useParams();
   const onFinish = async (values) => {
-    values.token = params.token;
-    let res = await sendPost("/admin/active-admin", values);
-    if (res.statusCode === 200) {
-      message.success("Active thành công");
-      history.push("/dang-nhap");
-
-    } else {
+    try {
+      values.token = params.token;
+      let res = await sendPost("/admin/active-admin", values);
+      if (res.statusCode === 200) {
+        message.success("Active thành công");
+        history.push("/dang-nhap");
+      } else {
+        message.error("Có lỗi hệ thống");
+      }
+    } catch (error) {
       message.error("Có lỗi hệ thống");
     }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
   return (
     <>
       <div className="active-admin-wrapper">

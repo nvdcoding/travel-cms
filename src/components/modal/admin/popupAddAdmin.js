@@ -16,11 +16,15 @@ function ModalAddAdmin({ listAdmin }) {
     setOpen(false);
   };
   const onFinish = async (values) => {
-    const res = await sendPost("/admin", values);
-    if (res.statusCode === 200) {
-      setOpen(false);
-      message.success("Tạo tài khoản thành công");
-    } else {
+    try {
+      const res = await sendPost("/admin", values);
+      if (res.statusCode === 200) {
+        setOpen(false);
+        message.success("Tạo tài khoản thành công");
+      } else {
+        message.error("Có lỗi hệ thống");
+      }
+    } catch (error) {
       message.error("Có lỗi hệ thống");
     }
   };

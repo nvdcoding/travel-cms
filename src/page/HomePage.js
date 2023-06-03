@@ -94,10 +94,14 @@ function HomePage() {
     });
   };
   const listUser = async () => {
-    const res = await sendGet("/users", { limit: 100 });
-    if (res.statusCode === 200) {
-      setData(res.returnValue?.data);
-    } else {
+    try {
+      const res = await sendGet("/users", { limit: 100 });
+      if (res.statusCode === 200) {
+        setData(res.returnValue?.data);
+      } else {
+        message.error("Cập nhật User thất bại");
+      }
+    } catch (error) {
       message.error("Cập nhật User thất bại");
     }
   };

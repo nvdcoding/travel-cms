@@ -9,15 +9,19 @@ import { sendPost } from "../utils/api";
 export default function SignIn() {
   const history = useHistory();
   const onFinish = async (values) => {
-    const res = await sendPost("/auth/login-admin", values);
-    if (res.statusCode === 200) {
-      message.success("Đăng nhập thành công");
+    try {
+      const res = await sendPost("/auth/login-admin", values);
+      if (res.statusCode === 200) {
+        message.success("Đăng nhập thành công");
 
-      setToken(res.returnValue.accessToken);
-      setRefreshToken(res.returnValue.refreshToken);
-      // setItem("user", JSON.stringify(res.userData));
-      history.push("/");
-    } else {
+        setToken(res.returnValue.accessToken);
+        setRefreshToken(res.returnValue.refreshToken);
+        // setItem("user", JSON.stringify(res.userData));
+        history.push("/");
+      } else {
+        return message.error("Tài khoản không tồn tại");
+      }
+    } catch (error) {
       return message.error("Tài khoản không tồn tại");
     }
   };

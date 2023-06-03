@@ -80,7 +80,7 @@ export default function YeuCau() {
       message.success("Phê duyệt thành công");
       await ListTour();
     } else {
-      message.error("thất bại");
+      message.error("Thất bại");
     }
   };
   const denyTour = async (values) => {
@@ -89,11 +89,10 @@ export default function YeuCau() {
       action: "REJECT",
     });
     if (result.statusCode === 200) {
-      setData(result.returnValue.data);
-      message.success("Phê duyệt thành công");
+      message.success("Từ chối thành công");
       await ListTour();
     } else {
-      message.error("thất bại");
+      message.error("Thất bại");
     }
   };
   const ListTour = async () => {

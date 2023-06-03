@@ -34,6 +34,9 @@ export default function ListTour() {
     {
       title: "Trạng thái",
       dataIndex: "status",
+      render: (_, record) => (
+        <>{record.status == 1 ? "Đang hoạt động" : "Đang khóa"}</>
+      ),
     },
     {
       title: "",

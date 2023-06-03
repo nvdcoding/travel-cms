@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
 import { Table, message } from "antd";
 import { sendGet } from "../../utils/api";
+import ModalactivatedHdv from "../../components/modal/hdv/popupKichHoatHdv";
+import ModalDeleteHdv from "../../components/modal/hdv/poupXoaHdv";
 
-export default function LichSuPheDuyet() {
+export default function ListHdvLock() {
   const columns = [
     {
       title: "STT",
@@ -16,7 +18,7 @@ export default function LichSuPheDuyet() {
       ),
     },
     {
-      title: "Thời gian từ chối",
+      title: "Ngày kích hoạt",
       dataIndex: "createdAt",
       render: (_, record) => <>{new Date(record.createdAt).toLocaleString()}</>,
     },
@@ -28,9 +30,47 @@ export default function LichSuPheDuyet() {
       title: "Địa chỉ Email",
       dataIndex: "email",
     },
+    {
+      title: "SDT",
+      dataIndex: "phone",
+    },
+    {
+      title: "Tỉnh thành",
+      dataIndex: "provice",
+      render: (_, record) => (
+        <>
+          {record.provinces?.map((item, key) => (
+            <p key={key}>{item?.name} -</p>
+          ))}
+        </>
+      ),
+    },
+    {
+      title: "Số tiền giao dịch",
+      dataIndex: "availableBalance",
+    },
+    {
+      title: "",
+      dataIndex: "action",
+      render: (_, record) => (
+        <>
+          <div className="table-cell-action">
+            <ModalactivatedHdv
+              className="modal-active-user"
+              data={record}
+              listRequest={listRequest}
+            />
+            <ModalDeleteHdv
+              className="modal-delete-user"
+              data={record}
+              listRequest={listRequest}
+            />
+          </div>
+        </>
+      ),
+    },
   ];
   const [data, setData] = useState([]);
-
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -47,7 +87,7 @@ export default function LichSuPheDuyet() {
   };
   const listRequest = async () => {
     let result = await sendGet(`/tour-guide/admin`, {
-      status: "REJECT",
+      status: "INACTIVE",
       limit: 100,
     });
     if (result.statusCode == 200) {

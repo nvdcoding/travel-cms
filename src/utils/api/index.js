@@ -25,7 +25,7 @@ axiosInstance.interceptors.request.use(
 const logout = () => {
   clearToken();
   clearRefreshToken();
-  history.replace("/");
+  window.location.replace("/dang-nhap");
 };
 
 axiosInstance.interceptors.response.use(
@@ -39,34 +39,11 @@ axiosInstance.interceptors.response.use(
 
     if (error?.response?.status === 401) {
       const refreshToken = getRefreshToken();
-      if (refreshToken) {
+      if (!refreshToken) {
         logout();
 
         return Promise.reject(error);
       }
-      // return Axios.get(
-      //   `https://api.ktravel.online/api/auth/refresh-token`,
-      //   {
-      //     params: {
-      //       refreshToken,
-      //     },
-      //   }
-      // )
-      //   .then((res) => {
-      //     if (res.status === 200) {
-      //       const token = res.data?.data;
-      //       setToken(token);
-      //       originalConfig.headers.Authorization = `Bearer ${token}`;
-      //       return Axios(originalConfig);
-      //     } else {
-      //       logout();
-      //       return Promise.reject(error);
-      //     }
-      //   })
-      //   .catch(() => {
-      //     logout();
-      //     return Promise.reject(error);
-      //   });
     }
     return Promise.reject(error);
   }

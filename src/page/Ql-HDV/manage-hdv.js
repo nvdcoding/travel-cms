@@ -8,6 +8,7 @@ import LichSuPheDuyet from "./lich-su-phe-duyet";
 import ListHdv from "./listHdv";
 import { sendGet } from "../../utils/api";
 import Interview from "./interview";
+import ListHdvLock from "./listHdvLock";
 
 export default function ManageHdv() {
   const columns = [
@@ -36,6 +37,13 @@ export default function ManageHdv() {
     {
       title: "Tỉnh thành",
       dataIndex: "provinceName",
+      render: (_, record) => (
+        <>
+          {record.provinces?.map((item, key) => (
+            <p key={key}>{item?.name} -</p>
+          ))}
+        </>
+      ),
     },
     {
       title: "",
@@ -105,8 +113,11 @@ export default function ManageHdv() {
             <Tabs.TabPane tab="Đã từ chối " key="3">
               <LichSuPheDuyet />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Hướng dẫn viên" key="4">
+            <Tabs.TabPane tab="Đang hoạt động" key="4">
               <ListHdv />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Đang khóa" key="5">
+              <ListHdvLock />
             </Tabs.TabPane>
           </Tabs>
           ;

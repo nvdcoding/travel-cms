@@ -2,18 +2,17 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Modal, Select, Switch, message } from "antd";
 import { sendGet, sendPut } from "../../../utils/api";
-function ModalactivatedUser({ data1, listUser }) {
+function ModalactivatedHdv({ data, listRequest }) {
   const { Option } = Select;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  const [data, setData] = useState([]);
   const onFinish = async (values) => {
-    values.userId = data1.id;
+    values.tourGuideId = data.id;
     setIsModalVisible(false);
-    await sendPut(`/users`, values);
-    await listUser();
+    await sendPut(`/tour-guide`, values);
+    await listRequest();
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -44,10 +43,10 @@ function ModalactivatedUser({ data1, listUser }) {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          <Form.Item label="Họ tên" name="name" initialValue={data1?.username}>
+          <Form.Item label="Họ tên" name="name" initialValue={data?.username}>
             <Input disabled={true} />
           </Form.Item>
-          <Form.Item label="Email" name="email" initialValue={data1?.email}>
+          <Form.Item label="Email" name="email" initialValue={data?.email}>
             <Input disabled={true} />
           </Form.Item>
           <Form.Item
@@ -59,11 +58,11 @@ function ModalactivatedUser({ data1, listUser }) {
               allowClear
               options={[
                 {
-                  value: "1",
+                  value: "ACTIVE",
                   label: "Active",
                 },
                 {
-                  value: "2",
+                  value: "INACTIVE",
                   label: "Khóa",
                 },
               ]}
@@ -94,4 +93,4 @@ function ModalactivatedUser({ data1, listUser }) {
     </>
   );
 }
-export default ModalactivatedUser;
+export default ModalactivatedHdv;

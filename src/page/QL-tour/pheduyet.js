@@ -40,10 +40,6 @@ export default function PheDuyet() {
         <>{record.status == 1 ? "Đang hoạt động" : "Bị khóa"}</>
       ),
     },
-    {
-      title: "Người duyệt",
-      dataIndex: "approvedBy",
-    },
   ];
   const [tableParams, setTableParams] = useState({
     pagination: {

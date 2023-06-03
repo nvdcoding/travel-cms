@@ -18,6 +18,7 @@ export default function Interview() {
     {
       title: "Thời gian phê duyệt",
       dataIndex: "createdAt",
+      render: (_, record) => <>{new Date(record.createdAt).toLocaleString()}</>,
     },
     {
       title: "Username",
@@ -30,14 +31,17 @@ export default function Interview() {
     {
       title: "Tỉnh thành",
       dataIndex: "provice",
+      render: (_, record) => (
+        <>
+          {record.provinces?.map((item, index) => {
+            <p key={index}>{item?.name} -</p>;
+          })}
+        </>
+      ),
     },
     {
       title: "Ngày hẹn PV",
       dataIndex: "interviewDate",
-    },
-    {
-      title: "Người duyệt",
-      dataIndex: "approvedBy",
     },
     {
       title: "",

@@ -16,9 +16,9 @@ export default function ManageTour() {
             <Tabs.TabPane tab="Yêu cầu phê duyệt" key="1">
               <YeuCau />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Lịch sử phê duyệt" key="2">
+            {/* <Tabs.TabPane tab="Lịch sử phê duyệt" key="2">
               <PheDuyet />
-            </Tabs.TabPane>
+            </Tabs.TabPane> */}
             <Tabs.TabPane tab="Danh sách tour" key="3">
               <Tour />
             </Tabs.TabPane>

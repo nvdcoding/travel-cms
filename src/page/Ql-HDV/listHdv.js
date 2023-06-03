@@ -6,6 +6,8 @@ import { Table, message } from "antd";
 import ModalactivatedUser from "../../components/modal/user/popupKichHoatUser";
 import ModalDeleteUser from "../../components/modal/user/poupXoaUser";
 import { sendGet } from "../../utils/api";
+import ModalactivatedHdv from "../../components/modal/hdv/popupKichHoatHdv";
+import ModalDeleteHdv from "../../components/modal/hdv/poupXoaHdv";
 
 export default function ListHdv() {
   const columns = [
@@ -21,6 +23,7 @@ export default function ListHdv() {
     {
       title: "Ngày kích hoạt",
       dataIndex: "createdAt",
+      render: (_, record) => <>{new Date(record.createdAt).toLocaleString()}</>,
     },
     {
       title: "Username",
@@ -35,20 +38,19 @@ export default function ListHdv() {
       dataIndex: "phone",
     },
     {
-      title: "Tour đã thực hiện",
-      dataIndex: "tour",
-    },
-    {
       title: "Tỉnh thành",
       dataIndex: "provice",
+      render: (_, record) => (
+        <>
+          {record.provinces?.map((item, key) => (
+            <p key={key}>{item?.name} -</p>
+          ))}
+        </>
+      ),
     },
     {
       title: "Số tiền giao dịch",
-      dataIndex: "money",
-    },
-    {
-      title: "Trạng thái",
-      dataIndex: "status",
+      dataIndex: "availableBalance",
     },
     {
       title: "",
@@ -56,8 +58,16 @@ export default function ListHdv() {
       render: (_, record) => (
         <>
           <div className="table-cell-action">
-            <ModalactivatedUser className="modal-active-user" data={record} />
-            <ModalDeleteUser className="modal-delete-user" data={record} />
+            <ModalactivatedHdv
+              className="modal-active-user"
+              data={record}
+              listRequest={listRequest}
+            />
+            <ModalDeleteHdv
+              className="modal-delete-user"
+              data={record}
+              listRequest={listRequest}
+            />
           </div>
         </>
       ),

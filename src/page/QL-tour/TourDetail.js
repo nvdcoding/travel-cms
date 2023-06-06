@@ -20,11 +20,17 @@ export default function TourDetail() {
     history.push("/quan-ly-tour");
   };
   const dataTour = async () => {
-    const res = await sendGet(`/tours/${params.id}`, { limit: 100 });
-    if (res.statusCode == 200) {
-      setData(res.data);
-    } else {
-      message.error("Lỗi hệ thống");
+    try {
+      const res = await sendGet(`/tours/${params.id}`, { limit: 100 });
+      if (res.statusCode == 200) {
+        setData(res.data);
+      } else {
+        message.error("Lỗi hệ thống");
+      }
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
     }
   };
   useEffect(() => {

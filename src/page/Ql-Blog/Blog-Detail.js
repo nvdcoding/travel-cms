@@ -21,11 +21,17 @@ export default function BlogDetail() {
     }
   };
   const Blog = async () => {
-    const res = await sendGet(`/posts/admin/${params.id}`, { limit: 100 });
-    if (res.statusCode === 200) {
-      setData(res.returnValue);
-    } else {
-      message.error("Cập nhật khóa học thất bại");
+    try {
+      const res = await sendGet(`/posts/admin/${params.id}`, { limit: 100 });
+      if (res.statusCode === 200) {
+        setData(res.returnValue);
+      } else {
+        message.error("Cập nhật khóa học thất bại");
+      }
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
     }
   };
   useEffect(() => {

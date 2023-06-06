@@ -11,7 +11,7 @@ export default function RequestReportHDV() {
   const [date, setDate] = useState();
   const handleCancel = () => {
     showSchedule(false);
-    setDate('');
+    setDate("");
   };
   const columns = [
     {
@@ -28,7 +28,12 @@ export default function RequestReportHDV() {
     {
       title: "Chuyến đi",
       dataIndex: "id",
-      dataIndex: "time", render: (_, record) => <>{record?.order?.id} -{record?.order?.name}</>,
+      dataIndex: "time",
+      render: (_, record) => (
+        <>
+          {record?.order?.id} -{record?.order?.name}
+        </>
+      ),
     },
     {
       title: "Nội dung báo cáo",
@@ -66,22 +71,29 @@ export default function RequestReportHDV() {
             >
               Lên lịch
             </Button>
-            <Modal title="" open={schedule} visible={schedule} onOk={() => handleSchedule(record)} footer={null} onCancel={handleCancel}>
+            <Modal
+              title=""
+              open={schedule}
+              visible={schedule}
+              onOk={() => handleSchedule(record)}
+              footer={null}
+              onCancel={handleCancel}
+            >
               <h1 className="modal-title">Lên lịch hẹn HDV</h1>
-              <p className="modal-des">Xác nhận lại lịch hẹn và gửi Mail mời làm việc cho HDV</p>
+              <p className="modal-des">
+                Xác nhận lại lịch hẹn và gửi Mail mời làm việc cho HDV
+              </p>
               <div className="modal-main">
                 <DatePicker onChange={(date) => setDate(date)} />
-              </div><div className="modal-btn">
+              </div>
+              <div className="modal-btn">
                 <div
                   className="button button--primary"
                   onClick={() => handleSchedule(record)}
                 >
                   Gửi Email
                 </div>
-                <div
-                  className="button button--normal"
-                  onClick={handleCancel}
-                >
+                <div className="button button--normal" onClick={handleCancel}>
                   Hủy
                 </div>
               </div>
@@ -132,18 +144,18 @@ export default function RequestReportHDV() {
         message.success("Đã gửi email về HDV");
         await ListRequest();
         showSchedule(false);
-        setDate("")
+        setDate("");
       } else {
         message.error("thất bại");
       }
     } catch (error) {
       message.error("Không thành công");
-
     }
-
-  }
+  };
   const handlehdvSkip = async (values) => {
-    let result = await sendPut(`/reports/admin/resolve-skip-report/${values.id}`);
+    let result = await sendPut(
+      `/reports/admin/resolve-skip-report/${values.id}`
+    );
     if (result.statusCode === 200) {
       message.success("Đã bỏ qua đánh giá");
       await ListRequest();
@@ -152,15 +164,22 @@ export default function RequestReportHDV() {
     }
   };
   const ListRequest = async () => {
-    const result = await sendGet("/reports/admin/tourguide", {
-      status: 2, limit: 100,
-      startDate: startDate,
-      endDate: endDate,
-    });
-    if (result.returnValue.data.length >= 0) {
-      setData(result.returnValue.data?.filter((item) => item.status == 0));
-    } else {
-      message.error("thất bại");
+    try {
+      const result = await sendGet("/reports/admin/tourguide", {
+        status: 2,
+        limit: 100,
+        startDate: startDate,
+        endDate: endDate,
+      });
+      if (result.returnValue.data.length >= 0) {
+        setData(result.returnValue.data?.filter((item) => item.status == 0));
+      } else {
+        message.error("thất bại");
+      }
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
     }
   };
   useEffect(() => {

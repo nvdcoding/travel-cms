@@ -78,15 +78,21 @@ export default function ManageHdv() {
   };
 
   const listRequest = async () => {
-    let result = await sendGet(`/tour-guide/admin`, {
-      status: "PENDING",
-      limit: 100,
-    });
-    if (result.statusCode == 200) {
-      message.success("Lấy dữ liệu thành công");
-      setData(result.returnValue.data);
-    } else {
-      message.error("thất bại");
+    try {
+      let result = await sendGet(`/tour-guide/admin`, {
+        status: "PENDING",
+        limit: 100,
+      });
+      if (result.statusCode == 200) {
+        message.success("Lấy dữ liệu thành công");
+        setData(result.returnValue.data);
+      } else {
+        message.error("thất bại");
+      }
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
     }
   };
   useEffect(() => {

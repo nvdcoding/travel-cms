@@ -89,12 +89,18 @@ export default function ListVoucher() {
   ];
 
   const listVoucher = async () => {
-    const result = await sendGet(`/vouchers`, { limit: 100 });
-    if (result.statusCode == 200) {
-      setData(result.returnValue?.data);
-      message.success("Lấy dữ liệu thành công");
-    } else {
-      message.error("thất bại");
+    try {
+      const result = await sendGet(`/vouchers`, { limit: 100 });
+      if (result.statusCode == 200) {
+        setData(result.returnValue?.data);
+        message.success("Lấy dữ liệu thành công");
+      } else {
+        message.error("thất bại");
+      }
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
     }
   };
   useEffect(() => {

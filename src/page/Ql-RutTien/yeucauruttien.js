@@ -30,7 +30,19 @@ export default function YeuCauRutTien() {
     {
       title: "Tài khoản ",
       dataIndex: "nameGuide",
-      render: (_, record) => <>{record.user != null ? <>{record.user?.id} -{record.user?.username}</> : <>{record.tourGuide?.id} - {record.tourGuide?.username}</>}</>,
+      render: (_, record) => (
+        <>
+          {record.user != null ? (
+            <>
+              {record.user?.id} -{record.user?.username}
+            </>
+          ) : (
+            <>
+              {record.tourGuide?.id} - {record.tourGuide?.username}
+            </>
+          )}
+        </>
+      ),
     },
     {
       title: "",
@@ -94,14 +106,20 @@ export default function YeuCauRutTien() {
     }
   };
   const ListRequest = async () => {
-    const result = await sendGet("/transactions/request-withdraw", {
-      startDate: startDate,
-      endDate: endDate,
-    });
-    if (result.returnValue.data.length >= 0) {
-      setData(result.returnValue?.data?.filter((item) => item.status == 3));
-    } else {
-      message.error("thất bại");
+    try {
+      const result = await sendGet("/transactions/request-withdraw", {
+        startDate: startDate,
+        endDate: endDate,
+      });
+      if (result.returnValue.data.length >= 0) {
+        setData(result.returnValue?.data?.filter((item) => item.status == 3));
+      } else {
+        message.error("thất bại");
+      }
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
     }
   };
   useEffect(() => {

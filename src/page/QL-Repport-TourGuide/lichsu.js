@@ -8,7 +8,6 @@ import moment from "moment";
 export default function HistoryReportHDV() {
   const [data, setData] = useState([]);
   const columns = [
-
     {
       title: "STT",
       dataIndex: "stt",
@@ -17,7 +16,8 @@ export default function HistoryReportHDV() {
     },
     {
       title: "Thời gian báo cáo",
-      dataIndex: "time", render: (_, record) => <>{new Date(record.createdAt).toLocaleString()}</>,
+      dataIndex: "time",
+      render: (_, record) => <>{new Date(record.createdAt).toLocaleString()}</>,
     },
     {
       title: "Thời gian trao đổi",
@@ -25,8 +25,12 @@ export default function HistoryReportHDV() {
     },
     {
       title: "Chuyến đi",
-      dataIndex: "id",
-      dataIndex: "time", render: (_, record) => <>{record?.order?.id} -{record?.order?.name}</>,
+      dataIndex: "time",
+      render: (_, record) => (
+        <>
+          {record?.order?.id} -{record?.order?.name}
+        </>
+      ),
     },
     {
       title: "Nội dung báo cáo",
@@ -36,9 +40,7 @@ export default function HistoryReportHDV() {
       title: "Trạng thái",
       dataIndex: "satus",
       render: (_, record) => (
-        <>
-          {record.status == 1 ? 'Đã xử lý' : "Đã bỏ qua"}
-        </>
+        <>{record.status == 1 ? "Đã xử lý" : "Đã bỏ qua"}</>
       ),
     },
     {
@@ -77,16 +79,22 @@ export default function HistoryReportHDV() {
     });
   };
   const ListRequest = async () => {
-    const result = await sendGet("/reports/admin/tourguide", {
-      status: 1,
-      limit: 100,
-      startDate: startDate,
-      endDate: endDate,
-    });
-    if (result.returnValue.data.length >= 0) {
-      setData(result.returnValue?.data);
-    } else {
-      message.error("thất bại");
+    try {
+      const result = await sendGet("/reports/admin/tourguide", {
+        status: 1,
+        limit: 100,
+        startDate: startDate,
+        endDate: endDate,
+      });
+      if (result.returnValue.data.length >= 0) {
+        setData(result.returnValue?.data);
+      } else {
+        message.error("thất bại");
+      }
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
     }
   };
   useEffect(() => {

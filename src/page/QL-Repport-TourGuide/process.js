@@ -149,16 +149,22 @@ export default function ProcessReportHDV() {
     }
   };
   const ListRequest = async () => {
-    const result = await sendGet("/reports/admin/tourguide", {
-      status: 2,
-      limit: 100,
-      startDate: startDate,
-      endDate: endDate,
-    });
-    if (result.returnValue.data.length >= 0) {
-      setData(result.returnValue.data?.filter((item) => item.status == 2));
-    } else {
-      message.error("thất bại");
+    try {
+      const result = await sendGet("/reports/admin/tourguide", {
+        status: 2,
+        limit: 100,
+        startDate: startDate,
+        endDate: endDate,
+      });
+      if (result.returnValue.data.length >= 0) {
+        setData(result.returnValue.data?.filter((item) => item.status == 2));
+      } else {
+        message.error("thất bại");
+      }
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
     }
   };
   useEffect(() => {

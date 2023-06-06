@@ -56,11 +56,17 @@ export default function PheDuyet() {
     });
   };
   const ListTour = async () => {
-    const result = await sendGet("/tours", { limit: 100 });
-    if (result.returnValue.data.length >= 0) {
-      setData(result.returnValue.data);
-    } else {
-      message.error("thất bại");
+    try {
+      const result = await sendGet("/tours", { limit: 100 });
+      if (result.returnValue.data.length >= 0) {
+        setData(result.returnValue.data);
+      } else {
+        message.error("thất bại");
+      }
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
     }
   };
   useEffect(() => {

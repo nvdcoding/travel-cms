@@ -4,7 +4,7 @@ import "../assets/css/home.css";
 import { Button, Form, Input, message } from "antd";
 import { logo } from "../constants/images";
 import { useHistory } from "react-router-dom";
-import { setRefreshToken, setToken } from "../utils/storage";
+import { setItem, setRefreshToken, setToken } from "../utils/storage";
 import { sendPost } from "../utils/api";
 export default function SignIn() {
   const history = useHistory();
@@ -16,7 +16,7 @@ export default function SignIn() {
 
         setToken(res.returnValue.accessToken);
         setRefreshToken(res.returnValue.refreshToken);
-        // setItem("user", JSON.stringify(res.userData));
+        setItem("user", JSON.stringify(res.returnValue));
         history.push("/");
       } else {
         return message.error("Tài khoản không tồn tại");

@@ -172,14 +172,20 @@ export default function ListBlog() {
     });
   };
   const listBlog = async () => {
-    const res = await sendGet("/posts/admin", {
-      status: "REJECTED",
-      limit: 100,
-    });
-    if (res.statusCode === 200) {
-      setData(res.returnValue?.data);
-    } else {
-      message.error("Thất bại");
+    try {
+      const res = await sendGet("/posts/admin", {
+        status: "REJECTED",
+        limit: 100,
+      });
+      if (res.statusCode === 200) {
+        setData(res.returnValue?.data);
+      } else {
+        message.error("Thất bại");
+      }
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
     }
   };
   useEffect(() => {

@@ -36,7 +36,6 @@ const RoutePage = [
   {
     path: ROUTES.ACTIVEADMIN,
     exact: true,
-    authen: true,
     component: activeAdmin,
   },
   {

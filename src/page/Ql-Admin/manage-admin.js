@@ -1,7 +1,7 @@
 /* eslint-disable eqeqeq */
 import React, { useEffect, useState } from "react";
 import "../../assets/css/home.css";
-import { Table, message } from "antd";
+import { Table, Tag, message } from "antd";
 import Layout from "../../components/layout/layout";
 import ModalAddAdmin from "../../components/modal/admin/popupAddAdmin";
 import { sendGet } from "../../utils/api";
@@ -27,6 +27,28 @@ function ManageAdmin() {
     {
       title: "Role",
       dataIndex: "role",
+      render: (_, record) => (
+        <>
+          {record.role == "MOD" ? (
+            <Tag color="magenta">
+              {record.role}-{record.permission?.level}
+            </Tag>
+          ) : (
+            <Tag color="red">{record.role}</Tag>
+          )}
+        </>
+      ),
+      filters: [
+        {
+          text: "ADMIN",
+          value: "ADMIN",
+        },
+        {
+          text: "MOD",
+          value: "MOD",
+        },
+      ],
+      onFilter: (value, record) => record.role.indexOf(value) === 0,
     },
     {
       title: "Trạng thái",
@@ -41,16 +63,19 @@ function ManageAdmin() {
       render: (_, record) => (
         <>
           <div className="table-cell-action">
-            <ModalEditAdmin
-              className="modal-active-user"
-              data1={record}
-              listUser={listUser}
-            />
-            <ModalDeleteAdmin
+            {record.role == "MOD" && (
+              <ModalEditAdmin
+                className="modal-delete-user"
+                data1={record}
+                listUser={listUser}
+              />
+            )}
+
+            {/* <ModalDeleteAdmin
               className="modal-delete-user"
               data1={record}
               listUser={listUser}
-            />
+            /> */}
           </div>
         </>
       ),
@@ -73,11 +98,17 @@ function ManageAdmin() {
   };
 
   const listUser = async () => {
-    const res = await sendGet("/admin", { limit: 100 });
-    if (res.statusCode === 200) {
-      setData(res.returnValue?.data);
-    } else {
-      message.error("Cập nhật User thất bại");
+    try {
+      const res = await sendGet("/admin", { limit: 100 });
+      if (res.statusCode === 200) {
+        setData(res.returnValue?.data);
+      } else {
+        message.error("Cập nhật User thất bại");
+      }
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
     }
   };
   useEffect(() => {

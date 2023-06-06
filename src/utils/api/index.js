@@ -39,7 +39,7 @@ axiosInstance.interceptors.response.use(
 
     if (error?.response?.status === 401) {
       const refreshToken = getRefreshToken();
-      if (!refreshToken) {
+      if (refreshToken) {
         logout();
 
         return Promise.reject(error);

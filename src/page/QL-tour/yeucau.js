@@ -96,21 +96,27 @@ export default function YeuCau() {
     }
   };
   const ListTour = async () => {
-    const result = await sendGet("/tours/admin/approve-list", { limit: 100 });
-    if (result.returnValue.data.length >= 0) {
-      setData(
-        result.returnValue.data.map((e, index) => {
-          return {
-            ...e,
-            province: e.province?.name ? e.province?.name : "",
-            stt: index,
-            time: new Date(e.createdAt).toLocaleString(),
-            nameGuide: e.tourGuide?.username,
-          };
-        })
-      );
-    } else {
-      message.error("thất bại");
+    try {
+      const result = await sendGet("/tours/admin/approve-list", { limit: 100 });
+      if (result.returnValue.data.length >= 0) {
+        setData(
+          result.returnValue.data.map((e, index) => {
+            return {
+              ...e,
+              province: e.province?.name ? e.province?.name : "",
+              stt: index,
+              time: new Date(e.createdAt).toLocaleString(),
+              nameGuide: e.tourGuide?.username,
+            };
+          })
+        );
+      } else {
+        message.error("thất bại");
+      }
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
     }
   };
   useEffect(() => {

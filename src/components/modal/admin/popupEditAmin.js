@@ -8,7 +8,6 @@ function ModalEditAdmin({ data1, listUser }) {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  const [data, setData] = useState([]);
   const onFinish = async (values) => {
     try {
       values.level = parseInt(values.level);
@@ -49,18 +48,21 @@ function ModalEditAdmin({ data1, listUser }) {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          <Form.Item name="level" label="Chức vụ">
+          <Form.Item
+            name="level"
+            label="Chức vụ"
+            initialValue={data1?.permission?.level}
+          >
             <Select placeholder="Chọn chức vụ của bạn!">
               <Option value="1">Mod L.1</Option>
               <Option value="2">Mod L.2</Option>
               <Option value="3">Mod L.3</Option>
-              <Option value="4">Mod L.4</Option>
             </Select>
           </Form.Item>
           <Form.Item
             name="status"
             label="Trạng thái tài khoản"
-            initialValue={data?.status}
+            initialValue={data1?.status}
           >
             <Select placeholder="Trạng thái tài khoản!">
               <Option value="1">Hoạt động1</Option>

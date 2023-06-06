@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../assets/css/home.css";
 import Layout from "../components/layout/layout";
-import { DatePicker, Col, Row, Table } from "antd";
+import { DatePicker, Col, Row, Table, message } from "antd";
 import moment from "moment";
 import { sendGet } from "../utils/api";
 const columns = [
@@ -92,12 +92,17 @@ export default function Thongke() {
         endDate: endDate,
       });
       if (res.statusCode == 200) {
+        message.success("Lấy dữ liệu thành công");
         setTransaction(res?.returnValue?.data);
         setOptions(res.options);
       } else {
         //đơn hàng thất bại
       }
-    } catch (error) {}
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
+    }
   };
   const [tableParams, setTableParams] = useState({
     pagination: {

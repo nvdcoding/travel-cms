@@ -26,6 +26,7 @@ const LayoutAdmin = ({ children }) => {
   const logOut = (e) => {
     localStorage.setItem("accessToken", null);
     localStorage.setItem("refreshToken", null);
+    localStorage.removeItem("user");
     history.push("/dang-nhap");
   };
   return (

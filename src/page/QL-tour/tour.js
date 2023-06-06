@@ -65,20 +65,26 @@ export default function ListTour() {
     });
   };
   const ListTour = async () => {
-    const result = await sendGet("/tours", { limit: 100 });
-    if (result.returnValue.data.length >= 0) {
-      setData(
-        result.returnValue.data.map((e, index) => {
-          return {
-            ...e,
-            stt: index + 1,
-            time: new Date(e.createdAt).toLocaleString(),
-            nameGuide: e.tourGuide?.name,
-          };
-        })
-      );
-    } else {
-      message.error("thất bại");
+    try {
+      const result = await sendGet("/tours", { limit: 100 });
+      if (result.returnValue.data.length >= 0) {
+        setData(
+          result.returnValue.data.map((e, index) => {
+            return {
+              ...e,
+              stt: index + 1,
+              time: new Date(e.createdAt).toLocaleString(),
+              nameGuide: e.tourGuide?.name,
+            };
+          })
+        );
+      } else {
+        message.error("thất bại");
+      }
+    } catch (error) {
+      if (error.response?.status == 406) {
+        message.error("Tài quản Mod không có quyền thao tác chức năng này");
+      }
     }
   };
   useEffect(() => {

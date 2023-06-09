@@ -152,7 +152,11 @@ function ModalAddVoucher({ listVoucher }) {
                 />
               </Form.Item>
             </div>
-            <Form.Item name="time" label="Thời gian">
+            <Form.Item
+              name="time"
+              label="Thời gian"
+              initialValue={[moment(), moment().add(1, "days")]}
+            >
               <RangePicker
                 defaultValue={[moment(), moment().add(1, "days")]}
                 format={dateFormat}
